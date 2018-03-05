@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">RairiWala</string>
+    <string name="enterusername">Enter Name</string>
+    <string name="enter_phone_number">Enter Phone Number</string>
+    <string name="enterpin">Enter Pin</string>
+    <string name="registeruser">Register</string>
+    <string name="login">Login</string>
+    <string name="title_activity_seller_home_page">SellerHomePage</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_customer_home_page">CustomerHomePage</string>
+    <string name="logout">Logout</string>
+</resources>

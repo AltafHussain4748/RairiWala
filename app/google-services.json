@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "783349344009",
+    "firebase_url": "https://rairiwala.firebaseio.com",
+    "project_id": "rairiwala",
+    "storage_bucket": "rairiwala.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:783349344009:android:d5e2dee67abf0d06",
+        "android_client_info": {
+          "package_name": "com.example.altaf.rairiwala"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "783349344009-lrogdlv68e8g3qgrreoh442c5tehk45c.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.altaf.rairiwala",
+            "certificate_hash": "90c8a3764be0a1f2c043c347efc7535f73c842f6"
+          }
+        },
+        {
+          "client_id": "783349344009-ibc8ikpunoiu9h7koh15cof0b79pknp5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCmNJgHyUYMXiyvBoMOrFNL-d_33VrYWM0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "783349344009-ibc8ikpunoiu9h7koh15cof0b79pknp5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

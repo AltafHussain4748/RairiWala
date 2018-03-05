@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/account_details"
+            android:icon="@drawable/ic_menu_gallery"
+            android:title="Account Details" />
+        <item
+            android:id="@+id/extra_information"
+            android:icon="@drawable/extrainfo"
+            android:title="Extra Information" />
+
+        <item android:title="Stock Managment">
+            <menu>
+                <item
+                    android:id="@+id/add_product"
+                    android:icon="@drawable/addproduct"
+                    android:title="Add Product" />
+                <item
+                    android:id="@+id/view_stock"
+                    android:icon="@drawable/ic_menu_gallery"
+                    android:title="View Stock" />
+                <item
+                    android:id="@+id/selling_history"
+                    android:icon="@drawable/ic_menu_slideshow"
+                    android:title="View Selling History" />
+            </menu>
+        </item>
+        <item android:title="Orders">
+            <menu>
+                <item
+                    android:id="@+id/new_order"
+                    android:icon="@drawable/ic_menu_share"
+                    android:title="New Order" />
+                <item
+                    android:id="@+id/assignedorder"
+                    android:icon="@drawable/ic_menu_send"
+                    android:title="Assigned Order" />
+            </menu>
+        </item>
+    </group>
+
+</menu>
