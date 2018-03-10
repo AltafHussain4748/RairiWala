@@ -15,15 +15,36 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.CompoundButton;
+import android.widget.Switch;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.altaf.rairiwala.AccountManagment.AppStartUpPage;
 import com.example.altaf.rairiwala.AccountManagment.CheckInterNet;
 import com.example.altaf.rairiwala.AccountManagment.ConnectToInternet;
 import com.example.altaf.rairiwala.AccountManagment.UserLogin;
+import com.example.altaf.rairiwala.CustomerManagment.ProductAdapter;
+import com.example.altaf.rairiwala.CustomerManagment.ProductList;
+import com.example.altaf.rairiwala.Models.Product;
+import com.example.altaf.rairiwala.Models.ProductDetails;
 import com.example.altaf.rairiwala.Models.Vendor;
 import com.example.altaf.rairiwala.R;
+import com.example.altaf.rairiwala.Singelton.Constants;
+import com.example.altaf.rairiwala.Singelton.RequestHandler;
 import com.example.altaf.rairiwala.Singelton.SharedPrefManager;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class SellerHomePage extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -34,6 +55,7 @@ public class SellerHomePage extends AppCompatActivity
         setContentView(R.layout.seller_home_page);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Home");
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -71,7 +93,98 @@ public class SellerHomePage extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.seller_home_page, menu);
+        MenuItem swithcItem = menu.findItem(R.id.show_status);
+        swithcItem.setActionView(R.layout.show_protected_switch);
+        final Switch sw = menu.findItem(R.id.show_status).getActionView().findViewById(R.id.shop_status);
+        String shop_status = null;
+        int id = 0;
+        id = SharedPrefManager.getInstance(this).getSeller().getVendor_id();
+        if (id !=0){
+
+            shop_status = SharedPrefManager.getInstance(this).getSeller().getShop_status().toString();
+        }
+        if (shop_status != null) {
+            if (shop_status.equals("Close")) {
+                sw.setChecked(false);
+
+            } else if (shop_status.equals("Open")) {
+                sw.setChecked(true);
+            } else {
+                sw.setChecked(false);
+            }
+        } else {
+            sw.setChecked(false);
+        }
+
+
+        sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b) {
+                    Toast.makeText(SellerHomePage.this, "Open", Toast.LENGTH_SHORT).show();
+                    setShopStatus("Open");
+                } else {
+                    Toast.makeText(SellerHomePage.this, "Close", Toast.LENGTH_SHORT).show();
+                    setShopStatus("Close");
+                }
+            }
+        });
         return true;
+    }
+
+    //set the shop sattus function
+    private void setShopStatus(final String status) {
+        final int vendor_id = SharedPrefManager.getInstance(this).getSeller().getVendor_id();
+        if (vendor_id <= 0 && status == null) {
+            Toast.makeText(this, "Some Error", Toast.LENGTH_SHORT).show();
+        } else {
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.URL_UPDATE_SHOP_STATUS,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            try {
+
+                                //converting the string to json array object
+                                JSONObject jsonObject = new JSONObject(response);
+                                if (jsonObject.getBoolean("error") == false) {
+                                    Vendor vendor = SharedPrefManager.getInstance(SellerHomePage.this).getSeller();
+                                    String status = jsonObject.getString("status");
+                                    vendor.setShop_status(status);
+                                    SharedPrefManager.getInstance(SellerHomePage.this).addSellerToPref(vendor);
+                                    Toast.makeText(SellerHomePage.this, "" + jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
+                                } else {
+                                    Toast.makeText(SellerHomePage.this, "" + jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
+                                }
+
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                                Toast.makeText(SellerHomePage.this, "Error", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+
+                            Toast.makeText(SellerHomePage.this, "Error", Toast.LENGTH_SHORT).show();
+                        }
+                    }) {
+                @Override
+                protected Map<String, String> getParams() throws AuthFailureError {
+                    Map<String, String> params = new HashMap<>();
+                    params.put("shop_status", status);
+                    params.put("vendor_id", String.valueOf(vendor_id));
+
+                    return params;
+                }
+
+            };
+            ;
+
+            //adding our stringrequest to queue
+            RequestHandler.getInstance(SellerHomePage.this).addToRequestQueue(stringRequest);
+        }
     }
 
     @Override
@@ -88,6 +201,17 @@ public class SellerHomePage extends AppCompatActivity
             this.finish();
             return true;
         }
+        if (id == R.id.show_status) {
+            Switch status = findViewById(R.id.shop_status);
+            Toast.makeText(SellerHomePage.this, "   Changed", Toast.LENGTH_SHORT).show();
+            status.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                    Toast.makeText(SellerHomePage.this, "   Changed", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -98,7 +222,7 @@ public class SellerHomePage extends AppCompatActivity
         //checking internet permission
         if (!new CheckInterNet(SellerHomePage.this).isNetworkAvailable()) {
             startActivity(new Intent(SellerHomePage.this, ConnectToInternet.class));
-        }else{
+        } else {
             Vendor vendor = SharedPrefManager.getInstance(this).getSeller();
             // Handle navigation view item clicks here.
             int id = item.getItemId();

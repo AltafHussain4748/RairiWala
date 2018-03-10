@@ -63,7 +63,10 @@
         <activity
             android:name=".CustomerManagment.OrderItems"
             android:label="@string/title_activity_order_items"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".PlaceOrder"
+            android:label="@string/title_activity_place_order"></activity>
     </application>
 
 </manifest>

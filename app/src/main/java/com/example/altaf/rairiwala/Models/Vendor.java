@@ -5,11 +5,20 @@ package com.example.altaf.rairiwala.Models;
  */
 
 public class Vendor extends Person {
-    private  int vendor_id;
-    private  String shop_name;
-    private  double latitude;
-    private  double longitude;
+    private int vendor_id;
+    private String shop_name;
+    private double latitude;
+    private double longitude;
     private double distance;
+    private String shop_status;
+
+    public void setShop_status(String shop_status) {
+        this.shop_status = shop_status;
+    }
+
+    public String getShop_status() {
+        return shop_status;
+    }
 
     public void setDistance(double distance) {
         this.distance = distance;

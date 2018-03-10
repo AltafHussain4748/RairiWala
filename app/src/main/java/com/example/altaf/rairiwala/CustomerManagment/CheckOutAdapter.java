@@ -1,5 +1,6 @@
 package com.example.altaf.rairiwala.CustomerManagment;
 
+import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
@@ -10,11 +11,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.altaf.rairiwala.Models.Product;
+import com.example.altaf.rairiwala.PlaceOrder;
 import com.example.altaf.rairiwala.R;
 import com.google.gson.Gson;
 
@@ -30,10 +33,12 @@ public class CheckOutAdapter extends RecyclerView.Adapter<CheckOutAdapter.Produc
     private Context mCtx;
     private List<Product> productList;
     private Context context = null;
+    Button orders;
 
-    public CheckOutAdapter(Context mCtx, List<Product> productLists) {
+    public CheckOutAdapter(Context mCtx, List<Product> productLists, Button orders) {
         this.mCtx = mCtx;
         this.productList = productLists;
+        this.orders = orders;
     }
 
     @Override
@@ -54,7 +59,17 @@ public class CheckOutAdapter extends RecyclerView.Adapter<CheckOutAdapter.Produc
         int totalprice = product.getProductDetails().getQuantity() * product.getProductDetails().getPrice();
         holder.textViewname.setText("Name :" + product.getProduct_name());
         holder.textViewprice.setText("Total Price :" + totalprice);
-        holder.value.setText(":" + product.getProductDetails().getQuantity() +"\t"+ product.getProduct_type());
+        holder.value.setText(":" + product.getProductDetails().getQuantity() + "\t" + product.getProduct_type());
+        orders.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Gson gson = new Gson();
+                String jsonString = gson.toJson(productList);
+                Intent intent = new Intent(mCtx, PlaceOrder.class);
+                intent.putExtra("PRODUCT_LIST", jsonString);
+                mCtx.startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -67,6 +82,7 @@ public class CheckOutAdapter extends RecyclerView.Adapter<CheckOutAdapter.Produc
         TextView textViewname, textViewprice;
         ImageView productimage;
         TextView value;
+        public RelativeLayout viewBackground, viewForeground;
 
         public ProductViewHolder(View itemView) {
             super(itemView);
@@ -75,8 +91,25 @@ public class CheckOutAdapter extends RecyclerView.Adapter<CheckOutAdapter.Produc
             textViewprice = itemView.findViewById(R.id.checkout_product_price);
             productimage = itemView.findViewById(R.id.checkout_product_image);
             value = itemView.findViewById(R.id.checkout_value);
-
+            viewBackground = itemView.findViewById(R.id.view_background);
+            viewForeground = itemView.findViewById(R.id.view_foreground);
 
         }
     }
+
+    public void removeItem(int position) {
+        productList.remove(position);
+
+        // notify the item removed by position
+        // to perform recycler view delete animations
+        // NOTE: don't call notifyDataSetChanged()
+        notifyItemRemoved(position);
+    }
+
+    public void restoreItem(Product item, int position) {
+        productList.add(position, item);
+        // notify item added by position
+        notifyItemInserted(position);
+    }
+
 }

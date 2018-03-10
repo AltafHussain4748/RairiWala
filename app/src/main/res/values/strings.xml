@@ -18,4 +18,7 @@
     <string name="title_activity_nearest_vendor">NearestVendor</string>
     <string name="title_activity_product_list">ProductList</string>
     <string name="title_activity_order_items">OrderItems</string>
+    <string name="delete">delete</string>
+    <string name="title_activity_order">Order</string>
+    <string name="title_activity_place_order">Map</string>
 </resources>

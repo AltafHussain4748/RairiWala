@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cordinator_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/main"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+    </android.support.design.widget.AppBarLayout>
+    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:map="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        tools:context="com.example.altaf.rairiwala.PlaceOrder" />
+
+    <EditText
+        android:id="@+id/house_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="House Name"
+        android:inputType="text"
+        android:maxLines="1"
+        android:textAlignment="center"
+        android:textColorHint="@color/red"
+        android:layout_margin="3dp"/>
+
+    <EditText
+        android:id="@+id/street_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="House Name"
+        android:inputType="text"
+        android:maxLines="1"
+        android:textAlignment="center"
+        android:textColorHint="@color/red"
+        android:layout_margin="3dp"/>
+
+    <Button
+        android:id="@+id/placeorder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rounded_widgets"
+        android:padding="5dp"
+        android:text="Place Order"
+        android:textColor="@color/white" />
+</LinearLayout>
+

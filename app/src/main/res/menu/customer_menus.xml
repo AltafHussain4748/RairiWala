@@ -6,11 +6,5 @@
         android:orderInCategory="100"
         android:title="@string/logout"
         app:showAsAction="never" />
-    <item
-        android:id="@+id/show_status"
-        android:enabled="true"
-        android:title=""
-        android:visible="true"
-        app:actionLayout="@layout/show_protected_switch"
-        app:showAsAction="always" />
+
 </menu>

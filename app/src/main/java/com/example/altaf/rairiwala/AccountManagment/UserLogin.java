@@ -81,7 +81,7 @@ public class UserLogin extends AppCompatActivity {
                         progressDialog.dismiss();
                         try {
                             JSONObject obj = new JSONObject(response);
-
+                            Toast.makeText(UserLogin.this, "" + obj.getString("Account_Rule"), Toast.LENGTH_SHORT).show();
                             if (obj.getBoolean("error") == false) {
                                 //save vendor to sharedpref manager
                                 if (obj.getString("Account_Rule").equals("CUSTOMER")) {
@@ -129,7 +129,7 @@ public class UserLogin extends AppCompatActivity {
 
                     //Start of seller info
                     private void addSellerInfo(final int id, final Vendor vendor) {
-                        if (id == -1) {
+                        if (id <=0) {
                             Toast.makeText(UserLogin.this, "No Id fOUND", Toast.LENGTH_SHORT).show();
                         } else {
                             StringRequest stringRequest = new StringRequest(
@@ -150,6 +150,7 @@ public class UserLogin extends AppCompatActivity {
                                                     vendor.setLatitude(Double.parseDouble(vendor1.getString("latitude")));
                                                     vendor.setLongitude(Double.parseDouble(vendor1.getString("longitude")));
                                                     vendor.setVendor_id(Integer.parseInt(vendor1.getString("vendor_id")));
+                                                    vendor.setShop_status(vendor1.getString("shop_status"));
                                                     SharedPrefManager.getInstance(UserLogin.this).addSellerToPref(vendor);
 
                                                 } else if (vendor1.getString("message").equals("NORECORD")) {
@@ -157,6 +158,7 @@ public class UserLogin extends AppCompatActivity {
                                                     vendor.setLatitude(0.0);
                                                     vendor.setLongitude(0.0);
                                                     vendor.setVendor_id(-1);
+                                                    vendor.setShop_status("Close");
                                                     SharedPrefManager.getInstance(UserLogin.this).addSellerToPref(vendor);
                                                 }
                                                 Toast.makeText(UserLogin.this, "Added", Toast.LENGTH_SHORT).show();

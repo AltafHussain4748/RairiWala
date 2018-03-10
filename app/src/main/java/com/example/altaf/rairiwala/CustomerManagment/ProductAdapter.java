@@ -133,7 +133,6 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
                     Toast.makeText(mCtx, "No Item selected", Toast.LENGTH_SHORT).show();
 
                 } else {
-                    Toast.makeText(mCtx, "" + addproducts.size(), Toast.LENGTH_SHORT).show();
                     Gson gson = new Gson();
                     String jsonString = gson.toJson(addproducts);
                     Intent intent = new Intent(mCtx, OrderItems.class);

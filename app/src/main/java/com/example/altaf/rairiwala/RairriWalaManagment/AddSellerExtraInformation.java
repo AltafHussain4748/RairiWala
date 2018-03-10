@@ -220,16 +220,17 @@ public class AddSellerExtraInformation extends FragmentActivity implements OnMap
                                     vendor.setLongitude(latLng.longitude);
                                     vendor.setShop_name(shopname.getText().toString());
                                     vendor.setVendor_id(obj.getInt("vendorid"));
-                                    if(  SharedPrefManager.getInstance(AddSellerExtraInformation.this).addSellerToPref(vendor)){
+                                    vendor.setShop_status(obj.getString("shop_status"));
+                                    if (SharedPrefManager.getInstance(AddSellerExtraInformation.this).addSellerToPref(vendor)) {
                                         Toast.makeText(
                                                 getApplicationContext(),
                                                 obj.getString("message"),
                                                 Toast.LENGTH_LONG
                                         ).show();
-                                    }else{
+                                    } else {
                                         Toast.makeText(
                                                 getApplicationContext(),
-                                              "Some Error",
+                                                "Some Error",
                                                 Toast.LENGTH_LONG
                                         ).show();
                                     }
