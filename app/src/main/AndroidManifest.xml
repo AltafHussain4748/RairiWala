@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.altaf.rairiwala">
 
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -30,6 +32,37 @@
         <activity
             android:name=".CustomerManagment.CustomerHomePage"
             android:label="@string/title_activity_customer_home_page"
+            android:theme="@style/AppTheme" />
+        <!--
+             The API key for Google Maps-based APIs is defined as a string resource.
+             (See the file "res/values/google_maps_api.xml").
+             Note that the API key is linked to the encryption key used to sign the APK.
+             You need a different API key for each encryption key, including the release key that is used to
+             sign the APK for publishing.
+             You can define the keys for the debug and release targets in src/debug/ and src/release/. 
+        -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
+
+        <activity
+            android:name=".RairriWalaManagment.AddSellerExtraInformation"
+            android:label="@string/title_activity_add_seller_extra_information" />
+        <activity
+            android:name=".RairriWalaManagment.SellerAddProduct"
+            android:label="@string/title_activity_seller_add_product"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".CustomerManagment.NearestVendor"
+            android:label="@string/title_activity_nearest_vendor"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".CustomerManagment.ProductList"
+            android:label="@string/title_activity_product_list"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".CustomerManagment.OrderItems"
+            android:label="@string/title_activity_order_items"
             android:theme="@style/AppTheme"></activity>
     </application>
 

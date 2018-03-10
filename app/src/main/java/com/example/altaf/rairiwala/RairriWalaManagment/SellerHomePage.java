@@ -1,5 +1,7 @@
 package com.example.altaf.rairiwala.RairriWalaManagment;
 
+import android.app.Fragment;
+import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -13,8 +15,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
+import com.example.altaf.rairiwala.AccountManagment.AppStartUpPage;
+import com.example.altaf.rairiwala.AccountManagment.CheckInterNet;
+import com.example.altaf.rairiwala.AccountManagment.ConnectToInternet;
 import com.example.altaf.rairiwala.AccountManagment.UserLogin;
+import com.example.altaf.rairiwala.Models.Vendor;
 import com.example.altaf.rairiwala.R;
 import com.example.altaf.rairiwala.Singelton.SharedPrefManager;
 
@@ -88,21 +95,46 @@ public class SellerHomePage extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
+        //checking internet permission
+        if (!new CheckInterNet(SellerHomePage.this).isNetworkAvailable()) {
+            startActivity(new Intent(SellerHomePage.this, ConnectToInternet.class));
+        }else{
+            Vendor vendor = SharedPrefManager.getInstance(this).getSeller();
+            // Handle navigation view item clicks here.
+            int id = item.getItemId();
+            Fragment fragment = null;
+            if (id == R.id.extra_information) {
+                startActivity(new Intent(SellerHomePage.this, AddSellerExtraInformation.class));
+                // fragment = new AddSellerExtraInformation();
+            } else if (id == R.id.add_product) {
+                if (vendor.getVendor_id() <= 0) {
+                    Toast.makeText(this, "Please add location details first", Toast.LENGTH_SHORT).show();
+                } else {
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+                    fragment = new ADDProductCategoryDisplay();
+                }
 
-        } else if (id == R.id.nav_slideshow) {
+            } else if (id == R.id.view_stock) {
+                // fragment = new ViewStock();
+            } else if (id == R.id.selling_history) {
+                // fragment = new ViewSellingHistory();
+            } else if (id == R.id.new_order) {
+                //  fragment = new NewOrders();
+            } else if (id == R.id.assignedorder) {
+                //  fragment = new AssignedOrders();
+            } else if (id == R.id.account_details) {
+                fragment = new FragmentAccountDetail();
+            }
 
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
+//replace the current fragment
+            if (fragment != null) {
+                FragmentManager fm = getFragmentManager();
+// create a FragmentTransaction to begin the transaction and replace the Fragment
+                android.app.FragmentTransaction fragmentTransaction = fm.beginTransaction();
+// replace the FrameLayout with new Fragment
+                fragmentTransaction.replace(R.id.frameLayout, fragment);
+                fragmentTransaction.commit(); // save the changes
+            }
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

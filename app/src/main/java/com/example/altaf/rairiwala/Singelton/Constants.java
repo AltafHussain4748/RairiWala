@@ -9,5 +9,12 @@ public class Constants {
     public static final String REGISTER_USER = "https://rairriwala.000webhostapp.com/RegisterUser.php";
     public static final String URL_LOGIN = "https://rairriwala.000webhostapp.com/UserLogin.php";
     public static final String URL_GetSellerInfo = "https://rairriwala.000webhostapp.com/GetSellerInfo.php";
+    public static  final  String URL_SELLER_ADD="https://rairriwala.000webhostapp.com/SellerRegistration.php";
+    public static final String URL_GETCATEGORIES = "https://rairriwala.000webhostapp.com/GetCategories.php";
+    public static final String URL_PRODUCTS = "https://rairriwala.000webhostapp.com/SellerAddProductList.php";
+    public  static final String URL_SELLER_ADD_PRODUCT="https://rairriwala.000webhostapp.com/ProductAddToSeller.php";
+    public  static  final  String URL_NEAREST_VENDORS="https://rairriwala.000webhostapp.com/GetSellersByDistance.php";
+    public  static  final String URL_PRODUCTS_CUSTOMER="https://rairriwala.000webhostapp.com/GetProductCustomer.php";
+
 
 }

@@ -9,7 +9,16 @@ public class Product {
     private int product_id;
     private String product_name;
     private String product_image;
+    private String product_type;
     private ProductDetails productDetails;
+
+    public String getProduct_type() {
+        return product_type;
+    }
+
+    public void setProduct_type(String product_type) {
+        this.product_type = product_type;
+    }
 
     public void setCategory(Category category) {
         this.category = category;

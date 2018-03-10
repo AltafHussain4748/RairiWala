@@ -9,6 +9,15 @@ public class Vendor extends Person {
     private  String shop_name;
     private  double latitude;
     private  double longitude;
+    private double distance;
+
+    public void setDistance(double distance) {
+        this.distance = distance;
+    }
+
+    public double getDistance() {
+        return distance;
+    }
 
     public int getVendor_id() {
         return vendor_id;

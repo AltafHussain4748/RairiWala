@@ -1,15 +1,13 @@
-package com.example.altaf.rairiwala.CustomerManagment;
+package com.example.altaf.rairiwala.RairriWalaManagment;
 
+import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.support.annotation.Nullable;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.Toast;
@@ -19,14 +17,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.altaf.rairiwala.AccountManagment.UserLogin;
 import com.example.altaf.rairiwala.Models.Category;
 import com.example.altaf.rairiwala.R;
-import com.example.altaf.rairiwala.RairriWalaManagment.CategoryListView;
-import com.example.altaf.rairiwala.RairriWalaManagment.SellerAddProduct;
-import com.example.altaf.rairiwala.RairriWalaManagment.SellerHomePage;
 import com.example.altaf.rairiwala.Singelton.Constants;
-import com.example.altaf.rairiwala.Singelton.SharedPrefManager;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -35,20 +28,24 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CustomerHomePage extends AppCompatActivity {
+/**
+ * Created by AltafHussain on 3/5/2018.
+ */
+
+public class ADDProductCategoryDisplay extends Fragment {
     List<Category> category_List;
     ProgressDialog progressDialog;
     GridView androidListView;
+    View view;
+
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.customer_home_page);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        // get the reference of Button
-        androidListView = findViewById(R.id.grid_view_image_text);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+// Inflate the layout for this fragment
+        view = inflater.inflate(R.layout.seller_category_add_product, container, false);
+// get the reference of Button
+        androidListView = view.findViewById(R.id.grid_view_image_text);
         // androidGridView.setAdapter(adapterViewAndroid);
         androidListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
@@ -56,48 +53,24 @@ public class CustomerHomePage extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view,
                                     int i, long id) {
                 Category category = category_List.get(i);
-                Intent intent = new Intent(CustomerHomePage.this, NearestVendor.class);
-                intent.putExtra("CAT", category.getCategroy_name());
+                Intent intent = new Intent(getActivity(), SellerAddProduct.class);
+                intent.putExtra("CategoryId", category.getCategroy_id());
+                intent.putExtra("CATNAME", category.getCategroy_name());
                 startActivity(intent);
-
             }
         });
-        progressDialog = new ProgressDialog(this);
+        progressDialog = new ProgressDialog(getActivity());
         category_List = new ArrayList<>();
         loadCategories();
 
+// get the reference of Button
+        return view;
     }
 
     @Override
-    public void onBackPressed() {
-        Intent intent = new Intent(Intent.ACTION_MAIN);
-        intent.addCategory(Intent.CATEGORY_HOME);
-        startActivity(intent);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.seller_home_page, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.logout) {
-            SharedPrefManager.getInstance(CustomerHomePage.this).logOut();
-            startActivity(new Intent(this, UserLogin.class));
-            this.finish();
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        getActivity().setTitle("Categories");
     }
 
     public void loadCategories() {
@@ -124,11 +97,11 @@ public class CustomerHomePage extends AppCompatActivity {
                             }
 
                             //creating adapter object and setting it to recyclerview
-                            CategoryListView adapter = new CategoryListView(CustomerHomePage.this, (ArrayList<Category>) category_List);
+                            CategoryListView adapter = new CategoryListView(getActivity(), (ArrayList<Category>) category_List);
                             androidListView.setAdapter(adapter);
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            Toast.makeText(CustomerHomePage.this, "No Product", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(), "No Product", Toast.LENGTH_SHORT).show();
                         }
                     }
                 },
@@ -136,11 +109,13 @@ public class CustomerHomePage extends AppCompatActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         progressDialog.dismiss();
-                        Toast.makeText(CustomerHomePage.this, "Error while loading the products", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "Error while loading the products", Toast.LENGTH_SHORT).show();
                     }
                 });
 
         //adding our stringrequest to queue
-        Volley.newRequestQueue(this).add(stringRequest);
+        Volley.newRequestQueue(getActivity()).add(stringRequest);
     }
+
+
 }

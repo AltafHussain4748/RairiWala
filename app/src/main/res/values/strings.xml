@@ -13,4 +13,9 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_customer_home_page">CustomerHomePage</string>
     <string name="logout">Logout</string>
+    <string name="title_activity_add_seller_extra_information">Map</string>
+    <string name="title_activity_seller_add_product">SellerAddProduct</string>
+    <string name="title_activity_nearest_vendor">NearestVendor</string>
+    <string name="title_activity_product_list">ProductList</string>
+    <string name="title_activity_order_items">OrderItems</string>
 </resources>

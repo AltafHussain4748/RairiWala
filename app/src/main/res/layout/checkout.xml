@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/shimmer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/home"
+                android:padding="8dp">
+
+                <ImageView
+                    android:id="@+id/checkout_product_image"
+                    android:layout_width="170dp"
+                    android:layout_height="130dp"
+                    android:padding="4dp"
+                    android:src="@drawable/cartt"/>
+
+                <TextView
+                    android:id="@+id/checkout_product_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/checkout_product_name"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@id/checkout_product_image"
+                    android:text="Apple MacBook A OS Sierra)"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+                    android:textColor="#000000"
+                    android:textSize="15dp" />
+
+                <TextView
+                    android:id="@+id/checkout_product_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@+id/checkout_product_name"
+                    android:layout_alignRight="@+id/checkout_product_name"
+                    android:layout_alignStart="@+id/checkout_product_name"
+                    android:layout_below="@id/checkout_product_name"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="5dp"
+                    android:text="13.3 Inch, 256 GB"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+                    android:textSize="15dp" />
+
+                <LinearLayout
+                    android:id="@+id/ly"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@+id/checkout_product_name"
+                    android:layout_alignRight="@+id/checkout_product_name"
+                    android:layout_alignStart="@+id/checkout_product_name"
+                    android:layout_below="@+id/checkout_product_price"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/negative"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Quantity"
+                        android:textColor="@color/white" />
+
+                    <TextView
+                        android:id="@+id/checkout_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="25dp"
+                        android:layout_marginRight="5dp"
+                        android:editable="false"
+                        android:text="0" />
+
+
+                </LinearLayout>
+
+
+            </RelativeLayout>
+        </android.support.v7.widget.CardView>
+    </com.facebook.shimmer.ShimmerFrameLayout>
+</LinearLayout>
