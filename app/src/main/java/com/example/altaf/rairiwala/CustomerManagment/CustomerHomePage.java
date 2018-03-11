@@ -19,14 +19,20 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.altaf.rairiwala.AccountManagment.AppStartUpPage;
+import com.example.altaf.rairiwala.AccountManagment.CheckInterNet;
+import com.example.altaf.rairiwala.AccountManagment.ConnectToInternet;
 import com.example.altaf.rairiwala.AccountManagment.UserLogin;
 import com.example.altaf.rairiwala.Models.Category;
+import com.example.altaf.rairiwala.Models.Customer;
 import com.example.altaf.rairiwala.R;
 import com.example.altaf.rairiwala.RairriWalaManagment.CategoryListView;
 import com.example.altaf.rairiwala.RairriWalaManagment.SellerAddProduct;
 import com.example.altaf.rairiwala.RairriWalaManagment.SellerHomePage;
 import com.example.altaf.rairiwala.Singelton.Constants;
 import com.example.altaf.rairiwala.Singelton.SharedPrefManager;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -46,7 +52,9 @@ public class CustomerHomePage extends AppCompatActivity {
         setContentView(R.layout.customer_home_page);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        if (!new CheckInterNet(CustomerHomePage.this).isNetworkAvailable()) {
+            startActivity(new Intent(CustomerHomePage.this, ConnectToInternet.class));
+        }
         // get the reference of Button
         androidListView = findViewById(R.id.grid_view_image_text);
         // androidGridView.setAdapter(adapterViewAndroid);
@@ -65,6 +73,8 @@ public class CustomerHomePage extends AppCompatActivity {
         progressDialog = new ProgressDialog(this);
         category_List = new ArrayList<>();
         loadCategories();
+        FirebaseMessaging.getInstance().subscribeToTopic("test");
+        FirebaseInstanceId.getInstance().getToken();
 
     }
 

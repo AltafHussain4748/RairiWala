@@ -1,6 +1,5 @@
 package com.example.altaf.rairiwala.CustomerManagment;
 
-import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
@@ -8,20 +7,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.altaf.rairiwala.Models.Product;
-import com.example.altaf.rairiwala.PlaceOrder;
 import com.example.altaf.rairiwala.R;
 import com.google.gson.Gson;
 
-import java.util.ArrayList;
 import java.util.List;
 
 

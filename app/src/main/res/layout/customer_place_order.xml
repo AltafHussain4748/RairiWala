@@ -28,7 +28,7 @@
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="400dp"
-        tools:context="com.example.altaf.rairiwala.PlaceOrder" />
+        tools:context="com.example.altaf.rairiwala.CustomerManagment.PlaceOrder" />
 
     <EditText
         android:id="@+id/house_name"

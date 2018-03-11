@@ -1,6 +1,5 @@
-package com.example.altaf.rairiwala;
+package com.example.altaf.rairiwala.CustomerManagment;
 
-import android.*;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -9,7 +8,6 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
@@ -21,8 +19,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.altaf.rairiwala.CustomerManagment.NearestVendor;
 import com.example.altaf.rairiwala.Models.Product;
+import com.example.altaf.rairiwala.R;
 import com.example.altaf.rairiwala.Singelton.SharedPrefManager;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -53,7 +51,7 @@ public class PlaceOrder extends AppCompatActivity implements OnMapReadyCallback 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.customer_place_order);
+        setContentView(com.example.altaf.rairiwala.R.layout.customer_place_order);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -83,8 +81,9 @@ public class PlaceOrder extends AppCompatActivity implements OnMapReadyCallback 
                 String house_nu = house_number.getText().toString();
                 if (street.length() >= 3 && house_nu.length() >= 3) {
                     if (latitude != 0.0 && longtude != 0.0) {
-                        Toast.makeText(PlaceOrder.this, "" + products.size() + "\n" + street + "\n" + house_nu + "\n" +
-                                SharedPrefManager.getInstance(PlaceOrder.this).getCustomer().getCustomer_id() + "\n" + latitude + "\n" + longtude, Toast.LENGTH_SHORT).show();
+                     /*   Toast.makeText(PlaceOrder.this, "" + products.size() + "\n" + street + "\n" + house_nu + "\n" +
+                                SharedPrefManager.getInstance(PlaceOrder.this).getCustomer().getCustomer_id() + "\n" + latitude + "\n" + longtude, Toast.LENGTH_SHORT).show();*/
+                        Toast.makeText(PlaceOrder.this, "" + SharedPrefManager.getInstance(PlaceOrder.this).getToken(), Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(PlaceOrder.this, "Location not found", Toast.LENGTH_SHORT).show();
                     }

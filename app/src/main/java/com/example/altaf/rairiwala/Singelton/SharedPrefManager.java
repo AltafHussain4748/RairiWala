@@ -2,6 +2,7 @@ package com.example.altaf.rairiwala.Singelton;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.media.session.MediaSession;
 
 import com.example.altaf.rairiwala.Models.Customer;
 import com.example.altaf.rairiwala.Models.Vendor;
@@ -17,8 +18,8 @@ public class SharedPrefManager {
 
     private static final String SHARED_PREF_NAME = "mysharedpref12";
     private static final String KEY_CUSTOMER = "customer";
-    private static final String KEY_SELLER= "seller";
-
+    private static final String KEY_SELLER = "seller";
+    private static final String DeviceToken = "token";
 
 
     private SharedPrefManager(Context context) {
@@ -43,13 +44,15 @@ public class SharedPrefManager {
         editor.apply();
         return true;
     }
-    public Customer getCustomer(){
+
+    public Customer getCustomer() {
         SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
         Gson gson = new Gson();
         String json = sharedPreferences.getString(KEY_CUSTOMER, "");
         Customer obj = gson.fromJson(json, Customer.class);
         return obj;
     }
+
     public boolean addSellerToPref(Vendor vendor) {
 
         SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
@@ -60,19 +63,35 @@ public class SharedPrefManager {
         editor.apply();
         return true;
     }
-    public Vendor getSeller(){
+
+    public Vendor getSeller() {
         SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
         Gson gson = new Gson();
         String json = sharedPreferences.getString(KEY_SELLER, "");
         Vendor obj = gson.fromJson(json, Vendor.class);
         return obj;
     }
-    public  boolean logOut(){
+
+    public boolean logOut() {
         SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.clear();
         editor.apply();
-        return  true;
+        return true;
     }
 
+    public boolean saveToken(String token) {
+
+        SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(DeviceToken, token);
+        editor.apply();
+        return true;
+    }
+
+    public String getToken() {
+        SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
+        String tokens = sharedPreferences.getString(DeviceToken, "");
+        return tokens;
+    }
 }

@@ -65,8 +65,23 @@
             android:label="@string/title_activity_order_items"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".PlaceOrder"
+            android:name=".CustomerManagment.PlaceOrder"
             android:label="@string/title_activity_place_order"></activity>
+
+        <service
+            android:name=".FirebaseMeterial.MyFirebaseInstanceIDService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+            </intent-filter>
+        </service>
+
+        <service
+            android:name=".FirebaseMeterial.FirebaseMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
+
     </application>
 
 </manifest>
