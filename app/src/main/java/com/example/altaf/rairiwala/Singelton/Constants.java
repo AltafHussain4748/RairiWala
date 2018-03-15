@@ -16,6 +16,8 @@ public class Constants {
     public  static  final  String URL_NEAREST_VENDORS="https://rairriwala.000webhostapp.com/GetSellersByDistance.php";
     public  static  final String URL_PRODUCTS_CUSTOMER="https://rairriwala.000webhostapp.com/GetProductCustomer.php";
     public  static  final String URL_UPDATE_SHOP_STATUS="https://rairriwala.000webhostapp.com/SetShopStatus.php";
+    public  static  final String TokenSaving="https://rairriwala.000webhostapp.com/SaveToken.php";
+    public  static  final String PlaceOrder="https://rairriwala.000webhostapp.com/SendOrderNotificationToSeller.php";
 
 
 }

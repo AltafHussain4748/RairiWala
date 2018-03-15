@@ -66,22 +66,27 @@
             android:theme="@style/AppTheme" />
         <activity
             android:name=".CustomerManagment.PlaceOrder"
-            android:label="@string/title_activity_place_order"></activity>
+            android:label="@string/title_activity_place_order" />
 
-        <service
-            android:name=".FirebaseMeterial.MyFirebaseInstanceIDService">
+        <service android:name=".FirebaseMeterial.MyFirebaseInstanceIDService">
             <intent-filter>
-                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+            </intent-filter>
+        </service>
+        <service android:name=".FirebaseMeterial.FirebaseMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
 
-        <service
-            android:name=".FirebaseMeterial.FirebaseMessagingService">
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
-            </intent-filter>
-        </service>
-
+        <activity
+            android:name=".RairriWalaManagment.OrderDetail"
+            android:label="@string/title_activity_order_details"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".RairriWalaManagment.SellerNewOrderList"
+            android:label="@string/title_activity_seller_new_order_list"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

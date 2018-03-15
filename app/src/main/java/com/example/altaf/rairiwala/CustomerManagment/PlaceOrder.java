@@ -19,9 +19,23 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.example.altaf.rairiwala.AccountManagment.AccountConfirmation;
+import com.example.altaf.rairiwala.AccountManagment.UserLogin;
+import com.example.altaf.rairiwala.Models.CustomerAddress;
+import com.example.altaf.rairiwala.Models.Order;
 import com.example.altaf.rairiwala.Models.Product;
 import com.example.altaf.rairiwala.R;
+import com.example.altaf.rairiwala.RairriWalaManagment.OrderDetail;
+import com.example.altaf.rairiwala.Singelton.Constants;
+import com.example.altaf.rairiwala.Singelton.RequestHandler;
 import com.example.altaf.rairiwala.Singelton.SharedPrefManager;
+import com.example.altaf.rairiwala.Singelton.SharedPrefManagerFirebase;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -35,8 +49,16 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.lang.reflect.Type;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class PlaceOrder extends AppCompatActivity implements OnMapReadyCallback {
     List<Product> products;
@@ -83,7 +105,43 @@ public class PlaceOrder extends AppCompatActivity implements OnMapReadyCallback 
                     if (latitude != 0.0 && longtude != 0.0) {
                      /*   Toast.makeText(PlaceOrder.this, "" + products.size() + "\n" + street + "\n" + house_nu + "\n" +
                                 SharedPrefManager.getInstance(PlaceOrder.this).getCustomer().getCustomer_id() + "\n" + latitude + "\n" + longtude, Toast.LENGTH_SHORT).show();*/
-                        Toast.makeText(PlaceOrder.this, "" + SharedPrefManager.getInstance(PlaceOrder.this).getToken(), Toast.LENGTH_SHORT).show();
+                        Gson gson = new Gson();
+                        Order order = new Order();
+                        order.setProductArrayList(products);
+                        String product = gson.toJson(products);
+                        CustomerAddress customerAddress = new CustomerAddress();
+                        customerAddress.setHouseName(house_nu);
+                        customerAddress.setStreetName(street);
+                        customerAddress.setLatiitude(latitude);
+                        customerAddress.setLongitude(longtude);
+                        customerAddress.setName(SharedPrefManager.getInstance(PlaceOrder.this).getCustomer().getName());
+                        order.setCustomerAddress(customerAddress);
+                        order.setCustomer_id(SharedPrefManager.getInstance(PlaceOrder.this).getCustomer().getCustomer_id());
+                        order.setVendor_id(products.get(0).getProductDetails().getVendor_id());
+                        order.setOrder_status("NEW");
+                        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+                        Date date = new Date();
+                        order.setOrder_time(dateFormat.format(date));
+                        final String jsonString = gson.toJson(order);
+                        //DIALOGUE
+                        AlertDialog.Builder builder = new AlertDialog.Builder(PlaceOrder.this);
+                        builder.setTitle("Place Order");  // GPS not found
+                        builder.setMessage("Want to send Order?"); // Want to enable?
+                        builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                              /*  Intent intent=new Intent(PlaceOrder.this, OrderDetail.class);
+                                intent.putExtra("order",jsonString);
+                                startActivity(intent);*/
+                                sendOrder(jsonString, products.get(0).getProductDetails().getVendor_id());
+                            }
+                        });
+                        builder.setNegativeButton("No", null);
+                        builder.create().show();
+
+                        //   END OF DIALOGUE
+
+
+                        // Toast.makeText(PlaceOrder.this, "" + SharedPrefManagerFirebase.getInstance(PlaceOrder.this).getToken(), Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(PlaceOrder.this, "Location not found", Toast.LENGTH_SHORT).show();
                     }
@@ -218,4 +276,47 @@ public class PlaceOrder extends AppCompatActivity implements OnMapReadyCallback 
 
     }
 
+    public void sendOrder(final String order, final int vendor_id) {
+        if (order != null && vendor_id != 0) {
+            StringRequest stringRequest = new StringRequest(Request.Method.POST,
+                    Constants.PlaceOrder,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            try {
+                                JSONObject jsonObject = new JSONObject(response);
+
+                                if (jsonObject.getBoolean("error") == false) {
+
+                                    Toast.makeText(PlaceOrder.this, "Order Sent", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    Toast.makeText(PlaceOrder.this, jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
+                                }
+
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                                Toast.makeText(PlaceOrder.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Toast.makeText(getApplicationContext(), "There was some error.Please try again....", Toast.LENGTH_LONG).show();
+
+                        }
+                    }) {
+                @Override
+                protected Map<String, String> getParams() throws AuthFailureError {
+                    Map<String, String> params = new HashMap<>();
+                    params.put("order", order);
+                    params.put("vendor_id", String.valueOf(vendor_id));
+                    return params;
+                }
+            };
+            //adding our stringrequest to queue
+            Volley.newRequestQueue(this).add(stringRequest);
+        }
+    }
 }

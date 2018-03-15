@@ -9,6 +9,15 @@ public class CustomerAddress {
     private  String streetName;
     private  double latiitude;
     private  double longitude;
+    private String Name;
+
+    public void setName(String name) {
+        Name = name;
+    }
+
+    public String getName() {
+        return Name;
+    }
 
     public void setHouseName(String houseName) {
         this.houseName = houseName;

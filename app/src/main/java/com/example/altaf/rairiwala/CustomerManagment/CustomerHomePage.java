@@ -54,6 +54,7 @@ public class CustomerHomePage extends AppCompatActivity {
         setSupportActionBar(toolbar);
         if (!new CheckInterNet(CustomerHomePage.this).isNetworkAvailable()) {
             startActivity(new Intent(CustomerHomePage.this, ConnectToInternet.class));
+            this.finish();
         }
         // get the reference of Button
         androidListView = findViewById(R.id.grid_view_image_text);
@@ -73,7 +74,7 @@ public class CustomerHomePage extends AppCompatActivity {
         progressDialog = new ProgressDialog(this);
         category_List = new ArrayList<>();
         loadCategories();
-        FirebaseMessaging.getInstance().subscribeToTopic("test");
+        FirebaseMessaging.getInstance().subscribeToTopic("rairiwala");
         FirebaseInstanceId.getInstance().getToken();
 
     }

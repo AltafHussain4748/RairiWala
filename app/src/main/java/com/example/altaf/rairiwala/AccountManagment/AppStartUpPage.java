@@ -22,6 +22,7 @@ public class AppStartUpPage extends AppCompatActivity {
         //checking internet permission
         if (!new CheckInterNet(AppStartUpPage.this).isNetworkAvailable()) {
             startActivity(new Intent(AppStartUpPage.this, ConnectToInternet.class));
+            this.finish();
         }
         Customer customer = SharedPrefManager.getInstance(this).getCustomer();
         Vendor vendor = SharedPrefManager.getInstance(AppStartUpPage.this).getSeller();

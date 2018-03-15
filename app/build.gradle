@@ -41,7 +41,10 @@ dependencies {
     implementation "com.google.android.gms:play-services-location:11.0.4"
     compile 'com.google.code.gson:gson:2.7'
     compile 'de.hdodenhof:circleimageview:2.2.0'
+    compile 'com.squareup.retrofit2:converter-gson:2.1.0'
 }
+
+
 
 
 

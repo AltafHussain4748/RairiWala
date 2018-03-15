@@ -24,22 +24,17 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-import com.example.altaf.rairiwala.AccountManagment.AppStartUpPage;
 import com.example.altaf.rairiwala.AccountManagment.CheckInterNet;
 import com.example.altaf.rairiwala.AccountManagment.ConnectToInternet;
 import com.example.altaf.rairiwala.AccountManagment.UserLogin;
-import com.example.altaf.rairiwala.CustomerManagment.ProductAdapter;
-import com.example.altaf.rairiwala.CustomerManagment.ProductList;
-import com.example.altaf.rairiwala.Models.Product;
-import com.example.altaf.rairiwala.Models.ProductDetails;
 import com.example.altaf.rairiwala.Models.Vendor;
 import com.example.altaf.rairiwala.R;
 import com.example.altaf.rairiwala.Singelton.Constants;
 import com.example.altaf.rairiwala.Singelton.RequestHandler;
+import com.example.altaf.rairiwala.Singelton.SaveToken;
 import com.example.altaf.rairiwala.Singelton.SharedPrefManager;
+import com.example.altaf.rairiwala.Singelton.SharedPrefManagerFirebase;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -74,6 +69,7 @@ public class SellerHomePage extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        saveToken();
     }
 
     @Override
@@ -99,7 +95,7 @@ public class SellerHomePage extends AppCompatActivity
         String shop_status = null;
         int id = 0;
         id = SharedPrefManager.getInstance(this).getSeller().getVendor_id();
-        if (id !=0){
+        if (id != 0) {
 
             shop_status = SharedPrefManager.getInstance(this).getSeller().getShop_status().toString();
         }
@@ -222,6 +218,7 @@ public class SellerHomePage extends AppCompatActivity
         //checking internet permission
         if (!new CheckInterNet(SellerHomePage.this).isNetworkAvailable()) {
             startActivity(new Intent(SellerHomePage.this, ConnectToInternet.class));
+            this.finish();
         } else {
             Vendor vendor = SharedPrefManager.getInstance(this).getSeller();
             // Handle navigation view item clicks here.
@@ -243,6 +240,7 @@ public class SellerHomePage extends AppCompatActivity
             } else if (id == R.id.selling_history) {
                 // fragment = new ViewSellingHistory();
             } else if (id == R.id.new_order) {
+                startActivity(new Intent(SellerHomePage.this, SellerNewOrderList.class));
                 //  fragment = new NewOrders();
             } else if (id == R.id.assignedorder) {
                 //  fragment = new AssignedOrders();
@@ -266,4 +264,11 @@ public class SellerHomePage extends AppCompatActivity
         return true;
     }
 
+    public void saveToken() {
+        if (SharedPrefManager.getInstance(SellerHomePage.this).getPersonId() != 0) {
+            if (!SharedPrefManagerFirebase.getInstance(SellerHomePage.this).getToken().equals(SharedPrefManagerFirebase.getInstance(SellerHomePage.this).getTokenUpdated()) && SharedPrefManagerFirebase.getInstance(SellerHomePage.this).getToken() != "no") {
+                new SaveToken(SellerHomePage.this).saveToken();
+            }
+        }
+    }
 }

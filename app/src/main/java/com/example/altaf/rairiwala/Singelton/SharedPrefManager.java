@@ -20,7 +20,8 @@ public class SharedPrefManager {
     private static final String KEY_CUSTOMER = "customer";
     private static final String KEY_SELLER = "seller";
     private static final String DeviceToken = "token";
-
+    private static final String DeviceTokenUp= "updatedtoken";
+    private static final String PERSONID = "PERSONID";
 
     private SharedPrefManager(Context context) {
         mCtx = context;
@@ -42,6 +43,7 @@ public class SharedPrefManager {
         String json = gson.toJson(customer);
         editor.putString(KEY_CUSTOMER, json);
         editor.apply();
+        savePersonId(customer.getPerson_id());
         return true;
     }
 
@@ -61,6 +63,7 @@ public class SharedPrefManager {
         String json = gson.toJson(vendor);
         editor.putString(KEY_SELLER, json);
         editor.apply();
+        savePersonId(vendor.getPerson_id());
         return true;
     }
 
@@ -80,18 +83,18 @@ public class SharedPrefManager {
         return true;
     }
 
-    public boolean saveToken(String token) {
 
+    public boolean savePersonId(int id){
         SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString(DeviceToken, token);
+        editor.putInt(PERSONID, id);
         editor.apply();
         return true;
     }
-
-    public String getToken() {
+    public int getPersonId(){
         SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
-        String tokens = sharedPreferences.getString(DeviceToken, "");
-        return tokens;
+        int id = sharedPreferences.getInt(PERSONID, 0);
+        return id;
     }
+
 }

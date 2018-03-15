@@ -18,14 +18,29 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.example.altaf.rairiwala.Models.Product;
 import com.example.altaf.rairiwala.R;
+import com.example.altaf.rairiwala.Singelton.Constants;
+import com.example.altaf.rairiwala.Singelton.RequestHandler;
+import com.example.altaf.rairiwala.Singelton.SaveToken;
+import com.example.altaf.rairiwala.Singelton.SharedPrefManager;
+import com.example.altaf.rairiwala.Singelton.SharedPrefManagerFirebase;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class OrderItems extends AppCompatActivity implements RecyclerItemTouchHelper.RecyclerItemTouchHelperListener {
     ArrayList<Product> products;
@@ -67,7 +82,7 @@ public class OrderItems extends AppCompatActivity implements RecyclerItemTouchHe
         new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(recyclerView);
         // refreshing recycler view
         checkOutAdapter.notifyDataSetChanged();
-
+        saveToken();
 
     }
 
@@ -106,6 +121,14 @@ public class OrderItems extends AppCompatActivity implements RecyclerItemTouchHe
             });
             snackbar.setActionTextColor(Color.YELLOW);
             snackbar.show();
+        }
+    }
+
+    public void saveToken() {
+        if (SharedPrefManager.getInstance(OrderItems.this).getPersonId() != 0) {
+            if (!SharedPrefManagerFirebase.getInstance(OrderItems.this).getToken().equals(SharedPrefManagerFirebase.getInstance(OrderItems.this).getTokenUpdated()) && SharedPrefManagerFirebase.getInstance(OrderItems.this).getToken() != "no") {
+                new SaveToken(OrderItems.this).saveToken();
+            }
         }
     }
 }
