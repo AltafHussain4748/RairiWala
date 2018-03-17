@@ -21,11 +21,19 @@
 
     </android.support.design.widget.AppBarLayout>
 
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/main"
+        android:layout_centerHorizontal="true"
+        android:background="@color/white" />
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/neworders_recyle"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/main" />
+        android:layout_below="@+id/progressBar" />
 
 
 </RelativeLayout>

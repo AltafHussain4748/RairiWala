@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.view.MenuItemCompat;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -16,7 +17,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.CompoundButton;
+import android.widget.RelativeLayout;
 import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -44,6 +47,7 @@ import java.util.Map;
 public class SellerHomePage extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,14 +56,6 @@ public class SellerHomePage extends AppCompatActivity
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Home");
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -125,6 +121,8 @@ public class SellerHomePage extends AppCompatActivity
                 }
             }
         });
+
+
         return true;
     }
 
@@ -196,8 +194,7 @@ public class SellerHomePage extends AppCompatActivity
             startActivity(new Intent(this, UserLogin.class));
             this.finish();
             return true;
-        }
-        if (id == R.id.show_status) {
+        } else if (id == R.id.show_status) {
             Switch status = findViewById(R.id.shop_status);
             Toast.makeText(SellerHomePage.this, "   Changed", Toast.LENGTH_SHORT).show();
             status.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -208,7 +205,6 @@ public class SellerHomePage extends AppCompatActivity
             });
 
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -246,8 +242,14 @@ public class SellerHomePage extends AppCompatActivity
                 //  fragment = new AssignedOrders();
             } else if (id == R.id.account_details) {
                 fragment = new FragmentAccountDetail();
-            }
+            } else if (id == R.id.add_delivery_person) {
+                if (vendor.getVendor_id() <= 0) {
+                    Toast.makeText(this, "Please add location details first", Toast.LENGTH_SHORT).show();
+                } else {
 
+                    fragment = new DeliveryPersonManagment();
+                }
+            }
 //replace the current fragment
             if (fragment != null) {
                 FragmentManager fm = getFragmentManager();

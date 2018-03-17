@@ -45,7 +45,7 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
     private void showNotification(JSONObject message) {
 
         try {
-            if(message.getBoolean("error")==false){
+            if (message.getBoolean("error") == false) {
                 String orderString = message.getString("message");
                 orderObject = new JSONObject(orderString);
                 Intent i = new Intent(this, OrderDetail.class);
@@ -62,7 +62,7 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
                 NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 
                 manager.notify(0, builder.build());
-                message1 =orderString;
+                message1 = orderString;
             }
 
         } catch (Exception e) {
@@ -70,12 +70,11 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
         }
 
 
-
         //practicer
-           if (SharedPrefManagerFirebase.getInstance(this).getStateActivity()) {
-                Intent intent = new Intent("speedExceeded");
-                sendLocationBroadcast(intent);
-            }
+        if (SharedPrefManagerFirebase.getInstance(this).getStateActivity()) {
+            Intent intent = new Intent("speedExceeded");
+            sendLocationBroadcast(intent);
+        }
 
 
     }

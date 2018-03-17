@@ -42,7 +42,9 @@ dependencies {
     compile 'com.google.code.gson:gson:2.7'
     compile 'de.hdodenhof:circleimageview:2.2.0'
     compile 'com.squareup.retrofit2:converter-gson:2.1.0'
+    compile 'com.github.clans:fab:1.6.4'
 }
+
 
 
 

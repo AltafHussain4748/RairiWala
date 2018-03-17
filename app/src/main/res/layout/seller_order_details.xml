@@ -7,8 +7,8 @@
     tools:context="com.example.altaf.rairiwala.RairriWalaManagment.OrderDetail">
 
     <android.support.design.widget.AppBarLayout
-        android:layout_width="match_parent"
         android:id="@+id/main"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/AppTheme.AppBarOverlay">
 
@@ -21,14 +21,49 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <EditText
-        android:layout_below="@+id/main"
+    <ProgressBar
+        android:id="@+id/progressBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="sdasadsadaseas"
-        android:id="@+id/nameorders"
-        android:textIsSelectable="true"/>
+        android:layout_below="@+id/main"
+        android:layout_centerHorizontal="true"
+        android:background="@color/white" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/progressBar"
+        android:orientation="vertical">
+
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/order_details"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="4"
+            tools:layout_editor_absoluteX="745dp"
+            tools:layout_editor_absoluteY="-51dp" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <Button
+                android:id="@+id/order"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="6dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/rounded_widgets"
+                android:padding="8dp"
+                android:text="Confirm"
+                android:textColor="@color/white" />
+
+        </LinearLayout>
+    </LinearLayout>
 
 
 </RelativeLayout>

@@ -52,9 +52,9 @@ public class NewOrderAdapter extends RecyclerView.Adapter<NewOrderAdapter.Produc
     @Override
     public void onBindViewHolder(com.example.altaf.rairiwala.RairriWalaManagment.NewOrderAdapter.ProductViewHolder holder, int position) {
         final Order order = orderLists.get(position);
-        holder.textViewname.setText("Name :::::" + order.getCustomerAddress().getName());
-        holder.textViewnumber.setText("House Name :::::" + order.getCustomerAddress().getHouseName());
-        holder.time.setText("Order Time::::"+order.getOrder_time());
+        holder.textViewname.setText("Name:" + order.getCustomerAddress().getName());
+        holder.textViewnumber.setText("House Name:" + order.getCustomerAddress().getHouseName());
+        holder.time.setText("Order Time:"+order.getOrder_time());
 
 
     }

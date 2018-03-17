@@ -13,4 +13,5 @@
         android:visible="true"
         app:actionLayout="@layout/show_protected_switch"
         app:showAsAction="always" />
+
 </menu>

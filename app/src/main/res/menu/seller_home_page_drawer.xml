@@ -41,6 +41,14 @@
                     android:title="Assigned Order" />
             </menu>
         </item>
+        <item android:title="Delivery Person">
+            <menu>
+                <item
+                    android:id="@+id/add_delivery_person"
+                    android:icon="@drawable/addproduct"
+                    android:title="Deliver Persons" />
+            </menu>
+        </item>
     </group>
 
 </menu>

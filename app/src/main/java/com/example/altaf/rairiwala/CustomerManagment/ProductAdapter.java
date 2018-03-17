@@ -109,13 +109,18 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
                 }
 
                 if (isAdded == false) {
+                    String product_names = null;
                     if (Integer.parseInt(holder.value.getText().toString()) <= 0) {
                         Toast.makeText(mCtx, "Please Select Quantity", Toast.LENGTH_SHORT).show();
                     } else {
-                        product.getProductDetails().setQuantity(Integer.parseInt(holder.value.getText().toString()));
-                        addproducts.add(product);
-                        count = count + 1;
-                        itemcount.setText(Integer.toString(count));
+                        if (product.getProductDetails().getQuantity() >= Integer.parseInt(holder.value.getText().toString())) {
+                            product.getProductDetails().setQuantity(Integer.parseInt(holder.value.getText().toString()));
+                            addproducts.add(product);
+                            count = count + 1;
+                            itemcount.setText(Integer.toString(count));
+                        } else {
+                            Toast.makeText(mCtx, "" + "Quantity exceeded" + product.getProduct_name() + "\n", Toast.LENGTH_SHORT).show();
+                        }
                     }
 
 

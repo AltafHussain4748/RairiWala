@@ -23,4 +23,5 @@
     <string name="title_activity_place_order">Map</string>
     <string name="title_activity_order_details">OrderDetails</string>
     <string name="title_activity_seller_new_order_list">SellerNewOrderList</string>
+    <string name="title_activity_seller__add__deliver__persons">Seller_Add_Deliver_Persons</string>
 </resources>
