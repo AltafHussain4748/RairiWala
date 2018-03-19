@@ -36,6 +36,8 @@ import com.example.altaf.rairiwala.Models.Product;
 import com.example.altaf.rairiwala.Models.ProductDetails;
 import com.example.altaf.rairiwala.R;
 import com.example.altaf.rairiwala.Singelton.Constants;
+import com.example.altaf.rairiwala.Singelton.RequestHandler;
+import com.example.altaf.rairiwala.Singelton.SharedPrefManager;
 import com.example.altaf.rairiwala.Singelton.SharedPrefManagerFirebase;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -53,6 +55,7 @@ import java.util.Map;
 public class OrderDetail extends AppCompatActivity {
 
     List<Product> productList;
+    Button confirm;
     //the recyclerview
     RecyclerView recyclerView;
     ProgressBar progressBar;
@@ -68,14 +71,15 @@ public class OrderDetail extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
         try {
+            confirm = findViewById(R.id.order);
             progressBar = findViewById(R.id.progressBar);
             recyclerView = findViewById(R.id.order_details);
             recyclerView.setHasFixedSize(true);
             recyclerView.setLayoutManager(new LinearLayoutManager(this));
             productList = new ArrayList<>();
             Bundle bundle = getIntent().getExtras();
-            String jsonString = bundle.getString("order");
-            Order order;
+            final String jsonString = bundle.getString("order");
+            final Order order;
             Gson gson = new Gson();
             Type listOfproductType = new TypeToken<Order>() {
             }.getType();
@@ -84,10 +88,62 @@ public class OrderDetail extends AppCompatActivity {
             if (order.getProductArrayList() == null) {
                 loadOrderItems(order.getVendor_id(), order.getOrder_id());
             }
+            confirm.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Gson gson = new Gson();
+                    String orderItems = gson.toJson(productList);
+                    confirmOrder(order.getOrder_id(), SharedPrefManager.getInstance(OrderDetail.this).getSeller().getVendor_id(), orderItems, order.getCustomer_id());
+
+                }
+            });
+
         } catch (Exception e) {
             Toast.makeText(this, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
 
+    }
+
+    private void confirmOrder(final int order_id, final int vendor_id, final String orderItems, final int customer_id) {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST,
+                Constants.CONFIRM_ORDER,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+
+                            if (jsonObject.getBoolean("error") == false) {
+                                Toast.makeText(OrderDetail.this, jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
+                                startActivity(new Intent(OrderDetail.this, SellerNewOrderList.class));
+                            } else {
+                                Toast.makeText(OrderDetail.this, jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
+                            }
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        //   Toast.makeText(getApplicationContext(), "There was some error.Please try again....", Toast.LENGTH_LONG).show();
+
+                    }
+                }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("vendor_id", String.valueOf(vendor_id));
+                params.put("customer_id", String.valueOf(customer_id));
+                params.put("orderitems", String.valueOf(orderItems));
+                params.put("order_id", String.valueOf(order_id));
+                return params;
+            }
+        };
+        RequestHandler.getInstance(OrderDetail.this).addToRequestQueue(stringRequest);
     }
 
 

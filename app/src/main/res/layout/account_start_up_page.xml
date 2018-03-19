@@ -35,4 +35,18 @@
         android:text="Join As Vendor"
         android:textColor="@color/white"
         android:textSize="17dp" />
+
+    <TextView
+        android:id="@+id/loginHaveAccount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/join_as_vendor"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="17dp"
+        android:fontFamily="sans-serif-condensed"
+        android:text="Login"
+        android:textAlignment="center"
+        android:textColor="@color/red"
+        android:textSize="25dp" />
+
 </RelativeLayout>

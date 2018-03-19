@@ -18,7 +18,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.altaf.rairiwala.CustomerManagment.CustomerHomePage;
+import com.example.altaf.rairiwala.DeliverPersonManagement.DeliveryPersonHomePage;
 import com.example.altaf.rairiwala.Models.Customer;
+import com.example.altaf.rairiwala.Models.DeliveryPerson;
 import com.example.altaf.rairiwala.Models.Vendor;
 import com.example.altaf.rairiwala.R;
 import com.example.altaf.rairiwala.RairriWalaManagment.SellerHomePage;
@@ -81,7 +83,6 @@ public class UserLogin extends AppCompatActivity {
                         progressDialog.dismiss();
                         try {
                             JSONObject obj = new JSONObject(response);
-                            Toast.makeText(UserLogin.this, "" + obj.getString("Account_Rule"), Toast.LENGTH_SHORT).show();
                             if (obj.getBoolean("error") == false) {
                                 //save vendor to sharedpref manager
                                 if (obj.getString("Account_Rule").equals("CUSTOMER")) {
@@ -100,6 +101,19 @@ public class UserLogin extends AppCompatActivity {
                                     } else {
                                         Toast.makeText(UserLogin.this, "Some Error", Toast.LENGTH_SHORT).show();
                                     }
+                                } else if (obj.getString("Account_Rule").equals("DP")) {
+                                    DeliveryPerson deliveryPerson = new DeliveryPerson();
+                                    deliveryPerson.setPin(obj.getString("Person_Password"));
+                                    deliveryPerson.setPerson_phone_number(obj.getString("Person_Phone_Number"));
+                                    deliveryPerson.setName(obj.getString("Person_Name"));
+                                    deliveryPerson.setRule(obj.getString("Account_Rule"));
+                                    deliveryPerson.setStatus(obj.getString("Account_Status"));
+                                    deliveryPerson.setDelivery_person_id(obj.getInt("Delivery_PId"));
+                                    deliveryPerson.setVendor_id(obj.getInt("vendor_id"));
+                                    SharedPrefManager.getInstance(UserLogin.this).addDeliveryPersonToPref(deliveryPerson);
+                                    startActivity(new Intent(UserLogin.this, DeliveryPersonHomePage.class));
+                                    UserLogin.this.finish();
+
                                 } else if (obj.getString("Account_Rule").equals("SELLER")) {
                                     //save selller to sharedpref manager
                                     Vendor vendor = new Vendor();
@@ -124,12 +138,17 @@ public class UserLogin extends AppCompatActivity {
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
+                            Toast.makeText(
+                                    getApplicationContext(),
+                                    e.getMessage(),
+                                    Toast.LENGTH_LONG
+                            ).show();
                         }
                     }
 
                     //Start of seller info
                     private void addSellerInfo(final int id, final Vendor vendor) {
-                        if (id <=0) {
+                        if (id <= 0) {
                             Toast.makeText(UserLogin.this, "No Id fOUND", Toast.LENGTH_SHORT).show();
                         } else {
                             StringRequest stringRequest = new StringRequest(

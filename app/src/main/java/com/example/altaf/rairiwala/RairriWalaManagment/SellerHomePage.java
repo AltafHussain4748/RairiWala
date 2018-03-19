@@ -54,7 +54,7 @@ public class SellerHomePage extends AppCompatActivity
         setContentView(R.layout.seller_home_page);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Home");
+      //  getSupportActionBar().setTitle("Home");
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

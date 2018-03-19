@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.media.session.MediaSession;
 
 import com.example.altaf.rairiwala.Models.Customer;
+import com.example.altaf.rairiwala.Models.DeliveryPerson;
 import com.example.altaf.rairiwala.Models.Vendor;
 import com.google.gson.Gson;
 
@@ -20,8 +21,9 @@ public class SharedPrefManager {
     private static final String KEY_CUSTOMER = "customer";
     private static final String KEY_SELLER = "seller";
     private static final String DeviceToken = "token";
-    private static final String DeviceTokenUp= "updatedtoken";
+    private static final String DeviceTokenUp = "updatedtoken";
     private static final String PERSONID = "PERSONID";
+    private static final String DeliveryPerson = "DeliveryPerson";
 
     private SharedPrefManager(Context context) {
         mCtx = context;
@@ -55,6 +57,26 @@ public class SharedPrefManager {
         return obj;
     }
 
+    public boolean addDeliveryPersonToPref(DeliveryPerson deliveryPerson) {
+
+        SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(deliveryPerson);
+        editor.putString(DeliveryPerson, json);
+        editor.apply();
+        savePersonId(deliveryPerson.getPerson_id());
+        return true;
+    }
+
+    public DeliveryPerson getDeliveryPerson() {
+        SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
+        Gson gson = new Gson();
+        String json = sharedPreferences.getString(DeliveryPerson, "");
+        DeliveryPerson obj = gson.fromJson(json, DeliveryPerson.class);
+        return obj;
+    }
+
     public boolean addSellerToPref(Vendor vendor) {
 
         SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
@@ -84,14 +106,15 @@ public class SharedPrefManager {
     }
 
 
-    public boolean savePersonId(int id){
+    public boolean savePersonId(int id) {
         SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putInt(PERSONID, id);
         editor.apply();
         return true;
     }
-    public int getPersonId(){
+
+    public int getPersonId() {
         SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
         int id = sharedPreferences.getInt(PERSONID, 0);
         return id;

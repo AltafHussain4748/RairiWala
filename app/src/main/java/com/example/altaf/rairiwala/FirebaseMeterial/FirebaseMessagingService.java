@@ -36,7 +36,6 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        ;
 
 
     }
@@ -46,34 +45,52 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
 
         try {
             if (message.getBoolean("error") == false) {
-                String orderString = message.getString("message");
-                orderObject = new JSONObject(orderString);
-                Intent i = new Intent(this, OrderDetail.class);
-                i.putExtra("order", orderString);
-                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, i, PendingIntent.FLAG_UPDATE_CURRENT);
-                NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
-                        .setAutoCancel(true)
-                        .setContentTitle("New Order")
-                        .setContentText(orderObject.getString("customerAddress"))
-                        .setSmallIcon(R.drawable.addproduct)
-                        .setContentIntent(pendingIntent).setDefaults(Notification.DEFAULT_SOUND);
+                if (message.getString("type").equals("customer_order_confirmed")) {
+                    String orderString = message.getString("message");
+                    //  orderObject = new JSONObject(orderString);
+                    Intent i = new Intent(this, OrderDetail.class);
+                    i.putExtra("order", orderString);
+                    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, i, PendingIntent.FLAG_UPDATE_CURRENT);
+                    NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
+                            .setAutoCancel(true)
+                            .setContentTitle("New Order")
+                            .setContentText("Has been confirmed")
+                            .setSmallIcon(R.drawable.addproduct)
+                            .setContentIntent(pendingIntent).setDefaults(Notification.DEFAULT_SOUND);
 
-                NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+                    NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 
-                manager.notify(0, builder.build());
-                message1 = orderString;
+                    manager.notify(0, builder.build());
+                    //    message1 = orderString;
+                } else if(message.getString("type").equals("ordersent")){
+                    String orderString = message.getString("message");
+                    Intent i = new Intent(this, OrderDetail.class);
+                    i.putExtra("order", orderString);
+                    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, i, PendingIntent.FLAG_UPDATE_CURRENT);
+                    NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
+                            .setAutoCancel(true)
+                            .setContentTitle("New Order")
+                            .setContentText(orderString)
+                            .setSmallIcon(R.drawable.addproduct)
+                            .setContentIntent(pendingIntent).setDefaults(Notification.DEFAULT_SOUND);
+
+                    NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+
+                    manager.notify(0, builder.build());
+                    message1 = orderString;
+                    //practicer
+                    if (SharedPrefManagerFirebase.getInstance(this).getStateActivity()) {
+                        Intent intent = new Intent("speedExceeded");
+                        sendLocationBroadcast(intent);
+                    }
+
+                }
             }
 
         } catch (Exception e) {
 
-        }
-
-
-        //practicer
-        if (SharedPrefManagerFirebase.getInstance(this).getStateActivity()) {
-            Intent intent = new Intent("speedExceeded");
-            sendLocationBroadcast(intent);
         }
 
 

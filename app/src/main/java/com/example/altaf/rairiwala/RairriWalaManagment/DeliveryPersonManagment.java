@@ -68,7 +68,7 @@ public class DeliveryPersonManagment extends Fragment {
             }
         });
 // get the reference of Button
-        //  loadDeliverPersons(SharedPrefManager.getInstance(getActivity()).getSeller().getVendor_id());
+        loadDeliverPersons(SharedPrefManager.getInstance(getActivity()).getSeller().getVendor_id());
         return view;
     }
 
@@ -81,7 +81,7 @@ public class DeliveryPersonManagment extends Fragment {
     public void loadDeliverPersons(final int vendor_id) {
         if (vendor_id >= 0) {
             progressBar.setVisibility(View.VISIBLE);
-            StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.SELLER_NEW_ORDERS,
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.SELLER_GET_DP,
                     new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {

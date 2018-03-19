@@ -90,6 +90,10 @@
         <activity
             android:name=".RairriWalaManagment.Seller_Add_Deliver_Persons"
             android:label="@string/title_activity_seller__add__deliver__persons"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".DeliverPersonManagement.DeliveryPersonHomePage"
+            android:label="@string/title_activity_delivery_person_home_page"
             android:theme="@style/AppTheme"></activity>
     </application>
 

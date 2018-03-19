@@ -4,10 +4,13 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.altaf.rairiwala.CustomerManagment.CustomerHomePage;
+import com.example.altaf.rairiwala.DeliverPersonManagement.DeliveryPersonHomePage;
 import com.example.altaf.rairiwala.Models.Customer;
+import com.example.altaf.rairiwala.Models.DeliveryPerson;
 import com.example.altaf.rairiwala.Models.Vendor;
 import com.example.altaf.rairiwala.R;
 import com.example.altaf.rairiwala.RairriWalaManagment.SellerHomePage;
@@ -26,6 +29,7 @@ public class AppStartUpPage extends AppCompatActivity {
         }
         Customer customer = SharedPrefManager.getInstance(this).getCustomer();
         Vendor vendor = SharedPrefManager.getInstance(AppStartUpPage.this).getSeller();
+        DeliveryPerson deliveryPerson = SharedPrefManager.getInstance(this).getDeliveryPerson();
         if (customer != null) {
             if (customer.getRule().equals("CUSTOMER")) {
                 startActivity(new Intent(AppStartUpPage.this, CustomerHomePage.class));
@@ -37,6 +41,11 @@ public class AppStartUpPage extends AppCompatActivity {
                 this.finish();
             }
 
+        } else if (deliveryPerson != null) {
+            if (deliveryPerson.getRule().equals("DP")) {
+                startActivity(new Intent(AppStartUpPage.this, DeliveryPersonHomePage.class));
+                this.finish();
+            }
         }
         ////CHECK WHICH TYPE OF SELLER IT IS
         findViewById(R.id.join_as_customer).setOnClickListener(new View.OnClickListener() {
@@ -53,6 +62,13 @@ public class AppStartUpPage extends AppCompatActivity {
                 Intent intent = new Intent(AppStartUpPage.this, UserRegister.class);
                 intent.putExtra("TYPE", "SELLER");
                 startActivity(intent);
+            }
+        });
+        TextView txt = findViewById(R.id.loginHaveAccount);
+        txt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(AppStartUpPage.this, UserLogin.class));
             }
         });
     }

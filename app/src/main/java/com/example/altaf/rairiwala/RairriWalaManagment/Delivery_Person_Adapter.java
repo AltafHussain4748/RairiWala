@@ -35,7 +35,7 @@ public class Delivery_Person_Adapter extends RecyclerView.Adapter<Delivery_Perso
     public Delivery_Person_Adapter.SellerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         //inflating and returning our view holder
         LayoutInflater inflater = LayoutInflater.from(mCtx);
-        View view = inflater.inflate(R.layout.seller_order_items_recyclerview, null);
+        View view = inflater.inflate(R.layout.seller_delivery_person_recyclerview, null);
         return new Delivery_Person_Adapter.SellerViewHolder(view);
     }
 
@@ -43,9 +43,9 @@ public class Delivery_Person_Adapter extends RecyclerView.Adapter<Delivery_Perso
     public void onBindViewHolder(Delivery_Person_Adapter.SellerViewHolder holder, int position) {
 
         DeliveryPerson deliveryPerson = dpList.get(position);
-        holder.name.setText(deliveryPerson.getName());
-        holder.phone.setText(deliveryPerson.getPerson_phone_number());
-        holder.account_status.setText(deliveryPerson.getStatus());
+        holder.name.setText("Name:"+deliveryPerson.getName());
+        holder.phone.setText("Phone Number:"+deliveryPerson.getPerson_phone_number());
+        holder.account_status.setText("Account Status:"+deliveryPerson.getStatus());
     }
 
 

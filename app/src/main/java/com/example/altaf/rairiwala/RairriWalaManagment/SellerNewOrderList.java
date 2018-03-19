@@ -69,7 +69,7 @@ public class SellerNewOrderList extends AppCompatActivity {
             getSupportActionBar().setDisplayShowHomeEnabled(true);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
-        recyclerView = findViewById(R.id.dp_list_recyle);
+        recyclerView = findViewById(R.id.neworders_recyle);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         ordersList = new ArrayList<>();

@@ -319,4 +319,5 @@ public class PlaceOrder extends AppCompatActivity implements OnMapReadyCallback 
             Volley.newRequestQueue(this).add(stringRequest);
         }
     }
+
 }
