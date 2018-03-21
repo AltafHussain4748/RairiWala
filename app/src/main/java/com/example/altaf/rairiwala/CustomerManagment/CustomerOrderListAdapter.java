@@ -1,7 +1,8 @@
-package com.example.altaf.rairiwala.RairriWalaManagment;
+package com.example.altaf.rairiwala.CustomerManagment;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,7 +17,6 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.altaf.rairiwala.CustomerManagment.OrderItems;
 import com.example.altaf.rairiwala.Models.CustomerAddress;
-import com.example.altaf.rairiwala.Models.DeliveryPerson;
 import com.example.altaf.rairiwala.Models.Order;
 import com.example.altaf.rairiwala.Models.OrderDetails;
 import com.example.altaf.rairiwala.Models.Product;
@@ -31,43 +31,38 @@ import java.util.List;
  * Created by AltafHussain on 12/31/2017.
  */
 
-public class NewOrderAdapter extends RecyclerView.Adapter<NewOrderAdapter.ProductViewHolder> {
+public class CustomerOrderListAdapter extends RecyclerView.Adapter<CustomerOrderListAdapter.ProductViewHolder> {
     private Context mCtx;
     private List<Order> orderLists;
     private Context context = null;
 
 
-    public NewOrderAdapter(Context mCtx, List<Order> orderLists) {
+    public CustomerOrderListAdapter(Context mCtx, List<Order> orderLists) {
         this.mCtx = mCtx;
         this.orderLists = orderLists;
 
     }
 
     @Override
-    public com.example.altaf.rairiwala.RairriWalaManagment.NewOrderAdapter.ProductViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public CustomerOrderListAdapter.ProductViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(mCtx);
-        View view = inflater.inflate(R.layout.seller_new_order_recyclerview, null);
-        return new com.example.altaf.rairiwala.RairriWalaManagment.NewOrderAdapter.ProductViewHolder(view);
+        View view = inflater.inflate(R.layout.customer_order_list_recyclerview, null);
+        return new CustomerOrderListAdapter.ProductViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(com.example.altaf.rairiwala.RairriWalaManagment.NewOrderAdapter.ProductViewHolder holder, int position) {
+    public void onBindViewHolder(CustomerOrderListAdapter.ProductViewHolder holder, int position) {
         final Order order = orderLists.get(position);
         holder.textViewname.setText("Name:" + order.getCustomerAddress().getName());
         holder.textViewnumber.setText("House Name:" + order.getCustomerAddress().getHouseName());
         holder.time.setText("Order Time:" + order.getOrder_time());
+        holder.order_status.setText("Status: " + order.getOrder_status());
         if (order.getOrder_status().equals("Confirmed")) {
-            holder.btn.setVisibility(View.VISIBLE);
-            holder.btn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-
-
-                }
-            });
+            holder.order_status.setTextColor(Color.GREEN);
         } else {
-            holder.btn.setVisibility(View.GONE);
+            holder.order_status.setTextColor(Color.RED);
         }
+
 
     }
 
@@ -78,8 +73,7 @@ public class NewOrderAdapter extends RecyclerView.Adapter<NewOrderAdapter.Produc
 
     class ProductViewHolder extends RecyclerView.ViewHolder {
 
-        TextView textViewname, textViewnumber, time;
-        Button btn;
+        TextView textViewname, textViewnumber, time, order_status;
 
         public ProductViewHolder(View itemView) {
             super(itemView);
@@ -87,7 +81,7 @@ public class NewOrderAdapter extends RecyclerView.Adapter<NewOrderAdapter.Produc
             textViewname = itemView.findViewById(R.id.sender_name);
             textViewnumber = itemView.findViewById(R.id.number_of_items);
             time = itemView.findViewById(R.id.order_time);
-            btn = itemView.findViewById(R.id.assign_delivery_person);
+            order_status = itemView.findViewById(R.id.order_status);
 
         }
     }

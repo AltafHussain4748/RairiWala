@@ -1,14 +1,11 @@
 package com.example.altaf.rairiwala.RairriWalaManagment;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,13 +22,13 @@ import java.util.List;
  * Created by AltafHussain on 12/31/2017.
  */
 
-public class SellerOrderItems extends RecyclerView.Adapter<SellerOrderItems.ProductViewHolder> {
+public class SellerOrderItemsAdapter extends RecyclerView.Adapter<SellerOrderItemsAdapter.ProductViewHolder> {
     private Context mCtx;
     private List<Product> productList;
     private Context context = null;
 
 
-    public SellerOrderItems(Context mCtx, List<Product> productLists) {
+    public SellerOrderItemsAdapter(Context mCtx, List<Product> productLists) {
         this.mCtx = mCtx;
         this.productList = productLists;
 

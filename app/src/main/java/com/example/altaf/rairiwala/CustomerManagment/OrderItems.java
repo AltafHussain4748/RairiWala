@@ -1,5 +1,6 @@
 package com.example.altaf.rairiwala.CustomerManagment;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
@@ -12,6 +13,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -87,10 +89,19 @@ public class OrderItems extends AppCompatActivity implements RecyclerItemTouchHe
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.customer_cometo_home, menu);
+        return true;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int d = item.getItemId();
         if (d == android.R.id.home) {
             this.finish();
+        } else if (d == R.id.home_return) {
+            startActivity(new Intent(OrderItems.this, CustomerHomePage.class));
         }
         return super.onOptionsItemSelected(item);
     }

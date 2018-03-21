@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.Toast;
@@ -61,6 +62,7 @@ public class ADDProductCategoryDisplay extends Fragment {
         });
         progressDialog = new ProgressDialog(getActivity());
         category_List = new ArrayList<>();
+        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         loadCategories();
 
 // get the reference of Button

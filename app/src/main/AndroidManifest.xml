@@ -94,6 +94,10 @@
         <activity
             android:name=".DeliverPersonManagement.DeliveryPersonHomePage"
             android:label="@string/title_activity_delivery_person_home_page"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".CustomerManagment.CustomerOrderList"
+            android:label="@string/title_activity_customer_order_list"
             android:theme="@style/AppTheme"></activity>
     </application>
 

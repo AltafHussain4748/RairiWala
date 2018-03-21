@@ -3,13 +3,12 @@ package com.example.altaf.rairiwala.CustomerManagment;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.Toast;
@@ -19,18 +18,15 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.altaf.rairiwala.AccountManagment.AppStartUpPage;
 import com.example.altaf.rairiwala.AccountManagment.CheckInterNet;
 import com.example.altaf.rairiwala.AccountManagment.ConnectToInternet;
 import com.example.altaf.rairiwala.AccountManagment.UserLogin;
 import com.example.altaf.rairiwala.Models.Category;
-import com.example.altaf.rairiwala.Models.Customer;
 import com.example.altaf.rairiwala.R;
 import com.example.altaf.rairiwala.RairriWalaManagment.CategoryListView;
-import com.example.altaf.rairiwala.RairriWalaManagment.SellerAddProduct;
-import com.example.altaf.rairiwala.RairriWalaManagment.SellerHomePage;
 import com.example.altaf.rairiwala.Singelton.Constants;
 import com.example.altaf.rairiwala.Singelton.SharedPrefManager;
+import com.example.altaf.rairiwala.SqliteDatabase.DbHandler;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
 
@@ -57,6 +53,7 @@ public class CustomerHomePage extends AppCompatActivity {
             this.finish();
         }
         // get the reference of Button
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         androidListView = findViewById(R.id.grid_view_image_text);
         // androidGridView.setAdapter(adapterViewAndroid);
         androidListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -73,9 +70,12 @@ public class CustomerHomePage extends AppCompatActivity {
         });
         progressDialog = new ProgressDialog(this);
         category_List = new ArrayList<>();
-        loadCategories();
+        //end of sqlite databse handler
+
         FirebaseMessaging.getInstance().subscribeToTopic("rairiwala");
         FirebaseInstanceId.getInstance().getToken();
+        loadCategories();
+
 
     }
 
@@ -106,6 +106,8 @@ public class CustomerHomePage extends AppCompatActivity {
             startActivity(new Intent(this, UserLogin.class));
             this.finish();
             return true;
+        } else if (id == R.id.customer_orders) {
+            startActivity(new Intent(CustomerHomePage.this, CustomerOrderList.class));
         }
 
         return super.onOptionsItemSelected(item);
@@ -133,7 +135,6 @@ public class CustomerHomePage extends AppCompatActivity {
                                 category.setCategroy_image(product.getString("category_image"));
                                 category_List.add(category);
                             }
-
                             //creating adapter object and setting it to recyclerview
                             CategoryListView adapter = new CategoryListView(CustomerHomePage.this, (ArrayList<Category>) category_List);
                             androidListView.setAdapter(adapter);

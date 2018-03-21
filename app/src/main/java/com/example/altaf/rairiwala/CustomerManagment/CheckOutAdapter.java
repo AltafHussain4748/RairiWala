@@ -51,7 +51,7 @@ public class CheckOutAdapter extends RecyclerView.Adapter<CheckOutAdapter.Produc
                 .error(R.drawable.error)
                 .into(holder.productimage);
         int totalprice = product.getProductDetails().getQuantity() * product.getProductDetails().getPrice();
-        holder.textViewname.setText("Name :" + product.getProduct_name());
+        holder.textViewname.setText(mCtx.getString(R.string.name) + product.getProduct_name());
         holder.textViewprice.setText("Total Price :" + totalprice);
         holder.value.setText(":" + product.getProductDetails().getQuantity() + "\t" + product.getProduct_type());
         orders.setOnClickListener(new View.OnClickListener() {

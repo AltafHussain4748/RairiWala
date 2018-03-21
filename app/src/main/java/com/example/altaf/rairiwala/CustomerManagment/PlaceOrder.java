@@ -13,6 +13,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -238,10 +239,19 @@ public class PlaceOrder extends AppCompatActivity implements OnMapReadyCallback 
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.customer_cometo_home, menu);
+        return true;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int d = item.getItemId();
         if (d == android.R.id.home) {
             this.finish();
+        } else if (d == R.id.home_return) {
+            startActivity(new Intent(PlaceOrder.this, CustomerHomePage.class));
         }
         return super.onOptionsItemSelected(item);
     }

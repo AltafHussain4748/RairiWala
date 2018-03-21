@@ -1,24 +1,15 @@
 package com.example.altaf.rairiwala.RairriWalaManagment;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -27,10 +18,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.altaf.rairiwala.CustomerManagment.CheckOutAdapter;
-import com.example.altaf.rairiwala.CustomerManagment.ProductAdapter;
-import com.example.altaf.rairiwala.CustomerManagment.ProductList;
-import com.example.altaf.rairiwala.Models.CustomerAddress;
 import com.example.altaf.rairiwala.Models.Order;
 import com.example.altaf.rairiwala.Models.Product;
 import com.example.altaf.rairiwala.Models.ProductDetails;
@@ -38,7 +25,6 @@ import com.example.altaf.rairiwala.R;
 import com.example.altaf.rairiwala.Singelton.Constants;
 import com.example.altaf.rairiwala.Singelton.RequestHandler;
 import com.example.altaf.rairiwala.Singelton.SharedPrefManager;
-import com.example.altaf.rairiwala.Singelton.SharedPrefManagerFirebase;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -84,7 +70,9 @@ public class OrderDetail extends AppCompatActivity {
             Type listOfproductType = new TypeToken<Order>() {
             }.getType();
             order = gson.fromJson(jsonString, listOfproductType);
-
+            if (order.getOrder_status().equals("Confirmed")) {
+                confirm.setVisibility(View.GONE);
+            }
             if (order.getProductArrayList() == null) {
                 loadOrderItems(order.getVendor_id(), order.getOrder_id());
             }
@@ -187,7 +175,7 @@ public class OrderDetail extends AppCompatActivity {
                             }
 
 
-                            SellerOrderItems adapter = new SellerOrderItems(OrderDetail.this, productList);
+                            SellerOrderItemsAdapter adapter = new SellerOrderItemsAdapter(OrderDetail.this, productList);
                             recyclerView.setAdapter(adapter);
 
                         } catch (JSONException e) {
