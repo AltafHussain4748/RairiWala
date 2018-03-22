@@ -10,8 +10,8 @@
             android:title="Account Details" />
         <item
             android:id="@+id/extra_information"
-            android:icon="@drawable/extrainfo"
-            android:title="Extra Information" />
+            android:icon="@drawable/add1"
+            android:title="Add Location" />
 
         <item android:title="Stock Managment">
             <menu>

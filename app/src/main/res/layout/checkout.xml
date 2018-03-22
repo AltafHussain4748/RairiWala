@@ -59,7 +59,7 @@
                         android:layout_width="170dp"
                         android:layout_height="130dp"
                         android:padding="4dp"
-                        android:src="@drawable/cartt"/>
+                        android:src="@drawable/cartt" />
 
                     <TextView
                         android:id="@+id/checkout_product_name"
@@ -78,15 +78,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignLeft="@+id/checkout_product_name"
-                        android:layout_alignRight="@+id/checkout_product_name"
-                        android:layout_alignStart="@+id/checkout_product_name"
-                        android:layout_below="@id/checkout_product_name"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginTop="5dp"
+                        android:layout_below="@+id/checkout_product_name"
                         android:text="13.3 Inch, 256 GB"
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
-                        android:textSize="15dp" />
+                        android:textSize="15dp"
+                        android:layout_marginTop="10dp"/>
 
                     <LinearLayout
                         android:id="@+id/ly"

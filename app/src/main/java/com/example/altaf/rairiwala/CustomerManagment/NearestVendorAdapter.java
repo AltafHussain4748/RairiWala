@@ -47,10 +47,10 @@ public class NearestVendorAdapter extends RecyclerView.Adapter<NearestVendorAdap
 
         final Vendor v = productList.get(position);
         if (v != null) {
-            holder.name.setText("Name:::" + v.getName());
-            holder.phone.setText("Phone Number:::" + v.getPerson_phone_number());
+            holder.name.setText( v.getName());
+            holder.phone.setText( v.getPerson_phone_number());
             String distance = Double.toString(v.getDistance());
-            holder.distance.setText("Distance:::" + distance.substring(0, 6) + "KM");
+            holder.distance.setText("Distance: " + distance.substring(0, 6) + "KM");
             holder.ratingdetails.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

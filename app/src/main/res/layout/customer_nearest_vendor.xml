@@ -48,6 +48,7 @@
         android:layout_centerVertical="true"
         android:textColor="@color/red"
         android:textSize="25dp"
-        android:visibility="gone" />
+        android:visibility="gone"
+        android:textAlignment="center"/>
 
 </RelativeLayout>
