@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -41,6 +42,7 @@ public class CustomerHomePage extends AppCompatActivity {
     List<Category> category_List;
     ProgressDialog progressDialog;
     GridView androidListView;
+    TextView message;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +56,7 @@ public class CustomerHomePage extends AppCompatActivity {
         }
         // get the reference of Button
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+        message = findViewById(R.id.error_message);
         androidListView = findViewById(R.id.grid_view_image_text);
         // androidGridView.setAdapter(adapterViewAndroid);
         androidListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -122,6 +125,7 @@ public class CustomerHomePage extends AppCompatActivity {
                     public void onResponse(String response) {
                         try {
                             progressDialog.dismiss();
+
                             //converting the string to json array object
                             JSONArray array = new JSONArray(response);
                             for (int i = 0; i < array.length(); i++) {
@@ -140,7 +144,9 @@ public class CustomerHomePage extends AppCompatActivity {
                             androidListView.setAdapter(adapter);
                         } catch (JSONException e) {
                             e.printStackTrace();
+                            message.setVisibility(View.VISIBLE);
                             Toast.makeText(CustomerHomePage.this, "No Product", Toast.LENGTH_SHORT).show();
+                            message.setText("No Products");
                         }
                     }
                 },
@@ -148,6 +154,8 @@ public class CustomerHomePage extends AppCompatActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         progressDialog.dismiss();
+                        message.setVisibility(View.VISIBLE);
+                        message.setText("Error while loading the categories");
                         Toast.makeText(CustomerHomePage.this, "Error while loading the products", Toast.LENGTH_SHORT).show();
                     }
                 });

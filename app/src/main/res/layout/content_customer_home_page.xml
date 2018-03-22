@@ -9,10 +9,20 @@
     tools:showIn="@layout/customer_home_page">
 
     <GridView
-        android:background="@color/home"
         android:id="@+id/grid_view_image_text"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/home"
         android:gravity="center"
         android:numColumns="auto_fit" />
+
+    <TextView
+        android:id="@+id/error_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:textColor="@color/red"
+        android:textSize="25dp"
+        android:visibility="gone" />
 </RelativeLayout>

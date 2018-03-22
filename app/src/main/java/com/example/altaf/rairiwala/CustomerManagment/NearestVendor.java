@@ -18,6 +18,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -52,6 +54,7 @@ public class NearestVendor extends AppCompatActivity {
     double longtude = 0.0;
     LocationManager locationManager;
     private FusedLocationProviderClient mFusedLocationClient;
+    TextView message;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +66,7 @@ public class NearestVendor extends AppCompatActivity {
             getSupportActionBar().setDisplayShowHomeEnabled(true);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
+        message = findViewById(R.id.error_message);
         Bundle bundle = getIntent().getExtras();
         type = bundle.getString("CAT");
         vendorList = new ArrayList<>();
@@ -176,6 +180,8 @@ public class NearestVendor extends AppCompatActivity {
 
                                 } catch (JSONException e) {
                                     e.printStackTrace();
+                                    message.setVisibility(View.VISIBLE);
+                                    message.setText("Error while loading the vendors");
                                     Toast.makeText(NearestVendor.this, " No Sellers", Toast.LENGTH_SHORT).show();
                                 }
                             }
@@ -184,6 +190,8 @@ public class NearestVendor extends AppCompatActivity {
                             @Override
                             public void onErrorResponse(VolleyError error) {
                                 progressDialog.dismiss();
+                                message.setVisibility(View.VISIBLE);
+                                message.setText(error.getMessage());
                                 Toast.makeText(NearestVendor.this, error.getMessage(), Toast.LENGTH_SHORT).show();
                             }
                         })

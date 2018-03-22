@@ -77,7 +77,7 @@ public class SellerNewOrderList extends AppCompatActivity {
         fillOrders(SharedPrefManager.getInstance(this).getSeller().getVendor_id());
         //recyclerView Item click listener
         //inner class
-        class RecyclerTouchListener implements RecyclerView.OnItemTouchListener {
+    /*   class RecyclerTouchListener implements RecyclerView.OnItemTouchListener {
 
             private ClickListener clicklistener;
             private GestureDetector gestureDetector;
@@ -129,7 +129,7 @@ public class SellerNewOrderList extends AppCompatActivity {
             public void onClick(View view, final int position) {
                 Order order = ordersList.get(position);
               /*  Toast.makeText(SellerNewOrderList.this, "Single Click on position        :" + order.getOrder_id() + "\n" + order.getVendor_id(),
-                        Toast.LENGTH_SHORT).show();*/
+                        Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(SellerNewOrderList.this, OrderDetail.class);
                 Gson gson = new Gson();
                 String orderString = gson.toJson(order);
@@ -142,7 +142,7 @@ public class SellerNewOrderList extends AppCompatActivity {
                 Toast.makeText(SellerNewOrderList.this, "Long press on position :" + position,
                         Toast.LENGTH_LONG).show();
             }
-        }));
+        }));*/
     }
 
     public void fillOrders(final int vendor_id) {
@@ -273,9 +273,9 @@ public class SellerNewOrderList extends AppCompatActivity {
     }
 
     //Interface
-    public static interface ClickListener {
+    /*public static interface ClickListener {
         public void onClick(View view, int position);
 
         public void onLongClick(View view, int position);
-    }
+    }*/
 }

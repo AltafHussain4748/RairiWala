@@ -37,8 +37,8 @@ public class FragmentAccountDetail extends Fragment {
             name.setText(vendor.getName());
             phon.setText(vendor.getPerson_phone_number());
             pin.setText(String.valueOf(vendor.getPin()));
-            shopname.setText(vendor.getShop_name()+vendor.getShop_status());
-            rule.setText(vendor.getRule() + "\t\t" + vendor.getVendor_id() + vendor.getLatitude() + "   " + vendor.getLongitude());
+            shopname.setText(vendor.getShop_name());
+            rule.setText(vendor.getRule());
         } else {
             name.setHint("No Name");
             phon.setHint("No Phone Number");

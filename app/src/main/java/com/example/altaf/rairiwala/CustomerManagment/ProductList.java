@@ -6,6 +6,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -36,6 +37,7 @@ public class ProductList extends AppCompatActivity {
     RecyclerView recyclerView;
     Button carts;
     TextView itemcart;
+    TextView message;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +58,7 @@ public class ProductList extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         productList = new ArrayList<>();
+        message = findViewById(R.id.error_message);
         loadProducts(vendorid, type);
 
     }
@@ -109,6 +112,8 @@ public class ProductList extends AppCompatActivity {
 
                         } catch (JSONException e) {
                             e.printStackTrace();
+                            message.setText("No Products");
+                            message.setVisibility(View.VISIBLE);
                             Toast.makeText(ProductList.this, "No Products", Toast.LENGTH_SHORT).show();
                         }
                     }
@@ -116,7 +121,8 @@ public class ProductList extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-
+                        message.setText("Error while loading the products");
+                        message.setVisibility(View.VISIBLE);
                         Toast.makeText(ProductList.this, "Error while loading the products", Toast.LENGTH_SHORT).show();
                     }
                 }) {

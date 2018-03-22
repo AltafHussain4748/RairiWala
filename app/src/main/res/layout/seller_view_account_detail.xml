@@ -16,7 +16,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:src="@drawable/addproduct" />
+            android:src="@drawable/phone" />
 
         <TextView
             android:id="@+id/phonenumber"
@@ -53,10 +53,10 @@
         android:layout_margin="10dp">
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_margin="10dp"
-            android:src="@drawable/addproduct" />
+            android:src="@drawable/user" />
 
         <TextView
             android:id="@+id/name"
@@ -76,7 +76,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:src="@drawable/addproduct" />
+            android:src="@drawable/shop" />
 
         <TextView
             android:id="@+id/shopname"
@@ -96,7 +96,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:src="@drawable/addproduct" />
+            android:src="@drawable/password" />
 
         <TextView
             android:id="@+id/pin"

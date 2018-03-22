@@ -58,15 +58,28 @@ public class NewOrderAdapter extends RecyclerView.Adapter<NewOrderAdapter.Produc
         holder.time.setText("Order Time:" + order.getOrder_time());
         if (order.getOrder_status().equals("Confirmed")) {
             holder.btn.setVisibility(View.VISIBLE);
+            holder.confirm_order.setVisibility(View.GONE);
             holder.btn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    Toast.makeText(mCtx, "" + order.getOrder_id(), Toast.LENGTH_SHORT).show();
+                }
+            });
 
+        } else {
+            holder.confirm_order.setVisibility(View.VISIBLE);
+            holder.btn.setVisibility(View.GONE);
+            holder.confirm_order.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(mCtx, OrderDetail.class);
+                    Gson gson = new Gson();
+                    String orderString = gson.toJson(order);
+                    intent.putExtra("order", orderString);
+                    mCtx.startActivity(intent);
 
                 }
             });
-        } else {
-            holder.btn.setVisibility(View.GONE);
         }
 
     }
@@ -79,7 +92,8 @@ public class NewOrderAdapter extends RecyclerView.Adapter<NewOrderAdapter.Produc
     class ProductViewHolder extends RecyclerView.ViewHolder {
 
         TextView textViewname, textViewnumber, time;
-        Button btn;
+        Button btn, confirm_order;;
+
 
         public ProductViewHolder(View itemView) {
             super(itemView);
@@ -88,6 +102,7 @@ public class NewOrderAdapter extends RecyclerView.Adapter<NewOrderAdapter.Produc
             textViewnumber = itemView.findViewById(R.id.number_of_items);
             time = itemView.findViewById(R.id.order_time);
             btn = itemView.findViewById(R.id.assign_delivery_person);
+            confirm_order = itemView.findViewById(R.id.confirm_order);
 
         }
     }

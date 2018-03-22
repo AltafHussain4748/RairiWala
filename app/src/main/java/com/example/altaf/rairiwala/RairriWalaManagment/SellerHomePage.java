@@ -54,7 +54,7 @@ public class SellerHomePage extends AppCompatActivity
         setContentView(R.layout.seller_home_page);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-      //  getSupportActionBar().setTitle("Home");
+        //  getSupportActionBar().setTitle("Home");
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -66,6 +66,12 @@ public class SellerHomePage extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         saveToken();
+        FragmentManager fm = getFragmentManager();
+// create a FragmentTransaction to begin the transaction and replace the Fragment
+        android.app.FragmentTransaction fragmentTransaction = fm.beginTransaction();
+// replace the FrameLayout with new Fragment v
+        fragmentTransaction.replace(R.id.frameLayout, new FragmentAccountDetail());
+        fragmentTransaction.commit(); // save the changes
     }
 
     @Override
