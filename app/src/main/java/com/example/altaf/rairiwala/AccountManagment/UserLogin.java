@@ -110,6 +110,7 @@ public class UserLogin extends AppCompatActivity {
                                     deliveryPerson.setStatus(obj.getString("Account_Status"));
                                     deliveryPerson.setDelivery_person_id(obj.getInt("Delivery_PId"));
                                     deliveryPerson.setVendor_id(obj.getInt("vendor_id"));
+                                    deliveryPerson.setPerson_id(Integer.parseInt(obj.getString("id")));
                                     SharedPrefManager.getInstance(UserLogin.this).addDeliveryPersonToPref(deliveryPerson);
                                     startActivity(new Intent(UserLogin.this, DeliveryPersonHomePage.class));
                                     UserLogin.this.finish();

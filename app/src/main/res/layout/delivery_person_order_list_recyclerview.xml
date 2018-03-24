@@ -26,44 +26,57 @@
                 app:civ_border_width="2dp" />
 
             <TextView
-                android:id="@+id/dp_name"
-                android:layout_width="match_parent"
+                android:id="@+id/sender_name"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:layout_toRightOf="@id/imageView"
                 android:drawableLeft="@drawable/name"
-                android:text="some"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
-                android:textColor="#000000"
-                android:textSize="17dp" />
+                android:text="some namethere f"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+                android:textColor="#000000" />
 
             <TextView
-                android:id="@+id/dp_phone_number"
+                android:id="@+id/number_of_items"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/dp_name"
+                android:layout_below="@id/sender_name"
                 android:layout_marginLeft="5dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="15dp"
                 android:layout_toRightOf="@id/imageView"
                 android:drawableLeft="@drawable/phone"
                 android:text="0000"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
-                android:textColor="#000000"
-                android:textSize="17dp" />
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+                android:textColor="#000000" />
 
             <TextView
-                android:id="@+id/dp_account_status"
+                android:id="@+id/order_time"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/dp_phone_number"
+                android:layout_below="@id/number_of_items"
+                android:layout_marginBottom="10dp"
                 android:layout_marginLeft="5dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="15dp"
                 android:layout_toRightOf="@id/imageView"
-                android:text="13.3 Inch, 256 GB"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
-                android:textColor="@color/colorPrimary"
-                android:textSize="17dp" />
+                android:drawableLeft="@drawable/time"
+                android:text="0000"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+                android:textColor="#000000" />
 
+            <Button
+                android:id="@+id/order_items"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/order_time"
+                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="7dp"
+                android:layout_toLeftOf="@id/confirm_order"
+                android:background="@drawable/rounded_widgets"
+                android:text="Details"
+                android:textColor="@color/white"
+                android:visibility="visible" />
 
         </RelativeLayout>
 

@@ -27,4 +27,7 @@
     <string name="title_activity_delivery_person_home_page">DeliveryPersonHomePage</string>
     <string name="name">Name :</string>
     <string name="title_activity_customer_order_list">CustomerOrderList</string>
+    <string name="title_activity_assign_delivery_person">AssignDeliveryPerson</string>
+    <string name="title_activity_seller_assign_deliver_person">SellerAssignDeliverPerson</string>
+    <string name="title_activity_order_detail_google_map">Map</string>
 </resources>

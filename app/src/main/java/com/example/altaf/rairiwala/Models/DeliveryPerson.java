@@ -7,6 +7,16 @@ package com.example.altaf.rairiwala.Models;
 public class DeliveryPerson extends Person {
     private int delivery_person_id;
     private int vendor_id;
+    private  String isFree;
+
+    public String getIsFree() {
+        return isFree;
+    }
+
+    public void setIsFree(String isFree) {
+
+        this.isFree = isFree;
+    }
 
     public int getVendor_id() {
         return vendor_id;

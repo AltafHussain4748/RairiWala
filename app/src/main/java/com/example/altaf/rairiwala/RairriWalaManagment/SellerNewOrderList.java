@@ -17,6 +17,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -58,6 +59,7 @@ public class SellerNewOrderList extends AppCompatActivity {
     RecyclerView recyclerView;
     NewOrderAdapter newOrderAdapter;
     ProgressBar progressBar;
+    TextView message;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,76 +75,10 @@ public class SellerNewOrderList extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         ordersList = new ArrayList<>();
+        message = findViewById(R.id.error_message);
         progressBar = findViewById(R.id.progressBar);
         fillOrders(SharedPrefManager.getInstance(this).getSeller().getVendor_id());
-        //recyclerView Item click listener
-        //inner class
-    /*   class RecyclerTouchListener implements RecyclerView.OnItemTouchListener {
 
-            private ClickListener clicklistener;
-            private GestureDetector gestureDetector;
-
-            public RecyclerTouchListener(Context context, final RecyclerView recycleView, final ClickListener clicklistener) {
-
-                this.clicklistener = clicklistener;
-                gestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
-                    @Override
-                    public boolean onSingleTapUp(MotionEvent e) {
-                        return true;
-                    }
-
-                    @Override
-                    public void onLongPress(MotionEvent e) {
-                        View child = recycleView.findChildViewUnder(e.getX(), e.getY());
-                        if (child != null && clicklistener != null) {
-                            clicklistener.onLongClick(child, recycleView.getChildAdapterPosition(child));
-                        }
-                    }
-                });
-            }
-
-            @Override
-            public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
-                View child = rv.findChildViewUnder(e.getX(), e.getY());
-                if (child != null && clicklistener != null && gestureDetector.onTouchEvent(e)) {
-                    clicklistener.onClick(child, rv.getChildAdapterPosition(child));
-                }
-
-                return false;
-            }
-
-            @Override
-            public void onTouchEvent(RecyclerView rv, MotionEvent e) {
-
-            }
-
-            @Override
-            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
-
-            }
-        }
-        //end of inner class click listener
-        //start recycler view click listener
-        recyclerView.addOnItemTouchListener(new RecyclerTouchListener(this,
-                recyclerView, new ClickListener() {
-            @Override
-            public void onClick(View view, final int position) {
-                Order order = ordersList.get(position);
-              /*  Toast.makeText(SellerNewOrderList.this, "Single Click on position        :" + order.getOrder_id() + "\n" + order.getVendor_id(),
-                        Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(SellerNewOrderList.this, OrderDetail.class);
-                Gson gson = new Gson();
-                String orderString = gson.toJson(order);
-                intent.putExtra("order", orderString);
-                startActivity(intent);
-            }
-
-            @Override
-            public void onLongClick(View view, int position) {
-                Toast.makeText(SellerNewOrderList.this, "Long press on position :" + position,
-                        Toast.LENGTH_LONG).show();
-            }
-        }));*/
     }
 
     public void fillOrders(final int vendor_id) {
@@ -184,7 +120,8 @@ public class SellerNewOrderList extends AppCompatActivity {
                             } catch (JSONException e) {
                                 e.printStackTrace();
                                 progressBar.setVisibility(View.GONE);
-                                Toast.makeText(SellerNewOrderList.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                                message.setVisibility(View.VISIBLE);
+                                message.setText("No New Orders");
                             }
                         }
                     },
@@ -192,7 +129,8 @@ public class SellerNewOrderList extends AppCompatActivity {
                         @Override
                         public void onErrorResponse(VolleyError error) {
                             progressBar.setVisibility(View.GONE);
-                            Toast.makeText(SellerNewOrderList.this, "Error while loading the products", Toast.LENGTH_SHORT).show();
+                            message.setVisibility(View.VISIBLE);
+                            message.setText("Error");
                         }
                     }) {
                 @Override
@@ -231,11 +169,25 @@ public class SellerNewOrderList extends AppCompatActivity {
                 newOrder.setOrder_status(orderObject.getString("order_status"));
                 newOrder.setOrder_time(orderObject.getString("order_time"));
                 newOrder.setOrder_id(orderObject.getInt("order_id"));
-                ordersList.add(0, newOrder);
-                newOrderAdapter.notifyItemInserted(0);
-                recyclerView.scrollToPosition(0);
+                if (ordersList.size() == 0) {
+                    ordersList.add(newOrder);
+                    newOrderAdapter = new NewOrderAdapter(SellerNewOrderList.this, ordersList);
+                    recyclerView.setAdapter(newOrderAdapter);
+                    message.setVisibility(View.GONE);
+
+                    synchronized (ordersList) {
+                        newOrderAdapter.notify();
+                    }
+                } else {
+                    ordersList.add(0, newOrder);
+                    newOrderAdapter.notifyItemInserted(0);
+                    recyclerView.scrollToPosition(0);
+                }
+
             } catch (Exception e) {
-                Toast.makeText(context, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
+               /* Toast.makeText(context, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                message.setVisibility(View.VISIBLE);
+                message.setText(e.getMessage() + "error");*/
             }
 
 
@@ -272,10 +224,5 @@ public class SellerNewOrderList extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    //Interface
-    /*public static interface ClickListener {
-        public void onClick(View view, int position);
 
-        public void onLongClick(View view, int position);
-    }*/
 }

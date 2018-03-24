@@ -7,11 +7,10 @@ import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.LocalBroadcastManager;
 
+import com.example.altaf.rairiwala.DeliverPersonManagement.DeliveryPersonHomePage;
 import com.example.altaf.rairiwala.R;
-import com.example.altaf.rairiwala.RairriWalaManagment.OrderDetail;
-import com.example.altaf.rairiwala.RairriWalaManagment.SellerNewOrderList;
+import com.example.altaf.rairiwala.Singelton.OrderDetail;
 import com.example.altaf.rairiwala.Singelton.SharedPrefManagerFirebase;
-import com.google.firebase.iid.FirebaseInstanceIdService;
 import com.google.firebase.messaging.RemoteMessage;
 
 import org.json.JSONException;
@@ -63,7 +62,27 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
 
                     manager.notify(0, builder.build());
                     //    message1 = orderString;
-                } else if(message.getString("type").equals("ordersent")){
+                } else if (message.getString("type").equals("dp")) {
+                    Intent i = new Intent(this, DeliveryPersonHomePage.class);
+                    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, i, PendingIntent.FLAG_UPDATE_CURRENT);
+                    NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
+                            .setAutoCancel(true)
+                            .setContentTitle("New Order")
+                            .setContentText("New Order is assigned")
+                            .setSmallIcon(R.drawable.addproduct)
+                            .setContentIntent(pendingIntent).setDefaults(Notification.DEFAULT_SOUND);
+
+                    NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+
+                    manager.notify(0, builder.build());
+                    if (SharedPrefManagerFirebase.getInstance(this).getStateActivity()) {
+                        Intent intent = new Intent("newOrderAssign");
+                        sendAssignOrderBroadcast(intent);
+                    }
+
+
+                } else if (message.getString("type").equals("ordersent")) {
                     String orderString = message.getString("message");
                     Intent i = new Intent(this, OrderDetail.class);
                     i.putExtra("order", orderString);
@@ -102,4 +121,11 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
 
     }
+
+    private void sendAssignOrderBroadcast(Intent intent) {
+        intent.putExtra("newOrderAssigned", "New Order Assigned");
+        LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+
+    }
+
 }

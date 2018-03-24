@@ -12,8 +12,8 @@
         android:largeScreens="true"
         android:normalScreens="true"
         android:smallScreens="true" />
-    <application
 
+    <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -86,7 +86,7 @@
         </service>
 
         <activity
-            android:name=".RairriWalaManagment.OrderDetail"
+            android:name=".Singelton.OrderDetail"
             android:label="@string/title_activity_order_details"
             android:theme="@style/AppTheme" />
         <activity
@@ -104,7 +104,14 @@
         <activity
             android:name=".CustomerManagment.CustomerOrderList"
             android:label="@string/title_activity_customer_order_list"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".RairriWalaManagment.SellerAssignDeliverPerson"
+            android:label="@string/title_activity_seller_assign_deliver_person"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".OrderDetailGoogleMap"
+            android:label="@string/title_activity_order_detail_google_map"></activity>
     </application>
 
 </manifest>

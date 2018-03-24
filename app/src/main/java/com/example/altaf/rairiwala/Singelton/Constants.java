@@ -24,5 +24,8 @@ public class Constants {
     public static final String ADD_DELIVER_PERSON = "https://rairriwala.000webhostapp.com/AddDeliveryPerson.php";
     public static final String CONFIRM_ORDER = "https://rairriwala.000webhostapp.com/ConfirmOrder.php";
     public static final String GET_CUSTOMER_ORDERS = "https://rairriwala.000webhostapp.com/GetCustomerOrders.php";
+    public  static  final  String CHECK_DELIVERY_PERSON_FREE="https://rairriwala.000webhostapp.com/AssignDeliveryPerson.php";
+    public  static  final  String NotifyDeliveryPerson="https://rairriwala.000webhostapp.com/NotifyDeliveryPersonAboutOrder.php";
+    public  static  final  String DeliveryPersonOrders="https://rairriwala.000webhostapp.com/GetDeliveryPersonAssignedOrders.php";
 
 }

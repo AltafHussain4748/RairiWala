@@ -20,8 +20,6 @@ public class SharedPrefManager {
     private static final String SHARED_PREF_NAME = "mysharedpref12";
     private static final String KEY_CUSTOMER = "customer";
     private static final String KEY_SELLER = "seller";
-    private static final String DeviceToken = "token";
-    private static final String DeviceTokenUp = "updatedtoken";
     private static final String PERSONID = "PERSONID";
     private static final String DeliveryPerson = "DeliveryPerson";
 

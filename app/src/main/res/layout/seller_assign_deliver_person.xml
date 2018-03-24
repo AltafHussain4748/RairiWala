@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.altaf.rairiwala.DeliverPersonManagement.DeliveryPersonHomePage">
+    tools:context="com.example.altaf.rairiwala.RairriWalaManagment.SellerAssignDeliverPerson">
 
     <android.support.design.widget.AppBarLayout
-        android:id="@+id/main"
+        android:id="@+id/mainLayouts"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/AppTheme.AppBarOverlay">
@@ -21,31 +21,29 @@
 
     </android.support.design.widget.AppBarLayout>
 
+
     <ProgressBar
         android:id="@+id/progressBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/main"
+        android:layout_below="@+id/mainLayouts"
         android:layout_centerHorizontal="true"
         android:background="@color/white" />
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/assign_order_list"
+        android:id="@+id/assign_dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/progressBar" />
-
     <TextView
         android:id="@+id/error_message"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:textAlignment="center"
         android:textColor="@color/red"
         android:textSize="25dp"
-        android:visibility="gone" />
-
-
+        android:visibility="gone"
+        android:textAlignment="center"/>
 
 </RelativeLayout>

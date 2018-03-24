@@ -181,8 +181,8 @@ public class NearestVendor extends AppCompatActivity {
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                     message.setVisibility(View.VISIBLE);
-                                    message.setText("Error while loading the vendors");
-                                    Toast.makeText(NearestVendor.this, " No Sellers", Toast.LENGTH_SHORT).show();
+                                    message.setText("No new Order");
+                                    Toast.makeText(NearestVendor.this, " No new Order", Toast.LENGTH_SHORT).show();
                                 }
                             }
                         },

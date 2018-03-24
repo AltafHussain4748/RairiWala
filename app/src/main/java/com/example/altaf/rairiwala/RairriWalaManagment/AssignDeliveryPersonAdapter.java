@@ -1,22 +1,19 @@
 package com.example.altaf.rairiwala.RairriWalaManagment;
 
 import android.content.Context;
-import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
+
 import com.example.altaf.rairiwala.Models.DeliveryPerson;
 import com.example.altaf.rairiwala.R;
 
 import java.util.List;
 
-
-
-
-public class Delivery_Person_Adapter extends RecyclerView.Adapter<Delivery_Person_Adapter.SellerViewHolder> {
+public class AssignDeliveryPersonAdapter extends RecyclerView.Adapter<AssignDeliveryPersonAdapter.SellerViewHolder> {
 
 
     //this context we will use to inflate the layout
@@ -25,30 +22,34 @@ public class Delivery_Person_Adapter extends RecyclerView.Adapter<Delivery_Perso
     private List<DeliveryPerson> dpList;
 
     //getting the context and product list with constructor
-    public Delivery_Person_Adapter(Context mCtx, List<DeliveryPerson> dpList) {
+    public AssignDeliveryPersonAdapter(Context mCtx, List<DeliveryPerson> dpList) {
         this.mCtx = mCtx;
         this.dpList = dpList;
 
     }
 
     @Override
-    public Delivery_Person_Adapter.SellerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public SellerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         //inflating and returning our view holder
         LayoutInflater inflater = LayoutInflater.from(mCtx);
         View view = inflater.inflate(R.layout.seller_delivery_person_recyclerview, null);
-        return new Delivery_Person_Adapter.SellerViewHolder(view);
+        return new SellerViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(Delivery_Person_Adapter.SellerViewHolder holder, int position) {
+    public void onBindViewHolder(SellerViewHolder holder, int position) {
 
         DeliveryPerson deliveryPerson = dpList.get(position);
         holder.name.setText("  "+deliveryPerson.getName());
-        holder.phone.setText("  "+deliveryPerson.getPerson_phone_number());
-        holder.account_status.setText("  "+deliveryPerson.getStatus());
+        holder.phone.setText(" "+deliveryPerson.getPerson_phone_number());
+        holder.account_status.setText(" "+deliveryPerson.getStatus());
+        if(deliveryPerson.getIsFree().equals("yes")){
+            holder.account_status.setTextColor(Color.GREEN);
+        }else{
+            holder.account_status.setTextColor(Color.RED);
+        }
+
     }
-
-
     @Override
     public int getItemCount() {
         return dpList.size();
@@ -68,4 +69,3 @@ public class Delivery_Person_Adapter extends RecyclerView.Adapter<Delivery_Perso
         }
     }
 }
-

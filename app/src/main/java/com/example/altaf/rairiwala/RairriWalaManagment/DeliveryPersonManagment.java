@@ -100,6 +100,7 @@ public class DeliveryPersonManagment extends Fragment {
                                     deliveryPerson.setRule(dp.getString("Rule"));
                                     deliveryPerson.setStatus(dp.getString("Account_Status"));
                                     deliveryPerson.setPerson_phone_number(dp.getString("Person_Phone_Number"));
+                                    deliveryPerson.setIsFree(dp.getString("isfree"));
                                     deliveryPersonList.add(deliveryPerson);
 
                                 }

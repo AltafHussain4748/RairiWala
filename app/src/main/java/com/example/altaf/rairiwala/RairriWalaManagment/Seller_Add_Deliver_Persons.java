@@ -49,7 +49,7 @@ public class Seller_Add_Deliver_Persons extends AppCompatActivity {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (phone_number.getText().toString().length() == 10 && pin.getText().length() >= 4 && name.getText().length() > 8) {
+                if (phone_number.getText().toString().length() == 10 && pin.getText().length() >= 4 && name.getText().length() > 5) {
                     Toast.makeText(Seller_Add_Deliver_Persons.this, "Registring......", Toast.LENGTH_LONG).show();
                     //String request start
                     StringRequest stringRequest = new StringRequest(Request.Method.POST,

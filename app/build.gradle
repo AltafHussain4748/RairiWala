@@ -16,6 +16,9 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    repositories {
+        maven { url "https://jitpack.io" }
+    }
 }
 
 dependencies {
@@ -43,7 +46,11 @@ dependencies {
     compile 'de.hdodenhof:circleimageview:2.2.0'
     compile 'com.squareup.retrofit2:converter-gson:2.1.0'
     compile 'com.github.clans:fab:1.6.4'
+    compile 'com.github.sd6352051:NiftyDialogEffects:v1.0.3'
 }
+
+
+
 
 
 

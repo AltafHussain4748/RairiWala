@@ -1,7 +1,11 @@
-package com.example.altaf.rairiwala.RairriWalaManagment;
+package com.example.altaf.rairiwala.Singelton;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -22,10 +26,10 @@ import com.android.volley.toolbox.Volley;
 import com.example.altaf.rairiwala.Models.Order;
 import com.example.altaf.rairiwala.Models.Product;
 import com.example.altaf.rairiwala.Models.ProductDetails;
+import com.example.altaf.rairiwala.OrderDetailGoogleMap;
 import com.example.altaf.rairiwala.R;
-import com.example.altaf.rairiwala.Singelton.Constants;
-import com.example.altaf.rairiwala.Singelton.RequestHandler;
-import com.example.altaf.rairiwala.Singelton.SharedPrefManager;
+import com.example.altaf.rairiwala.RairriWalaManagment.SellerNewOrderList;
+import com.example.altaf.rairiwala.RairriWalaManagment.SellerOrderItemsAdapter;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -73,6 +77,20 @@ public class OrderDetail extends AppCompatActivity {
             order = gson.fromJson(jsonString, listOfproductType);
             if (order.getOrder_status().equals("Confirmed")) {
                 confirm.setVisibility(View.GONE);
+            } else if (order.getOrder_status().equals("ASSIGNED")) {
+
+                FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+                confirm.setVisibility(View.GONE);
+                fab.setVisibility(View.VISIBLE);
+                fab.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(OrderDetail.this, OrderDetailGoogleMap.class);
+                        intent.putExtra("order", jsonString);
+                        startActivity(intent);
+                    }
+                });
+
             }
             if (order.getProductArrayList() == null) {
                 loadOrderItems(order.getVendor_id(), order.getOrder_id());
@@ -80,9 +98,23 @@ public class OrderDetail extends AppCompatActivity {
             confirm.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Gson gson = new Gson();
-                    String orderItems = gson.toJson(productList);
-                    confirmOrder(order.getOrder_id(), SharedPrefManager.getInstance(OrderDetail.this).getSeller().getVendor_id(), orderItems, order.getCustomer_id());
+                    //DIALOGUE
+                    AlertDialog.Builder builder = new AlertDialog.Builder(OrderDetail.this);
+                    builder.setTitle("Confirm");  // GPS not found
+                    builder.setMessage("Want to want Order?"); // Want to enable?
+                    builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            Gson gson = new Gson();
+                            String orderItems = gson.toJson(productList);
+                            confirmOrder(order.getOrder_id(), SharedPrefManager.getInstance(OrderDetail.this).getSeller().getVendor_id(), orderItems, order.getCustomer_id());
+
+                        }
+                    });
+                    builder.setNegativeButton("No", null);
+                    builder.create().show();
+
+                    //   END OF DIALOGUE
+
 
                 }
             });
