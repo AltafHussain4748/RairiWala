@@ -110,6 +110,8 @@ public class CustomerHomePage extends AppCompatActivity {
             return true;
         } else if (id == R.id.customer_orders) {
             startActivity(new Intent(CustomerHomePage.this, CustomerOrderList.class));
+        } else if (id == R.id.rate) {
+           // startActivity(new Intent(CustomerHomePage.this, ReviewRating.class));
         }
 
         return super.onOptionsItemSelected(item);

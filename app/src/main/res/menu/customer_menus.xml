@@ -11,5 +11,9 @@
         android:orderInCategory="100"
         android:title="Orders"
         app:showAsAction="never" />
-
+    <item
+        android:id="@+id/rate"
+        android:orderInCategory="100"
+        android:title="Rate"
+        app:showAsAction="never" />
 </menu>
