@@ -30,6 +30,7 @@ import com.example.altaf.rairiwala.Models.CustomerAddress;
 import com.example.altaf.rairiwala.Models.Order;
 import com.example.altaf.rairiwala.Models.Product;
 import com.example.altaf.rairiwala.R;
+import com.example.altaf.rairiwala.RairriWalaManagment.AddSellerExtraInformation;
 import com.example.altaf.rairiwala.Singelton.Constants;
 import com.example.altaf.rairiwala.Singelton.SharedPrefManager;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -180,9 +181,9 @@ public class PlaceOrder extends AppCompatActivity implements OnMapReadyCallback 
 
             @Override
             public void onMarkerDragEnd(Marker marker) {
-                // Toast.makeText(AddSellerExtraInformation.this, "Latitude:" + marker.getPosition().latitude + "\n" + "Longitude:" + marker.getPosition().longitude, Toast.LENGTH_SHORT).show();
+                Toast.makeText(PlaceOrder.this, "Latitude:" + marker.getPosition().latitude + "\n" + "Longitude:" + marker.getPosition().longitude, Toast.LENGTH_SHORT).show();
                 latitude = marker.getPosition().latitude;
-                longtude = marker.getPosition().latitude;
+                longtude = marker.getPosition().longitude;
             }
         });
         // Add a marker in Sydney and move the camera

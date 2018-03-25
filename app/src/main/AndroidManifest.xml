@@ -110,7 +110,7 @@
             android:label="@string/title_activity_seller_assign_deliver_person"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".OrderDetailGoogleMap"
+            android:name=".DeliverPersonManagement.OrderDetailGoogleMap"
             android:label="@string/title_activity_order_detail_google_map"></activity>
     </application>
 

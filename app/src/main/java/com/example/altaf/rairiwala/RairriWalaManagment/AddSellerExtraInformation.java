@@ -13,6 +13,9 @@ import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -46,11 +49,12 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-public class AddSellerExtraInformation extends FragmentActivity implements OnMapReadyCallback {
+public class AddSellerExtraInformation extends AppCompatActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
     LocationManager locationManager;
-    LatLng latLng;
+    double latitude = 0.0;
+    double longitude = 0.0;
     private FusedLocationProviderClient mFusedLocationClient;
     Button addLocation;
     EditText shopname;
@@ -66,6 +70,13 @@ public class AddSellerExtraInformation extends FragmentActivity implements OnMap
         mapFragment.getMapAsync(this);
         addLocation = findViewById(R.id.add_extra_information);
         shopname = findViewById(R.id.shop_name);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+        getSupportActionBar().setTitle("Add Location");
 
     }
 
@@ -83,11 +94,32 @@ public class AddSellerExtraInformation extends FragmentActivity implements OnMap
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+        //marker drag listener
+        mMap.setOnMarkerDragListener(new GoogleMap.OnMarkerDragListener() {
+            @Override
+            public void onMarkerDragStart(Marker marker) {
+
+            }
+
+            @Override
+            public void onMarkerDrag(Marker marker) {
+
+            }
+
+            @Override
+            public void onMarkerDragEnd(Marker marker) {
+                latitude = marker.getPosition().latitude;
+                longitude = marker.getPosition().longitude;
+                Toast.makeText(AddSellerExtraInformation.this, "Latitude:" + marker.getPosition().latitude + "\n" + "Longitude:" + marker.getPosition().longitude, Toast.LENGTH_SHORT).show();
+
+            }
+        });
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         vendor = SharedPrefManager.getInstance(this).getSeller();
         if (vendor.getLatitude() != 0.0 && vendor.getLongitude() != 0.0) {
-            latLng = new LatLng(vendor.getLatitude(), vendor.getLongitude());
-            LatLng userCurrentLocation = new LatLng(vendor.getLatitude(), vendor.getLongitude());
+            latitude = vendor.getLatitude();
+            longitude = vendor.getLongitude();
+            LatLng userCurrentLocation = new LatLng(latitude, longitude);
             mMap.addMarker(new MarkerOptions().position(userCurrentLocation).title("My Location").draggable(true));
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userCurrentLocation, 17));
         } else {
@@ -126,7 +158,8 @@ public class AddSellerExtraInformation extends FragmentActivity implements OnMap
                                         LatLng userCurrentLocation = new LatLng(location.getLatitude(), location.getLongitude());
                                         mMap.addMarker(new MarkerOptions().position(userCurrentLocation).title("My Location").draggable(true));
                                         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userCurrentLocation, 17));
-                                        latLng = new LatLng(location.getLatitude(), location.getLongitude());
+                                        latitude = location.getLatitude();
+                                        longitude = location.getLongitude();
 
                                     }
                                 }
@@ -136,24 +169,7 @@ public class AddSellerExtraInformation extends FragmentActivity implements OnMap
                 //end of getting user current location
 
                 // Add a marker in Sydney and move the camera
-//marker drag listener
-                mMap.setOnMarkerDragListener(new GoogleMap.OnMarkerDragListener() {
-                    @Override
-                    public void onMarkerDragStart(Marker marker) {
 
-                    }
-
-                    @Override
-                    public void onMarkerDrag(Marker marker) {
-
-                    }
-
-                    @Override
-                    public void onMarkerDragEnd(Marker marker) {
-                        // Toast.makeText(AddSellerExtraInformation.this, "Latitude:" + marker.getPosition().latitude + "\n" + "Longitude:" + marker.getPosition().longitude, Toast.LENGTH_SHORT).show();
-                        latLng = new LatLng(marker.getPosition().latitude, marker.getPosition().longitude);
-                    }
-                });
             }
             //check wether the gps is on or not
 
@@ -161,8 +177,9 @@ public class AddSellerExtraInformation extends FragmentActivity implements OnMap
         addLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (latLng != null) {
-                    addLocations(vendor.getPerson_id(), latLng);
+                if (latitude != 0.0 && longitude != 0.0) {
+
+                    addLocations(vendor.getPerson_id(), latitude, longitude);
                 }
 
             }
@@ -189,7 +206,8 @@ public class AddSellerExtraInformation extends FragmentActivity implements OnMap
                                     LatLng userCurrentLocation = new LatLng(location.getLatitude(), location.getLongitude());
                                     mMap.addMarker(new MarkerOptions().position(userCurrentLocation).title("My Location").draggable(true));
                                     mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userCurrentLocation, 18));
-                                    latLng = new LatLng(location.getLatitude(), location.getLongitude());
+                                    latitude = location.getLatitude();
+                                    longitude = location.getLongitude();
                                 }
                             }
                         });
@@ -200,8 +218,8 @@ public class AddSellerExtraInformation extends FragmentActivity implements OnMap
 
     }
 
-    public void addLocations(final int person_id, final LatLng lat) {
-        if (lat != null) {
+    public void addLocations(final int person_id, final double lat, final double longitude) {
+        if (latitude != 0.0 && longitude != 0.0) {
             //Toast.makeText(AddSellerExtraInformation.this, "" + shopname.getText() + lat.latitude + "  \n" + lat.longitude, Toast.LENGTH_SHORT).show();
             //Volley request code
             //Request Code
@@ -216,8 +234,8 @@ public class AddSellerExtraInformation extends FragmentActivity implements OnMap
 
                                 if (obj.getBoolean("error") == false) {
 
-                                    vendor.setLatitude(latLng.latitude);
-                                    vendor.setLongitude(latLng.longitude);
+                                    vendor.setLatitude(latitude);
+                                    vendor.setLongitude(longitude);
                                     vendor.setShop_name(shopname.getText().toString());
                                     vendor.setVendor_id(obj.getInt("vendorid"));
                                     vendor.setShop_status(obj.getString("shop_status"));
@@ -262,8 +280,8 @@ public class AddSellerExtraInformation extends FragmentActivity implements OnMap
                 protected Map<String, String> getParams() throws AuthFailureError {
                     Map<String, String> params = new HashMap<>();
                     params.put("shopname", shopname.getText().toString());
-                    params.put("latitude", String.valueOf(lat.latitude));
-                    params.put("longitude", String.valueOf(lat.longitude));
+                    params.put("latitude", String.valueOf(latitude));
+                    params.put("longitude", String.valueOf(longitude));
                     params.put("personid", String.valueOf(person_id));
                     return params;
                 }
@@ -274,5 +292,16 @@ public class AddSellerExtraInformation extends FragmentActivity implements OnMap
         } else {
             Toast.makeText(this, "Location not added", Toast.LENGTH_SHORT).show();
         }
+
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int d = item.getItemId();
+        if (d == android.R.id.home) {
+            this.finish();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 }
