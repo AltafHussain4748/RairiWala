@@ -27,7 +27,6 @@ import com.example.altaf.rairiwala.R;
 import com.example.altaf.rairiwala.RairriWalaManagment.CategoryListView;
 import com.example.altaf.rairiwala.Singelton.Constants;
 import com.example.altaf.rairiwala.Singelton.SharedPrefManager;
-import com.example.altaf.rairiwala.SqliteDatabase.DbHandler;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
 

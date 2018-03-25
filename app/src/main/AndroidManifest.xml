@@ -111,7 +111,7 @@
             android:theme="@style/AppTheme" />
         <activity
             android:name=".DeliverPersonManagement.OrderDetailGoogleMap"
-            android:label="@string/title_activity_order_detail_google_map"></activity>
+            android:label="@string/title_activity_order_detail_google_map" />
     </application>
 
 </manifest>

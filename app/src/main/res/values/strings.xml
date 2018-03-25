@@ -30,4 +30,8 @@
     <string name="title_activity_assign_delivery_person">AssignDeliveryPerson</string>
     <string name="title_activity_seller_assign_deliver_person">SellerAssignDeliverPerson</string>
     <string name="title_activity_order_detail_google_map">Map</string>
+    <string name="title_activity_review_">Review_Activity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
 </resources>
