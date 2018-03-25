@@ -1,6 +1,7 @@
 package com.example.altaf.rairiwala.RairriWalaManagment;
 
 import android.app.Fragment;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -8,7 +9,9 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
@@ -28,6 +31,7 @@ import com.example.altaf.rairiwala.Models.Vendor;
 import com.example.altaf.rairiwala.R;
 import com.example.altaf.rairiwala.Singelton.Constants;
 import com.example.altaf.rairiwala.Singelton.SharedPrefManager;
+import com.gitonway.lee.niftymodaldialogeffects.lib.NiftyDialogBuilder;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -37,6 +41,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static com.gitonway.lee.niftymodaldialogeffects.lib.Effectstype.RotateBottom;
 
 /**
  * Created by AltafHussain on 3/5/2018.
@@ -69,6 +75,98 @@ public class DeliveryPersonManagment extends Fragment {
         });
 // get the reference of Button
         loadDeliverPersons(SharedPrefManager.getInstance(getActivity()).getSeller().getVendor_id());
+        //long press listener
+        //recyclerView Item click listener
+        //inner class
+        class RecyclerTouchListener implements RecyclerView.OnItemTouchListener {
+
+            private SellerAssignDeliverPerson.ClickListener clicklistener;
+            private GestureDetector gestureDetector;
+
+            public RecyclerTouchListener(DeliveryPersonManagment context, final RecyclerView recycleView, final SellerAssignDeliverPerson.ClickListener clicklistener) {
+
+                this.clicklistener = clicklistener;
+                gestureDetector = new GestureDetector(getActivity(), new GestureDetector.SimpleOnGestureListener() {
+                    @Override
+                    public boolean onSingleTapUp(MotionEvent e) {
+                        return true;
+                    }
+
+                    @Override
+                    public void onLongPress(MotionEvent e) {
+                        View child = recycleView.findChildViewUnder(e.getX(), e.getY());
+                        if (child != null && clicklistener != null) {
+                            clicklistener.onLongClick(child, recycleView.getChildAdapterPosition(child));
+                        }
+                    }
+                });
+            }
+
+            @Override
+            public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
+                View child = rv.findChildViewUnder(e.getX(), e.getY());
+                if (child != null && clicklistener != null && gestureDetector.onTouchEvent(e)) {
+                    clicklistener.onClick(child, rv.getChildAdapterPosition(child));
+                }
+
+                return false;
+            }
+
+            @Override
+            public void onTouchEvent(RecyclerView rv, MotionEvent e) {
+
+            }
+
+            @Override
+            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+
+            }
+        }
+        //end of inner class click listener
+        //start recycler view click listener
+        recyclerView.addOnItemTouchListener(new RecyclerTouchListener(this,
+                recyclerView, new SellerAssignDeliverPerson.ClickListener() {
+            @Override
+            public void onClick(View view, final int position) {
+
+            }
+
+            @Override
+            public void onLongClick(View view, int position) {
+                final DeliveryPerson deliveryPerson = deliveryPersonList.get(position);
+                final NiftyDialogBuilder dialogBuilder = NiftyDialogBuilder.getInstance(getActivity());
+                dialogBuilder
+                        .withTitle("Delete Dp")                                  //.withTitle(null)  no title
+                        .withTitleColor("#FFFFFF")                                  //def
+                        .withDividerColor("#11000000")                              //def
+                        .withMessage("Delete Deilvery Person?")                     //.withMessage(null)  no Msg
+                        .withMessageColor("#FFFFFFFF")                              //def  | withMessageColor(int resid)
+                        .withDialogColor("#FFE74C3C")                               //def  | withDialogColor(int resid)
+                        .withIcon(getResources().getDrawable(R.drawable.user))
+                        .withDuration(700)                                          //def
+                        .withEffect(RotateBottom)                                         //def Effectstype.Slidetop
+                        .withButton1Text("No")                                      //def gone
+                        .withButton2Text("yes")                                  //def gone
+                        .isCancelableOnTouchOutside(true)                           //def    | isCancelable(true)
+                        //.setCustomView(View or ResId,context)
+                        .setButton1Click(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                dialogBuilder.dismiss();
+                            }
+                        })
+                        .setButton2Click(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Toast.makeText(getActivity(), "" + deliveryPerson.getDelivery_person_id(), Toast.LENGTH_SHORT).show();
+                                dialogBuilder.dismiss();
+                            }
+                        })
+                        .show();
+            }
+        }));
+        //end of recycler view item click listener
+        //end of recycler view item click listener
         return view;
     }
 
@@ -138,5 +236,13 @@ public class DeliveryPersonManagment extends Fragment {
         }
 
     }
+
+    //Interface
+    public static interface ClickListener {
+        public void onClick(View view, int position);
+
+        public void onLongClick(View view, int position);
+    }
+
 }
 
