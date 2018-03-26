@@ -23,6 +23,7 @@ import com.example.altaf.rairiwala.AccountManagment.CheckInterNet;
 import com.example.altaf.rairiwala.AccountManagment.ConnectToInternet;
 import com.example.altaf.rairiwala.AccountManagment.UserLogin;
 import com.example.altaf.rairiwala.Models.Category;
+import com.example.altaf.rairiwala.PerformanceMonitering.Rating_Stars_Activity;
 import com.example.altaf.rairiwala.R;
 import com.example.altaf.rairiwala.RairriWalaManagment.CategoryListView;
 import com.example.altaf.rairiwala.Singelton.Constants;
@@ -111,7 +112,7 @@ public class CustomerHomePage extends AppCompatActivity {
         } else if (id == R.id.customer_orders) {
             startActivity(new Intent(CustomerHomePage.this, CustomerOrderList.class));
         } else if (id == R.id.rate) {
-           // startActivity(new Intent(CustomerHomePage.this, ReviewRating.class));
+            startActivity(new Intent(CustomerHomePage.this, Rating_Stars_Activity.class));
         }
 
         return super.onOptionsItemSelected(item);

@@ -111,7 +111,11 @@
             android:theme="@style/AppTheme" />
         <activity
             android:name=".DeliverPersonManagement.OrderDetailGoogleMap"
-            android:label="@string/title_activity_order_detail_google_map"></activity>
+            android:label="@string/title_activity_order_detail_google_map" />
+        <activity
+            android:name=".PerformanceMonitering.Rating_Stars_Activity"
+            android:label="@string/title_activity_rating__stars_"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>
