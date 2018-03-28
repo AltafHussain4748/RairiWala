@@ -67,16 +67,52 @@ public class SharedPrefManagerFirebase  {
         String tokens = sharedPreferences.getString(DeviceTokenUp, "no");
         return tokens;
     }
-    public boolean saveActivityState(boolean s){
+    public boolean saveStateActivityNewOrderListSeller(boolean s){
         SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAMES, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean(ISACTIVITYALIVE, s);
         editor.apply();
         return  true;
     }
-    public boolean getStateActivity(){
+    public boolean getStateActivityNewOrderListSeller(){
         SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAMES, Context.MODE_PRIVATE);
         boolean isAlive = sharedPreferences.getBoolean(ISACTIVITYALIVE, false);
+        return isAlive;
+    }
+    public boolean saveActivityStateSellerHomePage(boolean s){
+        SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAMES, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("SellerHomePage", s);
+        editor.apply();
+        return  true;
+    }
+    public boolean getActivityStateSellerHomePage(){
+        SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAMES, Context.MODE_PRIVATE);
+        boolean isAlive = sharedPreferences.getBoolean("SellerHomePage", false);
+        return isAlive;
+    }
+    public boolean saveActivityStateDeliveryPersonHomePage(boolean s){
+        SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAMES, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("saveActivityStateDeliveryPersonHomePage", s);
+        editor.apply();
+        return  true;
+    }
+    public boolean getActivityStateDeliveryPersonHomePage(){
+        SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAMES, Context.MODE_PRIVATE);
+        boolean isAlive = sharedPreferences.getBoolean("saveActivityStateDeliveryPersonHomePage", false);
+        return isAlive;
+    }
+    public boolean saveActivityStateCustomerHomePage(boolean s){
+        SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAMES, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("saveActivityStateCustomerPersonHomePage", s);
+        editor.apply();
+        return  true;
+    }
+    public boolean getActivityStateCustomerHomePage(){
+        SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAMES, Context.MODE_PRIVATE);
+        boolean isAlive = sharedPreferences.getBoolean("saveActivityStateCustomerPersonHomePage", false);
         return isAlive;
     }
 }

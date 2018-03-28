@@ -21,31 +21,13 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <ProgressBar
-        android:id="@+id/progressBar"
+
+
+    <FrameLayout
+        android:id="@+id/frameLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/main"
-        android:layout_centerHorizontal="true"
-        android:background="@color/white" />
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/assign_order_list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/progressBar" />
-
-    <TextView
-        android:id="@+id/error_message"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:textAlignment="center"
-        android:textColor="@color/red"
-        android:textSize="25dp"
-        android:visibility="gone" />
-
+        android:layout_below="@id/main" />
 
 
 </RelativeLayout>

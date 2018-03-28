@@ -16,4 +16,13 @@
         android:orderInCategory="100"
         android:title="Rate"
         app:showAsAction="never" />
+
+    <item
+        android:id="@+id/actionNotifications"
+        android:icon="@drawable/notification"
+        android:menuCategory="secondary"
+        android:orderInCategory="1"
+        android:title="Cart"
+        app:actionLayout="@layout/notification_layoutcustomer"
+        app:showAsAction="always" />
 </menu>

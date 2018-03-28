@@ -78,6 +78,8 @@ public class SellerNewOrderList extends AppCompatActivity {
         message = findViewById(R.id.error_message);
         progressBar = findViewById(R.id.progressBar);
         fillOrders(SharedPrefManager.getInstance(this).getSeller().getVendor_id());
+        LocalBroadcastManager.getInstance(this).registerReceiver(
+                mMessageReceiver, new IntentFilter("speedExceeded"));
 
     }
 
@@ -154,65 +156,60 @@ public class SellerNewOrderList extends AppCompatActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
-            try {
-                String ordersString = intent.getStringExtra("currentSpeed");
-                JSONObject orderObject = new JSONObject(ordersString);
-                CustomerAddress customerAddress;
-                Gson gson = new Gson();
-                Type listOfproductType = new TypeToken<CustomerAddress>() {
-                }.getType();
-                customerAddress = gson.fromJson(orderObject.getString("customerAddress"), listOfproductType);
-                Order newOrder = new Order();
-                newOrder.setCustomerAddress(customerAddress);
-                newOrder.setVendor_id(orderObject.getInt("vendor_id"));
-                newOrder.setCustomer_id(orderObject.getInt("customer_id"));
-                newOrder.setOrder_status(orderObject.getString("order_status"));
-                newOrder.setOrder_time(orderObject.getString("order_time"));
-                newOrder.setOrder_id(orderObject.getInt("order_id"));
-                if (ordersList.size() == 0) {
-                    ordersList.add(newOrder);
-                    newOrderAdapter = new NewOrderAdapter(SellerNewOrderList.this, ordersList);
-                    recyclerView.setAdapter(newOrderAdapter);
-                    message.setVisibility(View.GONE);
+            if (action != null) {
+                try {
+                    String ordersString = intent.getStringExtra("currentSpeed");
+                    JSONObject orderObject = new JSONObject(ordersString);
+                    CustomerAddress customerAddress;
+                    Gson gson = new Gson();
+                    Type listOfproductType = new TypeToken<CustomerAddress>() {
+                    }.getType();
+                    customerAddress = gson.fromJson(orderObject.getString("customerAddress"), listOfproductType);
+                    Order newOrder = new Order();
+                    newOrder.setCustomerAddress(customerAddress);
+                    newOrder.setVendor_id(orderObject.getInt("vendor_id"));
+                    newOrder.setCustomer_id(orderObject.getInt("customer_id"));
+                    newOrder.setOrder_status(orderObject.getString("order_status"));
+                    newOrder.setOrder_time(orderObject.getString("order_time"));
+                    newOrder.setOrder_id(orderObject.getInt("order_id"));
+                    if (ordersList.size() == 0) {
+                        ordersList.add(newOrder);
+                        newOrderAdapter = new NewOrderAdapter(SellerNewOrderList.this, ordersList);
+                        recyclerView.setAdapter(newOrderAdapter);
+                        message.setVisibility(View.GONE);
 
-                    synchronized (ordersList) {
-                        newOrderAdapter.notify();
+                        synchronized (ordersList) {
+                            newOrderAdapter.notify();
+                        }
+                    } else {
+                        ordersList.add(0, newOrder);
+                        newOrderAdapter.notifyItemInserted(0);
+                        recyclerView.scrollToPosition(0);
                     }
-                } else {
-                    ordersList.add(0, newOrder);
-                    newOrderAdapter.notifyItemInserted(0);
-                    recyclerView.scrollToPosition(0);
-                }
 
-            } catch (Exception e) {
+                } catch (Exception e) {
                /* Toast.makeText(context, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
                 message.setVisibility(View.VISIBLE);
                 message.setText(e.getMessage() + "error");*/
-            }
+                }
 
+            }
 
             //  ... react to local broadcast message
         }
     };
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        LocalBroadcastManager.getInstance(this).registerReceiver(
-                mMessageReceiver, new IntentFilter("speedExceeded"));
-
-    }
 
     @Override
     protected void onStart() {
         super.onStart();
-        SharedPrefManagerFirebase.getInstance(this).saveActivityState(true);
+        SharedPrefManagerFirebase.getInstance(this).saveStateActivityNewOrderListSeller(true);
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        SharedPrefManagerFirebase.getInstance(this).saveActivityState(false);
+        SharedPrefManagerFirebase.getInstance(this).saveStateActivityNewOrderListSeller(false);
     }
 
     @Override

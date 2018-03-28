@@ -1,8 +1,14 @@
 package com.example.altaf.rairiwala.CustomerManagment;
 
+import android.app.Fragment;
+import android.app.FragmentManager;
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -22,12 +28,18 @@ import com.android.volley.toolbox.Volley;
 import com.example.altaf.rairiwala.AccountManagment.CheckInterNet;
 import com.example.altaf.rairiwala.AccountManagment.ConnectToInternet;
 import com.example.altaf.rairiwala.AccountManagment.UserLogin;
+import com.example.altaf.rairiwala.DeliverPersonManagement.DeliveryPersonAssignedOrders;
+import com.example.altaf.rairiwala.DeliverPersonManagement.DeliveryPersonHomePage;
 import com.example.altaf.rairiwala.Models.Category;
+import com.example.altaf.rairiwala.Models.Notifications;
 import com.example.altaf.rairiwala.PerformanceMonitering.Rating_Stars_Activity;
 import com.example.altaf.rairiwala.R;
 import com.example.altaf.rairiwala.RairriWalaManagment.CategoryListView;
 import com.example.altaf.rairiwala.Singelton.Constants;
+import com.example.altaf.rairiwala.Singelton.NotificationFragment;
 import com.example.altaf.rairiwala.Singelton.SharedPrefManager;
+import com.example.altaf.rairiwala.Singelton.SharedPrefManagerFirebase;
+import com.example.altaf.rairiwala.SqliteDatabase.DatabaseHandling;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
 
@@ -40,9 +52,13 @@ import java.util.List;
 
 public class CustomerHomePage extends AppCompatActivity {
     List<Category> category_List;
+    List<Category> sqliteDb;
     ProgressDialog progressDialog;
     GridView androidListView;
     TextView message;
+    TextView txtViewCount;
+    DatabaseHandling databaseHandling;
+    List<Notifications> notificationsList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,31 +70,22 @@ public class CustomerHomePage extends AppCompatActivity {
             startActivity(new Intent(CustomerHomePage.this, ConnectToInternet.class));
             this.finish();
         }
+        txtViewCount = findViewById(R.id.customer_notifictaion_count);
         // get the reference of Button
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-        message = findViewById(R.id.error_message);
-        androidListView = findViewById(R.id.grid_view_image_text);
-        // androidGridView.setAdapter(adapterViewAndroid);
-        androidListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view,
-                                    int i, long id) {
-                Category category = category_List.get(i);
-                Intent intent = new Intent(CustomerHomePage.this, NearestVendor.class);
-                intent.putExtra("CAT", category.getCategroy_name());
-                startActivity(intent);
 
-            }
-        });
-        progressDialog = new ProgressDialog(this);
-        category_List = new ArrayList<>();
-        //end of sqlite databse handler
-
-        FirebaseMessaging.getInstance().subscribeToTopic("rairiwala");
-        FirebaseInstanceId.getInstance().getToken();
-        loadCategories();
-
+        /*FirebaseMessaging.getInstance().subscribeToTopic("rairiwala");
+        FirebaseInstanceId.getInstance().getToken();*/
+        Fragment fragment = new CategoryListFragment();
+        FragmentManager fm = getFragmentManager();
+        // create a FragmentTransaction to begin the transaction and replace the Fragment
+        android.app.FragmentTransaction fragmentTransaction = fm.beginTransaction();
+        // replace the FrameLayout with new Fragment
+        fragmentTransaction.replace(R.id.frameLayout, fragment);
+        fragmentTransaction.commit();
+        LocalBroadcastManager.getInstance(this).registerReceiver(
+                mMessageReceiver, new IntentFilter("customerReciever"));
 
     }
 
@@ -93,6 +100,47 @@ public class CustomerHomePage extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.customer_menus, menu);
+        final View notificaitons = menu.findItem(R.id.actionNotifications).getActionView();
+
+        txtViewCount = (TextView) notificaitons.findViewById(R.id.customer_notifictaion_count);
+        final DatabaseHandling databaseHandling = new DatabaseHandling(CustomerHomePage.this);
+        int count = 0;
+        count = SharedPrefManager.getInstance(this).getCustomer().getCustomer_id();
+        if (count != 0) {
+            notificationsList = databaseHandling.getAllNotes(count);
+            txtViewCount.setText(Integer.toString(notificationsList.size()));
+        }
+        if (txtViewCount.getText().equals("0")) {
+            txtViewCount.setVisibility(View.GONE);
+        }
+        txtViewCount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+        notificaitons.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int count = Integer.parseInt(txtViewCount.getText().toString());
+                if (count > 0) {
+                    Bundle bundle = new Bundle();
+                    bundle.putString("rule", "customer");
+                    Fragment fragment = new NotificationFragment();
+                    fragment.setArguments(bundle);
+                    FragmentManager fm = getFragmentManager();
+                    // create a FragmentTransaction to begin the transaction and replace the Fragment
+                    android.app.FragmentTransaction fragmentTransaction = fm.beginTransaction();
+                    // replace the FrameLayout with new Fragment
+                    fragmentTransaction.replace(R.id.frameLayout, fragment);
+                    fragmentTransaction.commit();
+                    txtViewCount.setText("0");
+                    txtViewCount.setVisibility(View.GONE);
+                } else {
+                    Toast.makeText(CustomerHomePage.this, "No New Order", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
         return true;
     }
 
@@ -118,51 +166,35 @@ public class CustomerHomePage extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void loadCategories() {
-        progressDialog.setMessage("Loading Catgoreis...");
-        progressDialog.show();
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, Constants.URL_GETCATEGORIES,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            progressDialog.dismiss();
 
-                            //converting the string to json array object
-                            JSONArray array = new JSONArray(response);
-                            for (int i = 0; i < array.length(); i++) {
+    private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            try {
+                if (intent.getAction() != null) {
+                    int count = Integer.parseInt(txtViewCount.getText().toString());
+                    count = count + 1;
+                    txtViewCount.setText(Integer.toString(count));
+                    txtViewCount.setVisibility(View.VISIBLE);
+                }
 
-                                //getting product object from json array
-                                JSONObject product = array.getJSONObject(i);
-                                Category category = new Category();
-                                //adding the product to product list
-                                category.setCategroy_id(product.getInt("category_id"));
-                                category.setCategroy_name(product.getString("category_name"));
-                                category.setCategroy_image(product.getString("category_image"));
-                                category_List.add(category);
-                            }
-                            //creating adapter object and setting it to recyclerview
-                            CategoryListView adapter = new CategoryListView(CustomerHomePage.this, (ArrayList<Category>) category_List);
-                            androidListView.setAdapter(adapter);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                            message.setVisibility(View.VISIBLE);
-                            Toast.makeText(CustomerHomePage.this, "No Product", Toast.LENGTH_SHORT).show();
-                            message.setText("No Products");
-                        }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        progressDialog.dismiss();
-                        message.setVisibility(View.VISIBLE);
-                        message.setText("Error while loading the categories");
-                        Toast.makeText(CustomerHomePage.this, "Error while loading the products", Toast.LENGTH_SHORT).show();
-                    }
-                });
+            } catch (Exception e) {
+                Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
 
-        //adding our stringrequest to queue
-        Volley.newRequestQueue(this).add(stringRequest);
+
+        }
+    };
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        SharedPrefManagerFirebase.getInstance(this).saveActivityStateCustomerHomePage(true);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        SharedPrefManagerFirebase.getInstance(this).saveActivityStateCustomerHomePage(false);
     }
 }

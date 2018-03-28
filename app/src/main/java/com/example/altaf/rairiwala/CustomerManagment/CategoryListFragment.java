@@ -1,55 +1,72 @@
-package com.example.altaf.rairiwala.RairriWalaManagment;
+package com.example.altaf.rairiwala.CustomerManagment;
 
-import android.app.Fragment;
+
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.GridView;
-import android.widget.Toast;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.altaf.rairiwala.CustomerManagment.CustomerHomePage;
 import com.example.altaf.rairiwala.Models.Category;
+import com.example.altaf.rairiwala.Models.CustomerAddress;
+import com.example.altaf.rairiwala.Models.Notifications;
+import com.example.altaf.rairiwala.Models.Order;
 import com.example.altaf.rairiwala.R;
+import com.example.altaf.rairiwala.RairriWalaManagment.CategoryListView;
 import com.example.altaf.rairiwala.Singelton.Constants;
+import com.example.altaf.rairiwala.Singelton.SharedPrefManager;
 import com.example.altaf.rairiwala.SqliteDatabase.DatabaseHandling;
+
+import android.app.Fragment;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Created by AltafHussain on 3/5/2018.
  */
 
-public class ADDProductCategoryDisplay extends Fragment {
+public class CategoryListFragment
+        extends Fragment {
+    View view;
     List<Category> category_List;
+    List<Category> sqliteDb;
     ProgressDialog progressDialog;
     GridView androidListView;
-    List<Category> sqliteDb;
-    View view;
+    TextView message;
+    TextView txtViewCount;
     DatabaseHandling databaseHandling;
-
+    List<Notifications> notificationsList;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 // Inflate the layout for this fragment
-        view = inflater.inflate(R.layout.seller_category_add_product, container, false);
-// get the reference of Button
+        view = inflater.inflate(R.layout.category_list_fragment, container, false);
+        message = view.findViewById(R.id.error_message);
         androidListView = view.findViewById(R.id.grid_view_image_text);
         // androidGridView.setAdapter(adapterViewAndroid);
         androidListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -57,19 +74,19 @@ public class ADDProductCategoryDisplay extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int i, long id) {
-                Category category = category_List.get(i);
-                Intent intent = new Intent(getActivity(), SellerAddProduct.class);
-                intent.putExtra("CategoryId", category.getCategroy_id());
-                intent.putExtra("CATNAME", category.getCategroy_name());
+                Category category = sqliteDb.get(i);
+                Intent intent = new Intent(getActivity(), NearestVendor.class);
+                intent.putExtra("CAT", category.getCategroy_name());
                 startActivity(intent);
+
             }
         });
         progressDialog = new ProgressDialog(getActivity());
         category_List = new ArrayList<>();
         sqliteDb = new ArrayList<>();
-        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         databaseHandling = new DatabaseHandling(getActivity());
         sqliteDb = databaseHandling.getAllCategories();
+        notificationsList = new ArrayList<>();
         if (sqliteDb.size() > 0) {
             Category category = sqliteDb.get(0);
             CategoryListView adapter = new CategoryListView(getActivity(), (ArrayList<Category>) sqliteDb);
@@ -77,15 +94,15 @@ public class ADDProductCategoryDisplay extends Fragment {
         } else {
             loadCategories();
         }
-
-// get the reference of Button
+        //end of sqlite databse handler
         return view;
     }
+
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        getActivity().setTitle("Categories");
+        getActivity().setTitle("Home");
     }
 
     public void loadCategories() {
@@ -97,6 +114,7 @@ public class ADDProductCategoryDisplay extends Fragment {
                     public void onResponse(String response) {
                         try {
                             progressDialog.dismiss();
+
                             //converting the string to json array object
                             JSONArray array = new JSONArray(response);
                             for (int i = 0; i < array.length(); i++) {
@@ -110,8 +128,6 @@ public class ADDProductCategoryDisplay extends Fragment {
                                 category.setCategroy_image(product.getString("category_image"));
                                 category_List.add(category);
                             }
-
-                            //creating adapter object and setting it to recyclerview
                             //creating adapter object and setting it to recyclerview
                             sqliteDb = category_List;
                             for (Category category : category_List) {
@@ -121,7 +137,9 @@ public class ADDProductCategoryDisplay extends Fragment {
                             androidListView.setAdapter(adapter);
                         } catch (JSONException e) {
                             e.printStackTrace();
+                            message.setVisibility(View.VISIBLE);
                             Toast.makeText(getActivity(), "No Product", Toast.LENGTH_SHORT).show();
+                            message.setText("No Products");
                         }
                     }
                 },
@@ -129,6 +147,8 @@ public class ADDProductCategoryDisplay extends Fragment {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         progressDialog.dismiss();
+                        message.setVisibility(View.VISIBLE);
+                        message.setText("Error while loading the categories");
                         Toast.makeText(getActivity(), "Error while loading the products", Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -137,5 +157,5 @@ public class ADDProductCategoryDisplay extends Fragment {
         Volley.newRequestQueue(getActivity()).add(stringRequest);
     }
 
-
 }
+

@@ -7,14 +7,25 @@ import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.LocalBroadcastManager;
 
+import com.example.altaf.rairiwala.CustomerManagment.CustomerOrderList;
 import com.example.altaf.rairiwala.DeliverPersonManagement.DeliveryPersonHomePage;
+import com.example.altaf.rairiwala.Models.CustomerAddress;
+import com.example.altaf.rairiwala.Models.Order;
 import com.example.altaf.rairiwala.R;
+import com.example.altaf.rairiwala.RairriWalaManagment.SellerNewOrderList;
+import com.example.altaf.rairiwala.Singelton.NotificationTags;
 import com.example.altaf.rairiwala.Singelton.OrderDetail;
+import com.example.altaf.rairiwala.Singelton.SharedPrefManager;
 import com.example.altaf.rairiwala.Singelton.SharedPrefManagerFirebase;
+import com.example.altaf.rairiwala.SqliteDatabase.DatabaseHandling;
 import com.google.firebase.messaging.RemoteMessage;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.lang.reflect.Type;
 
 
 /**
@@ -47,7 +58,7 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
                 if (message.getString("type").equals("customer_order_confirmed")) {
                     String orderString = message.getString("message");
                     //  orderObject = new JSONObject(orderString);
-                    Intent i = new Intent(this, OrderDetail.class);
+                    Intent i = new Intent(this, CustomerOrderList.class);
                     i.putExtra("order", orderString);
                     i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, i, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -61,6 +72,16 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
                     NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 
                     manager.notify(0, builder.build());
+                    if (SharedPrefManagerFirebase.getInstance(this).getActivityStateCustomerHomePage()) {
+                        Intent intent = new Intent("customerReciever");
+                        sendCustomerBroadCast(intent);
+                        DatabaseHandling handling = new DatabaseHandling(FirebaseMessagingService.this);
+                        handling.insert(NotificationTags.CONFIRMORDER, "New Order", "Order has been confirmed", message.getInt("reciever_id"));
+                    } else {
+
+                        DatabaseHandling handling = new DatabaseHandling(FirebaseMessagingService.this);
+                        handling.insert(NotificationTags.CONFIRMORDER, "New Order", "Order hass been confirmed ", message.getInt("reciever_id"));
+                    }
                     //    message1 = orderString;
                 } else if (message.getString("type").equals("dp")) {
                     Intent i = new Intent(this, DeliveryPersonHomePage.class);
@@ -76,22 +97,28 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
                     NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 
                     manager.notify(0, builder.build());
-                    if (SharedPrefManagerFirebase.getInstance(this).getStateActivity()) {
+                    if (SharedPrefManagerFirebase.getInstance(this).getActivityStateDeliveryPersonHomePage()) {
                         Intent intent = new Intent("newOrderAssign");
                         sendAssignOrderBroadcast(intent);
+                        DatabaseHandling handling = new DatabaseHandling(FirebaseMessagingService.this);
+                        handling.insert(NotificationTags.ORDERASSIGNED, "Order Assigned", "Order has been assigned", message.getInt("reciever_id"));
+                    } else {
+
+                        DatabaseHandling handling = new DatabaseHandling(FirebaseMessagingService.this);
+                        handling.insert(NotificationTags.ORDERASSIGNED, "Order Assigned", "Order has been assigned", message.getInt("reciever_id"));
                     }
 
 
                 } else if (message.getString("type").equals("ordersent")) {
                     String orderString = message.getString("message");
-                    Intent i = new Intent(this, OrderDetail.class);
-                    i.putExtra("order", orderString);
+                    Intent i = new Intent(this, SellerNewOrderList.class);
+                    //   i.putExtra("order", orderString);
                     i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, i, PendingIntent.FLAG_UPDATE_CURRENT);
                     NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
                             .setAutoCancel(true)
                             .setContentTitle("New Order")
-                            .setContentText(orderString)
+                            .setContentText("New Ordedr has arrived")
                             .setSmallIcon(R.drawable.addproduct)
                             .setContentIntent(pendingIntent).setDefaults(Notification.DEFAULT_SOUND);
 
@@ -99,10 +126,23 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
 
                     manager.notify(0, builder.build());
                     message1 = orderString;
+                    JSONObject orderObject = new JSONObject(orderString);
+                    CustomerAddress customerAddress;
+                    Gson gson = new Gson();
+                    Type listOfproductType = new TypeToken<CustomerAddress>() {
+                    }.getType();
+                    customerAddress = gson.fromJson(orderObject.getString("customerAddress"), listOfproductType);
                     //practicer
-                    if (SharedPrefManagerFirebase.getInstance(this).getStateActivity()) {
+                    if (SharedPrefManagerFirebase.getInstance(this).getActivityStateSellerHomePage() || SharedPrefManagerFirebase.getInstance(this).getStateActivityNewOrderListSeller()) {
                         Intent intent = new Intent("speedExceeded");
+
                         sendLocationBroadcast(intent);
+                        DatabaseHandling handling = new DatabaseHandling(FirebaseMessagingService.this);
+                        handling.insert(NotificationTags.NEWORDER, "New Order", "New Order has arrived from " + customerAddress.getName(), message.getInt("reciever_id"));
+                    } else {
+
+                        DatabaseHandling handling = new DatabaseHandling(FirebaseMessagingService.this);
+                        handling.insert(NotificationTags.NEWORDER, "New Order", "New Order has arrived from " + customerAddress.getName(), message.getInt("reciever_id"));
                     }
 
                 }
@@ -124,6 +164,12 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
 
     private void sendAssignOrderBroadcast(Intent intent) {
         intent.putExtra("newOrderAssigned", "New Order Assigned");
+        LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+
+    }
+
+    private void sendCustomerBroadCast(Intent intent) {
+        intent.putExtra("confirmorder", "Order hass been confirmed");
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
 
     }

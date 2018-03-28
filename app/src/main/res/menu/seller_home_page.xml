@@ -14,4 +14,13 @@
         app:actionLayout="@layout/show_protected_switch"
         app:showAsAction="always" />
 
+    <item
+        android:id="@+id/actionNotifications"
+        android:icon="@drawable/notification"
+        android:menuCategory="secondary"
+        android:orderInCategory="1"
+        android:title="Cart"
+        app:actionLayout="@layout/notification_layoutseller"
+        app:showAsAction="always" />
+
 </menu>

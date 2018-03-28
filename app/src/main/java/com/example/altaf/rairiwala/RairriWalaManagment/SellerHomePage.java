@@ -2,10 +2,14 @@ package com.example.altaf.rairiwala.RairriWalaManagment;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.MenuItemCompat;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -30,23 +34,30 @@ import com.android.volley.toolbox.StringRequest;
 import com.example.altaf.rairiwala.AccountManagment.CheckInterNet;
 import com.example.altaf.rairiwala.AccountManagment.ConnectToInternet;
 import com.example.altaf.rairiwala.AccountManagment.UserLogin;
+import com.example.altaf.rairiwala.DeliverPersonManagement.DeliveryPersonHomePage;
+import com.example.altaf.rairiwala.Models.Notifications;
 import com.example.altaf.rairiwala.Models.Vendor;
 import com.example.altaf.rairiwala.R;
 import com.example.altaf.rairiwala.Singelton.Constants;
+import com.example.altaf.rairiwala.Singelton.NotificationFragment;
 import com.example.altaf.rairiwala.Singelton.RequestHandler;
 import com.example.altaf.rairiwala.Singelton.SaveToken;
 import com.example.altaf.rairiwala.Singelton.SharedPrefManager;
 import com.example.altaf.rairiwala.Singelton.SharedPrefManagerFirebase;
+import com.example.altaf.rairiwala.SqliteDatabase.DatabaseHandling;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class SellerHomePage extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-
+    TextView txtViewCount;
+    List<Notifications> notificationsList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,8 +66,8 @@ public class SellerHomePage extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         //  getSupportActionBar().setTitle("Home");
-
-
+        txtViewCount = findViewById(R.id.notificationcount);
+        notificationsList = new ArrayList<>();
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -72,6 +83,9 @@ public class SellerHomePage extends AppCompatActivity
 // replace the FrameLayout with new Fragment v
         fragmentTransaction.replace(R.id.frameLayout, new FragmentAccountDetail());
         fragmentTransaction.commit(); // save the changes
+        //broadcast reciever
+        LocalBroadcastManager.getInstance(this).registerReceiver(
+                mMessageReceiver, new IntentFilter("speedExceeded"));
     }
 
     @Override
@@ -91,6 +105,55 @@ public class SellerHomePage extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.seller_home_page, menu);
+        final View notificaitons = menu.findItem(R.id.actionNotifications).getActionView();
+        txtViewCount = (TextView) notificaitons.findViewById(R.id.notificationcount);
+        final DatabaseHandling databaseHandling = new DatabaseHandling(SellerHomePage.this);
+        int count = 0;
+        count = SharedPrefManager.getInstance(this).getSeller().getVendor_id();
+        if (count != 0) {
+            notificationsList = databaseHandling.getAllNotes(count);
+            txtViewCount.setText(Integer.toString(notificationsList.size()));
+        }
+
+
+        if (txtViewCount.getText().equals("0")) {
+            txtViewCount.setVisibility(View.GONE);
+        }
+        txtViewCount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+        notificaitons.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (Integer.parseInt(txtViewCount.getText().toString()) > 0) {
+                   /* startActivity(new Intent(SellerHomePage.this, SellerNewOrderList.class));
+                    txtViewCount.setText("0");
+                    txtViewCount.setVisibility(View.GONE);*/
+                   /*notificationsList=notificationsList = databaseHandling.getAllNotes();
+                   Notifications notificationss=notificationsList.get(0);
+                    Toast.makeText(SellerHomePage.this, notificationss.getTag(), Toast.LENGTH_SHORT).show();*/
+                    Bundle bundle = new Bundle();
+                    bundle.putString("rule", "vendor");
+                    Fragment fragment = new NotificationFragment();
+                    FragmentManager fm = getFragmentManager();
+                    fragment.setArguments(bundle);
+                    // create a FragmentTransaction to begin the transaction and replace the Fragment
+                    android.app.FragmentTransaction fragmentTransaction = fm.beginTransaction();
+                    // replace the FrameLayout with new Fragment
+                    fragmentTransaction.replace(R.id.frameLayout, fragment);
+                    fragmentTransaction.commit();
+
+                } else {
+                    Toast.makeText(SellerHomePage.this, "No new Order", Toast.LENGTH_SHORT).show();
+                }
+                //    TODO
+
+            }
+        });
+//end of notification management
         MenuItem swithcItem = menu.findItem(R.id.show_status);
         swithcItem.setActionView(R.layout.show_protected_switch);
         final Switch sw = menu.findItem(R.id.show_status).getActionView().findViewById(R.id.shop_status);
@@ -279,4 +342,39 @@ public class SellerHomePage extends AppCompatActivity
             }
         }
     }
+
+    private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            try {
+
+                if (intent.getAction() != null) {
+                    int count = Integer.parseInt(txtViewCount.getText().toString());
+                    count = count + 1;
+                    txtViewCount.setText(Integer.toString(count));
+                    txtViewCount.setVisibility(View.VISIBLE);
+                }
+
+
+            } catch (Exception e) {
+                Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+
+
+        }
+    };
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        SharedPrefManagerFirebase.getInstance(this).saveActivityStateSellerHomePage(true);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        SharedPrefManagerFirebase.getInstance(this).saveActivityStateSellerHomePage(false);
+    }
+
+
 }
