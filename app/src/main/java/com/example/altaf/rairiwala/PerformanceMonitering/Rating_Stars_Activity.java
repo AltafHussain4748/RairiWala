@@ -16,6 +16,7 @@ import com.example.altaf.rairiwala.PerformanceMonitering.StarRatingFragment;
 import com.example.altaf.rairiwala.R;
 
 public class Rating_Stars_Activity extends AppCompatActivity {
+    int vendor_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,41 +24,64 @@ public class Rating_Stars_Activity extends AppCompatActivity {
         setContentView(R.layout.activity_rating__stars_);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+        getSupportActionBar().setTitle("Rate It");
         BottomNavigationView bottomNavigationView;
         bottomNavigationView = (BottomNavigationView)
                 findViewById(R.id.navigation);
-
+        Bundle bundle = getIntent().getExtras();
+        vendor_id = bundle.getInt("vendor_id");
         bottomNavigationView.setOnNavigationItemSelectedListener
                 (new BottomNavigationView.OnNavigationItemSelectedListener() {
                     @Override
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                         Fragment selectedFragment = null;
+                        Bundle bundle = new Bundle();
                         switch (item.getItemId()) {
                             case R.id.action_item1:
-                                selectedFragment = StarRatingFragment.newInstance();
+                                selectedFragment = new StarRatingFragment();
+
+                                bundle.putString("rule", "TIME");
+                                selectedFragment.setArguments(bundle);
+
                                 break;
                             case R.id.action_item2:
-                                selectedFragment = StarRatingFragment.newInstance();
+                                selectedFragment = new StarRatingFragment();
+                                bundle.putString("rule", "QUANTITY");
+                                selectedFragment.setArguments(bundle);
                                 break;
                             case R.id.action_item3:
-                                selectedFragment = StarRatingFragment.newInstance();
+                                selectedFragment = new StarRatingFragment();
+                                bundle.putString("rule", "PRICE");
+                                selectedFragment.setArguments(bundle);
                                 break;
                         }
                         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                        transaction.replace(R.id.frame_layout, StarRatingFragment.newInstance());
+                        transaction.replace(R.id.frame_layout, selectedFragment);
                         transaction.commit();
                         return true;
                     }
                 });
 
         //Manually displaying the first fragment - one time only
+        Fragment selectedFragment = new StarRatingFragment();
+        bundle.putString("rule", "TIME");
+        selectedFragment.setArguments(bundle);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.frame_layout, StarRatingFragment.newInstance());
+        transaction.replace(R.id.frame_layout, selectedFragment);
         transaction.commit();
 
-        //Used to select an item programmatically
-        //bottomNavigationView.getMenu().getItem(2).setChecked(true);
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int d = item.getItemId();
+        if (d == android.R.id.home) {
+            this.finish();
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }

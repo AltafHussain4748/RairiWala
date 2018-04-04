@@ -1,4 +1,4 @@
-package com.example.altaf.rairiwala.RairriWalaManagment;
+package com.example.altaf.rairiwala.RairriWalaManagment.StockManagment;
 
 import android.app.Fragment;
 import android.app.ProgressDialog;
@@ -18,7 +18,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.altaf.rairiwala.CustomerManagment.CustomerHomePage;
 import com.example.altaf.rairiwala.Models.Category;
 import com.example.altaf.rairiwala.R;
 import com.example.altaf.rairiwala.Singelton.Constants;
@@ -57,7 +56,7 @@ public class ADDProductCategoryDisplay extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int i, long id) {
-                Category category = category_List.get(i);
+                Category category = sqliteDb.get(i);
                 Intent intent = new Intent(getActivity(), SellerAddProduct.class);
                 intent.putExtra("CategoryId", category.getCategroy_id());
                 intent.putExtra("CATNAME", category.getCategroy_name());

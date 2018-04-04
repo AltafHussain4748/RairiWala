@@ -186,7 +186,7 @@ public class NotificationFragment extends Fragment {
                     }
 
                 } catch (Exception e) {
-                    
+
                 }
 
             }

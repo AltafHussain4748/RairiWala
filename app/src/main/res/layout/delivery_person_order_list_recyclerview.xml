@@ -63,20 +63,34 @@
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
                 android:textColor="#000000" />
 
-            <Button
-                android:id="@+id/order_items"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/order_time"
-                android:layout_centerHorizontal="true"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_marginTop="7dp"
-                android:layout_toLeftOf="@id/confirm_order"
-                android:background="@drawable/rounded_widgets"
-                android:text="Details"
-                android:textColor="@color/white"
-                android:visibility="visible" />
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/order_items"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginLeft="75dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="7dp"
+                    android:text="Details"
+                    android:visibility="visible" />
+
+                <Button
+                    android:id="@+id/order_delivery"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="7dp"
+                    android:text="Deliver Order"
+                    android:visibility="visible" />
+            </LinearLayout>
 
         </RelativeLayout>
 

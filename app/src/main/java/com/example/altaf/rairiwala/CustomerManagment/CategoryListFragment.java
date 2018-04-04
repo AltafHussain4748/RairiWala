@@ -6,30 +6,23 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.altaf.rairiwala.Models.Category;
-import com.example.altaf.rairiwala.Models.CustomerAddress;
 import com.example.altaf.rairiwala.Models.Notifications;
-import com.example.altaf.rairiwala.Models.Order;
 import com.example.altaf.rairiwala.R;
-import com.example.altaf.rairiwala.RairriWalaManagment.CategoryListView;
+import com.example.altaf.rairiwala.RairriWalaManagment.StockManagment.CategoryListView;
 import com.example.altaf.rairiwala.Singelton.Constants;
-import com.example.altaf.rairiwala.Singelton.SharedPrefManager;
 import com.example.altaf.rairiwala.SqliteDatabase.DatabaseHandling;
 
 import android.app.Fragment;
@@ -40,10 +33,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * Created by AltafHussain on 3/5/2018.

@@ -1,17 +1,19 @@
-package com.example.altaf.rairiwala.CustomerManagment;
+package com.example.altaf.rairiwala.PerformanceMonitering;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AbsListView;
-import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -19,10 +21,13 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.altaf.rairiwala.Models.FeedBack;
 import com.example.altaf.rairiwala.Models.Product;
 import com.example.altaf.rairiwala.Models.ProductDetails;
 import com.example.altaf.rairiwala.R;
+import com.example.altaf.rairiwala.RairriWalaManagment.StockManagment.StockDetailsAdatpter;
 import com.example.altaf.rairiwala.Singelton.Constants;
+import com.example.altaf.rairiwala.Singelton.SharedPrefManager;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -33,85 +38,63 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ProductList extends AppCompatActivity {
-    List<Product> productList;
-    //the recyclerview
+public class VendorReviewList extends AppCompatActivity {
+    ProgressBar progressBar;
     RecyclerView recyclerView;
-    Button carts;
-    TextView itemcart;
     TextView message;
+    List<FeedBack> feedBackList;
     boolean isScrolling = false;
     int currentItems, totalItems, scrollItems;
     LinearLayoutManager linearLayoutManager;
     int count = 0;
-    ProgressBar progressBar;
+    int vendor_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.customer_product_list);
+        setContentView(R.layout.customer_vendor_review_list);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayShowHomeEnabled(true);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
-        progressBar = findViewById(R.id.progressBar);
-        linearLayoutManager = new LinearLayoutManager(ProductList.this);
         Bundle bundle = getIntent().getExtras();
-        final String type = bundle.getString("Cat");
-        final int vendorid = bundle.getInt("vendorid");
-        carts = findViewById(R.id.add_cart);
-        itemcart = findViewById(R.id.badge_notification_1);
-        recyclerView = findViewById(R.id.product_list_customer);
+        vendor_id = bundle.getInt("vendor_id");
+        recyclerView = findViewById(R.id.review_list);
         recyclerView.setHasFixedSize(true);
+        linearLayoutManager = new LinearLayoutManager(VendorReviewList.this);
         recyclerView.setLayoutManager(linearLayoutManager);
-        productList = new ArrayList<>();
+        feedBackList = new ArrayList<>();
+        progressBar = findViewById(R.id.progressBar);
         message = findViewById(R.id.error_message);
-        loadProducts(vendorid, type);
+        loadReviews(vendor_id);
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
                 if (newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL) {
                     isScrolling = true;
-
                 }
             }
 
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-
                 currentItems = linearLayoutManager.getChildCount();
                 totalItems = linearLayoutManager.getItemCount();
                 scrollItems = linearLayoutManager.findFirstVisibleItemPosition();
-                if (dy > 0) {
-
-                }else{
-                    if (currentItems + scrollItems == totalItems && isScrolling) {
-                        isScrolling = false;
-                        loadProducts(vendorid, type);
-                    }
+                if (currentItems + scrollItems == totalItems && isScrolling) {
+                    isScrolling = false;
+                    loadReviews(vendor_id);
                 }
-
-
-
             }
         });
 
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int d = item.getItemId();
-        if (d == android.R.id.home) {
-            this.finish();
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    private void loadProducts(final int vendor_id, final String type) {
+    private void loadReviews(final int vendor_id) {
+        progressBar.setVisibility(View.VISIBLE);
         /*
         * Creating a String Request
         * The request type is GET defined by first parameter
@@ -119,8 +102,9 @@ public class ProductList extends AppCompatActivity {
         * Then we have a Response Listener and a Error Listener
         * In response listener we will get the JSON response as a String
         * */
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.URL_PRODUCTS_CUSTOMER,
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.GETREVIEWS,
                 new Response.Listener<String>() {
+
                     @Override
                     public void onResponse(String response) {
                         try {
@@ -131,63 +115,52 @@ public class ProductList extends AppCompatActivity {
                             for (int i = 0; i < array.length(); i++) {
 
                                 //getting product object from json array
-                                JSONObject product = array.getJSONObject(i);
-                                Product pro = new Product();
-                                ProductDetails productDetails = new ProductDetails();
-                                productDetails.setPrice(product.getInt("price"));
-                                productDetails.setQuantity(product.getInt("quantity"));
-                                productDetails.setVendor_id(product.getInt("vendor_id"));
-                                pro.setProductDetails(productDetails);
-                                pro.setProduct_name(product.getString("product_name"));
-                                pro.setProduct_image(product.getString("image"));
-                                pro.setProduct_id(product.getInt("productid"));
-                                pro.setProduct_type(product.getString("quantity_type"));
-                                productList.add(pro);
+                                JSONObject fb = array.getJSONObject(i);
+                                FeedBack feedBack = new FeedBack();
+                                feedBack.setPoster_name(fb.getString("customer_name"));
+                                feedBack.setDate(fb.getString("date"));
+                                feedBack.setDescription(fb.getString("des"));
+                                feedBack.setStars(fb.getInt("stars"));
+                                feedBack.setType(fb.getString("type"));
+                                feedBack.setVendor_id(fb.getInt("vendor_id"));
+                                feedBackList.add(feedBack);
 
                             }
 
-                            ProductAdapter adapter = new ProductAdapter(ProductList.this, productList, itemcart, carts);
+                            ReviewListAdapter adapter = new ReviewListAdapter(VendorReviewList.this, feedBackList);
                             recyclerView.setAdapter(adapter);
                             recyclerView.scrollToPosition(count);
                             adapter.notifyDataSetChanged();
 
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            if (productList.size() <= 0) {
-                                message.setText("No Products");
-
-                                message.setVisibility(View.VISIBLE);
-                                Toast.makeText(ProductList.this, "No Products", Toast.LENGTH_SHORT).show();
-                            }
                             progressBar.setVisibility(View.GONE);
+                            message.setText("No Products");
+                            message.setVisibility(View.VISIBLE);
                         }
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        if (productList.size() <= 0) {
-                            message.setText("Error while loading the products");
-                            message.setVisibility(View.VISIBLE);
-                            Toast.makeText(ProductList.this, "Error while loading the products", Toast.LENGTH_SHORT).show();
-                        }
-
+                        message.setText("Error while loading the products");
                         progressBar.setVisibility(View.GONE);
-
+                        message.setVisibility(View.VISIBLE);
                     }
                 }) {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
-                params.put("category", type);
                 params.put("vendor_id", String.valueOf(vendor_id));
-                if (productList.size() == 0) {
-                    count = productList.size();
-                    params.put("start", String.valueOf(productList.size()));
+                if (feedBackList.size() == 0) {
+                    count = feedBackList.size();
+                    params.put("start", String.valueOf(feedBackList.size()));
                 } else {
-                    count = productList.size() - 1;
-                    params.put("start", String.valueOf(productList.size()));
+                    count = feedBackList.size() - 1;
+                    params.put("start", String.valueOf(feedBackList.size()));
                 }
+
+
                 return params;
             }
 
@@ -195,6 +168,28 @@ public class ProductList extends AppCompatActivity {
         ;
 
         //adding our stringrequest to queue
-        Volley.newRequestQueue(this).add(stringRequest);
+        Volley.newRequestQueue(VendorReviewList.this).add(stringRequest);
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.add_review_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int d = item.getItemId();
+        if (d == android.R.id.home) {
+            this.finish();
+        } else if (d == R.id.add_review) {
+            Intent intent = new Intent(VendorReviewList.this, Rating_Stars_Activity.class);
+            intent.putExtra("vendor_id", vendor_id);
+            startActivity(intent);
+
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

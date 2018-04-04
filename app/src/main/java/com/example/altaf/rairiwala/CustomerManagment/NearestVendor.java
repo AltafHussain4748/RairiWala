@@ -171,7 +171,6 @@ public class NearestVendor extends AppCompatActivity {
                                             vendorList.add(v);
                                         }
 
-                                        Toast.makeText(NearestVendor.this, array.length() + "", Toast.LENGTH_SHORT).show();
                                         //creating adapter object and setting it to recyclerview
                                         NearestVendorAdapter adapter = new NearestVendorAdapter(NearestVendor.this, vendorList, type);
                                         recyclerView.setAdapter(adapter);

@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 
 import com.example.altaf.rairiwala.Models.Vendor;
+import com.example.altaf.rairiwala.PerformanceMonitering.VendorReviewList;
 import com.example.altaf.rairiwala.R;
 
 import java.util.List;
@@ -47,14 +48,16 @@ public class NearestVendorAdapter extends RecyclerView.Adapter<NearestVendorAdap
 
         final Vendor v = productList.get(position);
         if (v != null) {
-            holder.name.setText( v.getName());
-            holder.phone.setText( v.getPerson_phone_number());
+            holder.name.setText(v.getName());
+            holder.phone.setText(v.getPerson_phone_number());
             String distance = Double.toString(v.getDistance());
             holder.distance.setText("Distance: " + distance.substring(0, 6) + "KM");
             holder.ratingdetails.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Toast.makeText(mCtx, "Vendor Id" + v.getVendor_id() + type, Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(mCtx, VendorReviewList.class);
+                    intent.putExtra("vendor_id", v.getVendor_id());
+                    mCtx.startActivity(intent);
                 }
             });
             holder.viewproducts.setOnClickListener(new View.OnClickListener() {

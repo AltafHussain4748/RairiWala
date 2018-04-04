@@ -43,7 +43,7 @@ public class FragmentAccountDetail extends Fragment {
             name.setHint("No Name");
             phon.setHint("No Phone Number");
             pin.setHint("No Pin Number");
-            shopname.setHint("No ShopName");
+            shopname.setHint("No ShopName " + vendor.getVendor_id());
             rule.setHint("No rule");
         }
 // get the reference of Button

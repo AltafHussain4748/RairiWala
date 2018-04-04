@@ -27,5 +27,11 @@ public class Constants {
     public  static  final  String CHECK_DELIVERY_PERSON_FREE="https://rairriwala.000webhostapp.com/AssignDeliveryPerson.php";
     public  static  final  String NotifyDeliveryPerson="https://rairriwala.000webhostapp.com/NotifyDeliveryPersonAboutOrder.php";
     public  static  final  String DeliveryPersonOrders="https://rairriwala.000webhostapp.com/GetDeliveryPersonAssignedOrders.php";
+    public  static  final  String AddReview="https://rairriwala.000webhostapp.com/AddReview.php";
+    public  static  final  String GETVENDORSTOCK="https://rairriwala.000webhostapp.com/GetVendorStock.php";
+    public  static  final  String DELIVERORDER="https://rairriwala.000webhostapp.com/OrderDelivered.php";
+    public  static  final  String GETREVIEWS="https://rairriwala.000webhostapp.com/GetVendorFeedback.php";
+    public  static  final String NOTIFYSELLER="https://rairriwala.000webhostapp.com/NotificationForlacofStock.php";
+    public  static  final String DELETEPRODUCT="https://rairriwala.000webhostapp.com/DeleteProduct.php";
 
 }

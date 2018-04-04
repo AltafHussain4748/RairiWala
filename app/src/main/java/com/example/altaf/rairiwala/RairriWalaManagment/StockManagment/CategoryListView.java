@@ -1,4 +1,4 @@
-package com.example.altaf.rairiwala.RairriWalaManagment;
+package com.example.altaf.rairiwala.RairriWalaManagment.StockManagment;
 
 import android.content.Context;
 import android.view.LayoutInflater;

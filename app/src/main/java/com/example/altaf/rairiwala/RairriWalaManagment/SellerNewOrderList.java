@@ -84,7 +84,7 @@ public class SellerNewOrderList extends AppCompatActivity {
     }
 
     public void fillOrders(final int vendor_id) {
-        if (vendor_id >= 0) {
+        if (vendor_id > 0) {
             progressBar.setVisibility(View.VISIBLE);
             StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.SELLER_NEW_ORDERS,
                     new Response.Listener<String>() {

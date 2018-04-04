@@ -1,4 +1,4 @@
-package com.example.altaf.rairiwala.RairriWalaManagment;
+package com.example.altaf.rairiwala.RairriWalaManagment.StockManagment;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
@@ -18,6 +18,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.altaf.rairiwala.Models.Product;
 import com.example.altaf.rairiwala.R;
+import com.example.altaf.rairiwala.RairriWalaManagment.ProductListAdapter;
 import com.example.altaf.rairiwala.Singelton.Constants;
 
 import org.json.JSONArray;

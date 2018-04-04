@@ -55,7 +55,7 @@
             android:name=".RairriWalaManagment.AddSellerExtraInformation"
             android:label="@string/title_activity_add_seller_extra_information" />
         <activity
-            android:name=".RairriWalaManagment.SellerAddProduct"
+            android:name=".RairriWalaManagment.StockManagment.SellerAddProduct"
             android:label="@string/title_activity_seller_add_product"
             android:theme="@style/AppTheme" />
         <activity
@@ -115,7 +115,12 @@
         <activity
             android:name=".PerformanceMonitering.Rating_Stars_Activity"
             android:label="@string/title_activity_rating__stars_"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".PerformanceMonitering.VendorReviewList"
+            android:label="@string/title_activity_vendor_review_list"
+            android:theme="@style/AppTheme" />
+
     </application>
 
 </manifest>

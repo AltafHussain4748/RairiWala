@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">RairiWala</string>
     <string name="enterusername">Enter Name</string>
@@ -35,5 +36,4 @@
     <string name="title_notifications">notification</string>
     <string name="title_activity_rating__stars_">Rating_Stars_Activity</string>
     <string name="bc_CONNECTED">hello</string>
-    <string name="title_activity_vendor_review_list">VendorReviewList</string>
 </resources>

@@ -4,11 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/home"
-    tools:context="com.example.altaf.rairiwala.RairriWalaManagment.StockManagment.SellerAddProduct">
+    tools:context="com.example.altaf.rairiwala.PerformanceMonitering.VendorReviewList">
 
     <android.support.design.widget.AppBarLayout
-        android:id="@+id/ly"
+        android:id="@+id/main"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/AppTheme.AppBarOverlay">
@@ -23,13 +22,31 @@
     </android.support.design.widget.AppBarLayout>
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/product_list"
+        android:id="@+id/review_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/ly"
-        android:layout_margin="5dp"
+        android:layout_below="@id/main"
+        android:layout_weight="4"
         tools:layout_editor_absoluteX="745dp"
         tools:layout_editor_absoluteY="-51dp" />
 
+    <TextView
+        android:id="@+id/error_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:textAlignment="center"
+        android:textColor="@color/red"
+        android:textSize="25dp"
+        android:visibility="gone" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/review_list"
+        android:layout_centerHorizontal="true"
+        android:background="@color/white" />
 
 </RelativeLayout>

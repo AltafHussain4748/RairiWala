@@ -1,12 +1,19 @@
-package com.example.altaf.rairiwala.DeliverPersonManagement;
+package com.example.altaf.rairiwala.RairriWalaManagment.StockManagment;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
+import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,13 +22,11 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.example.altaf.rairiwala.Models.Order;
+import com.bumptech.glide.Glide;
+import com.example.altaf.rairiwala.Models.Product;
 import com.example.altaf.rairiwala.R;
-import com.example.altaf.rairiwala.RairriWalaManagment.SellerAssignDeliverPerson;
 import com.example.altaf.rairiwala.Singelton.Constants;
-import com.example.altaf.rairiwala.Singelton.OrderDetail;
 import com.example.altaf.rairiwala.Singelton.RequestHandler;
-import com.example.altaf.rairiwala.Singelton.SharedPrefManager;
 import com.example.altaf.rairiwala.Singelton.SharedPrefManagerFirebase;
 import com.gitonway.lee.niftymodaldialogeffects.lib.NiftyDialogBuilder;
 import com.google.gson.Gson;
@@ -29,6 +34,7 @@ import com.google.gson.Gson;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -40,54 +46,63 @@ import static com.gitonway.lee.niftymodaldialogeffects.lib.Effectstype.RotateBot
  * Created by AltafHussain on 12/31/2017.
  */
 
-public class AssignedOrderAdapter extends RecyclerView.Adapter<AssignedOrderAdapter.ProductViewHolder> {
+public class StockDetailsAdatpter extends RecyclerView.Adapter<StockDetailsAdatpter.ProductViewHolder> {
     private Context mCtx;
-    private List<Order> orderLists;
-    private Context context = null;
+    private List<Product> productList;
+    int positions = 0;
 
-
-    public AssignedOrderAdapter(Context mCtx, List<Order> orderLists) {
+    public StockDetailsAdatpter(Context mCtx, List<Product> productList) {
         this.mCtx = mCtx;
-        this.orderLists = orderLists;
+        this.productList = productList;
 
     }
 
     @Override
     public ProductViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(mCtx);
-        View view = inflater.inflate(R.layout.delivery_person_order_list_recyclerview, null);
+        View view = inflater.inflate(R.layout.stock_managment_stock_detail_recyclerview, null);
         return new ProductViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(ProductViewHolder holder, final int position) {
-        final Order order = orderLists.get(position);
-        holder.textViewname.setText("  " + order.getCustomerAddress().getName());
-        holder.textViewnumber.setText("  " + order.getCustomerAddress().getHouseName());
-        holder.time.setText("  " + order.getOrder_time());
-        holder.order_items.setOnClickListener(new View.OnClickListener() {
+    public void onBindViewHolder(final ProductViewHolder holder, final int position) {
+        positions = position;
+        final Product product = productList.get(position);
+        Glide.with(mCtx)
+                .load(product.getProduct_image())
+                .placeholder(R.drawable.placeholder)
+                .error(R.drawable.error)
+                .into(holder.productimage);
+
+        holder.textViewname.setText("Name :" + product.getProduct_name());
+        holder.textViewprice.setText("Price :" + product.getProductDetails().getPrice() + "/" + product.getProduct_type());
+        holder.textViewQuantity.setText("Quantity :" + product.getProductDetails().getQuantity());
+        if (product.getProductDetails().getQuantity() <= 10) {
+            holder.textViewQuantity.setTextColor(Color.RED);
+        } else {
+            holder.textViewQuantity.setTextColor(Color.GREEN);
+        }
+
+        holder.edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(mCtx, OrderDetail.class);
-                Gson gson = new Gson();
-                String orderString = gson.toJson(order);
-                intent.putExtra("order", orderString);
-                mCtx.startActivity(intent);
+
 
             }
         });
-        holder.delivery_order.setOnClickListener(new View.OnClickListener() {
+
+        holder.delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 final NiftyDialogBuilder dialogBuilder = NiftyDialogBuilder.getInstance(mCtx);
                 dialogBuilder
-                        .withTitle("Assign Dp")                                  //.withTitle(null)  no title
+                        .withTitle("Delete product")                                  //.withTitle(null)  no title
                         .withTitleColor("#FFFFFF")                                  //def
                         .withDividerColor("#11000000")                              //def
-                        .withMessage("Do you want to deliver order??")                     //.withMessage(null)  no Msg
+                        .withMessage("Do you want to Delete it?")                     //.withMessage(null)  no Msg
                         .withMessageColor("#FFFFFFFF")                              //def  | withMessageColor(int resid)
                         .withDialogColor("#FFE74C3C")                               //def  | withDialogColor(int resid)
-                        .withIcon(mCtx.getResources().getDrawable(R.drawable.user))
+                        .withIcon(mCtx.getResources().getDrawable(R.drawable.delete))
                         .withDuration(700)                                          //def
                         .withEffect(RotateBottom)                                         //def Effectstype.Slidetop
                         .withButton1Text("No")                                      //def gone
@@ -103,42 +118,42 @@ public class AssignedOrderAdapter extends RecyclerView.Adapter<AssignedOrderAdap
                         .setButton2Click(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                deliverOrder(order.getOrder_id(), order.getVendor_id(), order.getCustomer_id(), position);
-
-
+                                deleteProduct(product.getProductDetails().getVendor_id(), product.getProduct_id());
                                 dialogBuilder.dismiss();
                             }
                         })
                         .show();
-
             }
         });
     }
 
     @Override
     public int getItemCount() {
-        return orderLists.size();
+        return productList.size();
     }
 
     class ProductViewHolder extends RecyclerView.ViewHolder {
 
-        TextView textViewname, textViewnumber, time;
-        Button order_items, delivery_order;
+        TextView textViewname, textViewprice, textViewQuantity;
+        ImageView productimage;
+        ImageButton edit, delete;
+
 
         public ProductViewHolder(View itemView) {
             super(itemView);
-            context = (Context) itemView.getContext();
-            textViewname = itemView.findViewById(R.id.sender_name);
-            textViewnumber = itemView.findViewById(R.id.number_of_items);
-            time = itemView.findViewById(R.id.order_time);
-            order_items = itemView.findViewById(R.id.order_items);
-            delivery_order = itemView.findViewById(R.id.order_delivery);
+            productimage = itemView.findViewById(R.id.product_image);
+            textViewname = itemView.findViewById(R.id.product_name);
+            textViewprice = itemView.findViewById(R.id.product_price);
+            textViewQuantity = itemView.findViewById(R.id.product_quantity);
+            edit = itemView.findViewById(R.id.product_edit);
+            delete = itemView.findViewById(R.id.product_delete);
+
         }
     }
 
-    public void deliverOrder(final int order_id, final int vendor_id, final int cutomer_id, final int position) {
+    public void deleteProduct(final int vendor_id, final int product_id) {
         StringRequest stringRequest = new StringRequest(Request.Method.POST,
-                Constants.DELIVERORDER,
+                Constants.DELETEPRODUCT,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -146,10 +161,9 @@ public class AssignedOrderAdapter extends RecyclerView.Adapter<AssignedOrderAdap
                             JSONObject jsonObject = new JSONObject(response);
 
                             if (jsonObject.getBoolean("error") == false) {
-                                Toast.makeText(mCtx, "Order delivered", Toast.LENGTH_SHORT).show();
-                                orderLists.remove(position);
-                                notifyItemRemoved(position);
-                                notifyItemRangeChanged(position, orderLists.size());
+                                Toast.makeText(mCtx, jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
+                                productList.remove(positions);
+                                notifyItemRemoved(positions);
                             } else {
                                 Toast.makeText(mCtx, jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
                             }
@@ -163,7 +177,7 @@ public class AssignedOrderAdapter extends RecyclerView.Adapter<AssignedOrderAdap
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(mCtx, "There was some error.Please try again....", Toast.LENGTH_LONG).show();
+                        //   Toast.makeText(getApplicationContext(), "There was some error.Please try again....", Toast.LENGTH_LONG).show();
 
                     }
                 }) {
@@ -171,13 +185,12 @@ public class AssignedOrderAdapter extends RecyclerView.Adapter<AssignedOrderAdap
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
                 params.put("vendor_id", String.valueOf(vendor_id));
-                params.put("order_id", String.valueOf(order_id));
-                params.put("customer_id", String.valueOf(cutomer_id));
-
+                params.put("product_id", String.valueOf(product_id));
                 return params;
             }
         };
-        RequestHandler.getInstance(context).addToRequestQueue(stringRequest);
+        RequestHandler.getInstance(mCtx).addToRequestQueue(stringRequest);
+
     }
 }
 

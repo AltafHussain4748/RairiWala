@@ -7,10 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.content.LocalBroadcastManager;
-import android.support.v4.view.MenuItemCompat;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -21,7 +18,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.CompoundButton;
-import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,10 +30,11 @@ import com.android.volley.toolbox.StringRequest;
 import com.example.altaf.rairiwala.AccountManagment.CheckInterNet;
 import com.example.altaf.rairiwala.AccountManagment.ConnectToInternet;
 import com.example.altaf.rairiwala.AccountManagment.UserLogin;
-import com.example.altaf.rairiwala.DeliverPersonManagement.DeliveryPersonHomePage;
 import com.example.altaf.rairiwala.Models.Notifications;
 import com.example.altaf.rairiwala.Models.Vendor;
 import com.example.altaf.rairiwala.R;
+import com.example.altaf.rairiwala.RairriWalaManagment.StockManagment.ADDProductCategoryDisplay;
+import com.example.altaf.rairiwala.RairriWalaManagment.StockManagment.StockDetailsFragment;
 import com.example.altaf.rairiwala.Singelton.Constants;
 import com.example.altaf.rairiwala.Singelton.NotificationFragment;
 import com.example.altaf.rairiwala.Singelton.RequestHandler;
@@ -58,6 +55,7 @@ public class SellerHomePage extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     TextView txtViewCount;
     List<Notifications> notificationsList;
+    int vendor_id = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +84,14 @@ public class SellerHomePage extends AppCompatActivity
         //broadcast reciever
         LocalBroadcastManager.getInstance(this).registerReceiver(
                 mMessageReceiver, new IntentFilter("speedExceeded"));
+        if (SharedPrefManager.getInstance(this).getSeller() != null) {
+            vendor_id = SharedPrefManager.getInstance(this).getSeller().getVendor_id();
+            if (vendor_id >= 0) {
+                SaveToken saveToken = new SaveToken(this);
+                saveToken.checkSTock();
+            }
+        }
+
     }
 
     @Override
@@ -286,6 +292,7 @@ public class SellerHomePage extends AppCompatActivity
             this.finish();
         } else {
             Vendor vendor = SharedPrefManager.getInstance(this).getSeller();
+            vendor_id = vendor.getVendor_id();
             // Handle navigation view item clicks here.
             int id = item.getItemId();
             Fragment fragment = null;
@@ -293,7 +300,7 @@ public class SellerHomePage extends AppCompatActivity
                 startActivity(new Intent(SellerHomePage.this, AddSellerExtraInformation.class));
                 // fragment = new AddSellerExtraInformation();
             } else if (id == R.id.add_product) {
-                if (vendor.getVendor_id() <= 0) {
+                if (vendor_id <= 0) {
                     Toast.makeText(this, "Please add location details first", Toast.LENGTH_SHORT).show();
                 } else {
 
@@ -301,18 +308,34 @@ public class SellerHomePage extends AppCompatActivity
                 }
 
             } else if (id == R.id.view_stock) {
-                // fragment = new ViewStock();
+                if (vendor_id <= 0) {
+                    Toast.makeText(this, "Please add location details first", Toast.LENGTH_SHORT).show();
+                } else {
+
+                    fragment = new StockDetailsFragment();
+                }
             } else if (id == R.id.selling_history) {
-                // fragment = new ViewSellingHistory();
+                if (vendor_id <= 0) {
+                    Toast.makeText(this, "Please add location details first", Toast.LENGTH_SHORT).show();
+                } else {
+
+
+                }
             } else if (id == R.id.new_order) {
-                startActivity(new Intent(SellerHomePage.this, SellerNewOrderList.class));
+                if (vendor_id <= 0) {
+                    Toast.makeText(this, "Please add location details first", Toast.LENGTH_SHORT).show();
+                } else {
+
+                    startActivity(new Intent(SellerHomePage.this, SellerNewOrderList.class));
+                }
+
                 //  fragment = new NewOrders();
             } else if (id == R.id.assignedorder) {
                 //  fragment = new AssignedOrders();
             } else if (id == R.id.account_details) {
                 fragment = new FragmentAccountDetail();
             } else if (id == R.id.add_delivery_person) {
-                if (vendor.getVendor_id() <= 0) {
+                if (vendor_id <= 0) {
                     Toast.makeText(this, "Please add location details first", Toast.LENGTH_SHORT).show();
                 } else {
 

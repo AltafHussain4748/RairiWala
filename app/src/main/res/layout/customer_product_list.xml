@@ -27,6 +27,14 @@
         android:layout_below="@id/mainlayout"
         android:orientation="vertical">
 
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/product_list_customer"
+            android:layout_centerHorizontal="true"
+            android:background="@color/white" />
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/product_list_customer"
             android:layout_width="match_parent"
@@ -65,6 +73,8 @@
                 android:textSize="16sp"
                 android:textStyle="bold" />
         </RelativeLayout>
+
+
     </LinearLayout>
 
     <TextView
@@ -77,4 +87,6 @@
         android:textColor="@color/red"
         android:textSize="25dp"
         android:visibility="gone" />
+
+
 </RelativeLayout>

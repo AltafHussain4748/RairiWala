@@ -269,6 +269,7 @@ public class SellerAssignDeliverPerson extends AppCompatActivity {
                             JSONObject jsonObject = new JSONObject(response);
                             if (jsonObject.getBoolean("error") == false) {
                                 Toast.makeText(SellerAssignDeliverPerson.this, "" + jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
+                                startActivity(new Intent(SellerAssignDeliverPerson.this, SellerNewOrderList.class));
                             } else {
 
                                 Toast.makeText(SellerAssignDeliverPerson.this, "" + jsonObject.getString("message"), Toast.LENGTH_SHORT).show();

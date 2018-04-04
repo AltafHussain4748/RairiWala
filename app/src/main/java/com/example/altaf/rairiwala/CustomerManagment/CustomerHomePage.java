@@ -15,39 +15,22 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.example.altaf.rairiwala.AccountManagment.CheckInterNet;
 import com.example.altaf.rairiwala.AccountManagment.ConnectToInternet;
 import com.example.altaf.rairiwala.AccountManagment.UserLogin;
-import com.example.altaf.rairiwala.DeliverPersonManagement.DeliveryPersonAssignedOrders;
-import com.example.altaf.rairiwala.DeliverPersonManagement.DeliveryPersonHomePage;
 import com.example.altaf.rairiwala.Models.Category;
 import com.example.altaf.rairiwala.Models.Notifications;
 import com.example.altaf.rairiwala.PerformanceMonitering.Rating_Stars_Activity;
 import com.example.altaf.rairiwala.R;
-import com.example.altaf.rairiwala.RairriWalaManagment.CategoryListView;
-import com.example.altaf.rairiwala.Singelton.Constants;
 import com.example.altaf.rairiwala.Singelton.NotificationFragment;
 import com.example.altaf.rairiwala.Singelton.SharedPrefManager;
 import com.example.altaf.rairiwala.Singelton.SharedPrefManagerFirebase;
 import com.example.altaf.rairiwala.SqliteDatabase.DatabaseHandling;
-import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.messaging.FirebaseMessaging;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
 import java.util.List;
 
 public class CustomerHomePage extends AppCompatActivity {
