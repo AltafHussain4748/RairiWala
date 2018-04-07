@@ -60,7 +60,7 @@ public class ReviewListAdapter extends RecyclerView.Adapter<ReviewListAdapter.Pr
     public void onBindViewHolder(ProductViewHolder holder, int position) {
         final FeedBack feedBack = feedBackList.get(position);
         holder.name.setText("  " +feedBack.getPoster_name());
-        holder.des.setText("  " +feedBack.getDescription());
+        holder.des.setText("-->" +feedBack.getDescription());
         holder.time.setText("  " +feedBack.getDate());
         holder.ratingBar.setRating((float) feedBack.getStars());
 

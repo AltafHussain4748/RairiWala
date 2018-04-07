@@ -20,12 +20,6 @@
                 android:background="@color/home"
                 android:padding="8dp">
 
-                <ImageView
-                    android:id="@+id/product_image"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:padding="4dp"
-                    android:src="@drawable/rating" />
 
                 <TextView
                     android:id="@+id/posted_by"
@@ -33,8 +27,6 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/product_name"
                     android:layout_marginLeft="10dp"
-                    android:layout_toRightOf="@id/product_image"
-                    android:drawableLeft="@drawable/name"
                     android:text="Apple MacBook A OS Sierra)"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
                     android:textColor="#000000"
@@ -44,26 +36,19 @@
                     android:id="@+id/des"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignLeft="@+id/posted_by"
-                    android:layout_alignRight="@+id/posted_by"
-                    android:layout_alignStart="@+id/posted_by"
-                    android:layout_below="@id/posted_by"
-                    android:layout_marginTop="5dp"
+                    android:layout_alignBottom="@+id/posted_by"
+                    android:layout_toEndOf="@+id/posted_by"
+                    android:layout_toRightOf="@+id/posted_by"
                     android:text="13.3 Inch, 256 GB"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
-                    android:textSize="15dp"
-                    android:drawableLeft="@drawable/edit"/>
+                    android:textSize="15dp" />
 
                 <TextView
                     android:id="@+id/datetime"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignLeft="@+id/des"
-                    android:layout_alignRight="@+id/des"
-                    android:layout_alignStart="@+id/des"
                     android:layout_below="@id/des"
                     android:layout_marginTop="5dp"
-                    android:drawableLeft="@drawable/time"
                     android:text="13.3 Inch, 256 GB"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
                     android:textSize="15dp" />
@@ -73,7 +58,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/datetime"
-                    android:layout_toRightOf="@id/product_image" />
+                    android:numStars="5"
+                    android:scaleX="0.5"
+                    android:scaleY="0.5"
+                    android:max="5"/>
 
             </RelativeLayout>
         </android.support.v7.widget.CardView>
