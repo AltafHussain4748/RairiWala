@@ -156,7 +156,7 @@ public class VendorReviewList extends AppCompatActivity {
                     count = feedBackList.size();
                     params.put("start", String.valueOf(feedBackList.size()));
                 } else {
-                    count = feedBackList.size() - 1;
+                    count = feedBackList.size()-1;
                     params.put("start", String.valueOf(feedBackList.size()));
                 }
 

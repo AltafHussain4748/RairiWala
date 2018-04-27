@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
     <supports-screens
         android:anyDensity="true"
@@ -120,7 +121,10 @@
             android:name=".PerformanceMonitering.VendorReviewList"
             android:label="@string/title_activity_vendor_review_list"
             android:theme="@style/AppTheme" />
-
+        <activity
+            android:name=".RairriWalaManagment.StockManagment.SellerEditProduct"
+            android:label="@string/title_activity_seller_edit_product"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

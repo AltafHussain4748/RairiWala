@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -50,6 +51,8 @@ public class OrderItems extends AppCompatActivity implements RecyclerItemTouchHe
     Button order;
     CheckOutAdapter checkOutAdapter;
     RelativeLayout relativeLayout;
+    TextView totalprice;
+    int price = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +70,7 @@ public class OrderItems extends AppCompatActivity implements RecyclerItemTouchHe
         Type listOfproductType = new TypeToken<List<Product>>() {
         }.getType();
         order = findViewById(R.id.order);
+        totalprice = findViewById(R.id.totalprice);
         relativeLayout = findViewById(R.id.cordinator_layout);
         products = gson.fromJson(jsonString, listOfproductType);
         recyclerView = findViewById(R.id.product_checkout);
@@ -76,6 +80,10 @@ public class OrderItems extends AppCompatActivity implements RecyclerItemTouchHe
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         checkOutAdapter = new CheckOutAdapter(this, products, order);
         recyclerView.setAdapter(checkOutAdapter);
+        for (Product pr : products) {
+            price = price + (pr.getProductDetails().getQuantity() * pr.getProductDetails().getPrice());
+        }
+        totalprice.setText("Total Rs:" + price);
         // adding item touch helper
         // only ItemTouchHelper.LEFT added to detect Right to Left swipe
         // if you want both Right -> Left and Left -> Right
@@ -111,27 +119,30 @@ public class OrderItems extends AppCompatActivity implements RecyclerItemTouchHe
         if (viewHolder instanceof CheckOutAdapter.ProductViewHolder) {
             // get the removed item name to display it in snack bar
             String name = products.get(viewHolder.getAdapterPosition()).getProduct_name();
-
+            final Product product;
+            product = products.get(position);
             // backup of removed item for undo purpose
             final Product deletedItem = products.get(viewHolder.getAdapterPosition());
             final int deletedIndex = viewHolder.getAdapterPosition();
 
             // remove the item from recycler view
             checkOutAdapter.removeItem(viewHolder.getAdapterPosition());
-
+            price = price - product.getProductDetails().getPrice() * product.getProductDetails().getQuantity();
             // showing snack bar with Undo option
             Snackbar snackbar = Snackbar
                     .make(relativeLayout, name + " removed from cart!", Snackbar.LENGTH_LONG);
             snackbar.setAction("UNDO", new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
+                    price = price + product.getProductDetails().getPrice() * product.getProductDetails().getQuantity();
                     // undo is selected, restore the deleted item
                     checkOutAdapter.restoreItem(deletedItem, deletedIndex);
+                    totalprice.setText("Total Rs:" + price);
                 }
             });
             snackbar.setActionTextColor(Color.YELLOW);
             snackbar.show();
+            totalprice.setText("Total Rs:" + price);
         }
     }
 

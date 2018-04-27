@@ -173,7 +173,7 @@ public class DeliveryPersonManagment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        getActivity().setTitle("Deliver Persons");
+        getActivity().setTitle("DeliveryGuy");
     }
 
     public void loadDeliverPersons(final int vendor_id) {

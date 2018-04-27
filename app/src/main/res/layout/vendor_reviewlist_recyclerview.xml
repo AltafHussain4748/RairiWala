@@ -17,7 +17,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/home"
+                android:background="@color/white"
                 android:padding="8dp">
 
 
@@ -25,8 +25,8 @@
                     android:id="@+id/posted_by"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/product_name"
                     android:layout_marginLeft="10dp"
+                    android:fontFamily="sans-serif-condensed"
                     android:text="Apple MacBook A OS Sierra)"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
                     android:textColor="#000000"
@@ -39,29 +39,33 @@
                     android:layout_alignBottom="@+id/posted_by"
                     android:layout_toEndOf="@+id/posted_by"
                     android:layout_toRightOf="@+id/posted_by"
+                    android:lines="5"
                     android:text="13.3 Inch, 256 GB"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
                     android:textSize="15dp" />
+
+
+                <RatingBar
+                    android:id="@+id/stars"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/des"
+                    android:max="5"
+                    android:numStars="5"
+                    android:scaleX=".6"
+                    android:scaleY=".6"
+                    />
 
                 <TextView
                     android:id="@+id/datetime"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/des"
-                    android:layout_marginTop="5dp"
+                    android:layout_below="@id/stars"
+                    android:layout_marginTop="10dp"
                     android:text="13.3 Inch, 256 GB"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+                    android:textColor="@color/red"
                     android:textSize="15dp" />
-
-                <RatingBar
-                    android:id="@+id/stars"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/datetime"
-                    android:numStars="5"
-                    android:scaleX="0.5"
-                    android:scaleY="0.5"
-                    android:max="5"/>
 
             </RelativeLayout>
         </android.support.v7.widget.CardView>

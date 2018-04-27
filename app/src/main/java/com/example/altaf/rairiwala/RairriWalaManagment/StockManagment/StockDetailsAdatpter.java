@@ -86,7 +86,11 @@ public class StockDetailsAdatpter extends RecyclerView.Adapter<StockDetailsAdatp
         holder.edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent intent = new Intent(mCtx, SellerEditProduct.class);
+                Gson gson = new Gson();
+                String productString = gson.toJson(product);
+                intent.putExtra("product", productString);
+                mCtx.startActivity(intent);
 
             }
         });

@@ -135,17 +135,18 @@ public class SaveToken {
                                 NotificationManager manager = (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
 
                                 manager.notify(0, builder.build());
+                                Toast.makeText(context, "Notification", Toast.LENGTH_SHORT).show();
                             }
                             //  stopService(intent);
                         } catch (JSONException e) {
-
+                            Toast.makeText(context, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        //  stopService(intent);
+                        Toast.makeText(context, "No Internet", Toast.LENGTH_SHORT).show();
                     }
                 }) {
             @Override
@@ -156,8 +157,6 @@ public class SaveToken {
             }
 
         };
-        ;
-
         //adding our stringrequest to queue
         Volley.newRequestQueue(context).add(stringRequest);
 

@@ -18,6 +18,15 @@ public class Order {
     private int deliveryperson_id;
     private  String order_status;
     private String  order_time;
+    private  int totalbill;
+
+    public void setTotalbill(int totalbill) {
+        this.totalbill = totalbill;
+    }
+
+    public int getTotalbill() {
+        return totalbill;
+    }
 
     public void setCustomerAddress(CustomerAddress customerAddress) {
         this.customerAddress = customerAddress;

@@ -106,6 +106,11 @@ public class PlaceOrder extends AppCompatActivity implements OnMapReadyCallback 
                         Order order = new Order();
                         order.setProductArrayList(products);
                         String product = gson.toJson(products);
+                        int price = 0;
+                        for (Product pr : products) {
+                            price = price + (pr.getProductDetails().getQuantity() * pr.getProductDetails().getPrice());
+                        }
+                        order.setTotalbill(price);
                         CustomerAddress customerAddress = new CustomerAddress();
                         customerAddress.setHouseName(house_nu);
                         customerAddress.setStreetName(street);

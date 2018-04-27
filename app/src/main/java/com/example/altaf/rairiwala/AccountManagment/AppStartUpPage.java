@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+
 import com.example.altaf.rairiwala.CustomerManagment.CustomerHomePage;
 import com.example.altaf.rairiwala.DeliverPersonManagement.DeliveryPersonHomePage;
 import com.example.altaf.rairiwala.Models.Customer;
@@ -24,51 +25,56 @@ public class AppStartUpPage extends AppCompatActivity {
         if (!new CheckInterNet(AppStartUpPage.this).isNetworkAvailable()) {
             startActivity(new Intent(AppStartUpPage.this, ConnectToInternet.class));
             this.finish();
-        }
-        Customer customer = SharedPrefManager.getInstance(this).getCustomer();
-        Vendor vendor = SharedPrefManager.getInstance(AppStartUpPage.this).getSeller();
-        DeliveryPerson deliveryPerson = SharedPrefManager.getInstance(this).getDeliveryPerson();
-        if (customer != null) {
-            if (customer.getRule().equals("CUSTOMER")) {
-                startActivity(new Intent(AppStartUpPage.this, CustomerHomePage.class));
-                this.finish();
-            }
-        } else if (vendor != null) {
-            if (vendor.getRule().equals("SELLER")) {
-                startActivity(new Intent(AppStartUpPage.this, SellerHomePage.class));
-                this.finish();
-            }
+        } else if (InternetConnection.checkConnection(this) == false) {
+            startActivity(new Intent(AppStartUpPage.this, ConnectToInternet.class));
+            this.finish();
+        } else {
+            Customer customer = SharedPrefManager.getInstance(this).getCustomer();
+            Vendor vendor = SharedPrefManager.getInstance(AppStartUpPage.this).getSeller();
+            DeliveryPerson deliveryPerson = SharedPrefManager.getInstance(this).getDeliveryPerson();
+            if (customer != null) {
+                if (customer.getRule().equals("CUSTOMER")) {
+                    startActivity(new Intent(AppStartUpPage.this, CustomerHomePage.class));
+                    this.finish();
+                }
+            } else if (vendor != null) {
+                if (vendor.getRule().equals("SELLER")) {
+                    startActivity(new Intent(AppStartUpPage.this, SellerHomePage.class));
+                    this.finish();
+                }
 
-        } else if (deliveryPerson != null) {
-            if (deliveryPerson.getRule().equals("DP")) {
-                startActivity(new Intent(AppStartUpPage.this, DeliveryPersonHomePage.class));
-                this.finish();
+            } else if (deliveryPerson != null) {
+                if (deliveryPerson.getRule().equals("DP")) {
+                    startActivity(new Intent(AppStartUpPage.this, DeliveryPersonHomePage.class));
+                    this.finish();
+                }
             }
+            ////CHECK WHICH TYPE OF SELLER IT IS
+            findViewById(R.id.join_as_customer).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(AppStartUpPage.this, UserRegister.class);
+                    intent.putExtra("TYPE", "CUSTOMER");
+                    startActivity(intent);
+                }
+            });
+            findViewById(R.id.join_as_vendor).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(AppStartUpPage.this, UserRegister.class);
+                    intent.putExtra("TYPE", "SELLER");
+                    startActivity(intent);
+                }
+            });
+            TextView txt = findViewById(R.id.loginHaveAccount);
+            txt.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    startActivity(new Intent(AppStartUpPage.this, UserLogin.class));
+                }
+            });
         }
-        ////CHECK WHICH TYPE OF SELLER IT IS
-        findViewById(R.id.join_as_customer).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(AppStartUpPage.this, UserRegister.class);
-                intent.putExtra("TYPE", "CUSTOMER");
-                startActivity(intent);
-            }
-        });
-        findViewById(R.id.join_as_vendor).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(AppStartUpPage.this, UserRegister.class);
-                intent.putExtra("TYPE", "SELLER");
-                startActivity(intent);
-            }
-        });
-        TextView txt = findViewById(R.id.loginHaveAccount);
-        txt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(AppStartUpPage.this, UserLogin.class));
-            }
-        });
+
     }
 
 }

@@ -36,4 +36,5 @@
     <string name="title_activity_rating__stars_">Rating_Stars_Activity</string>
     <string name="bc_CONNECTED">hello</string>
     <string name="title_activity_vendor_review_list">VendorReviewList</string>
+    <string name="title_activity_seller_edit_product">SellerEditProduct</string>
 </resources>
