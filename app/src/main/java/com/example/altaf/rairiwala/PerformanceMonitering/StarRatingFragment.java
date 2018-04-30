@@ -37,6 +37,7 @@ import java.util.Map;
 public class StarRatingFragment extends Fragment {
     View view;
     String type;
+    int vendor_id = 0;
 
 
     @Override
@@ -50,6 +51,7 @@ public class StarRatingFragment extends Fragment {
         view = inflater.inflate(R.layout.star_rating_fragment, container, false);
         if (getArguments() != null) {
             type = getArguments().getString("rule");
+            vendor_id = getArguments().getInt("vendor_id");
         }
         final RatingBar mRatingBar = (RatingBar) view.findViewById(R.id.ratingBar);
         final TextView mRatingScale = (TextView) view.findViewById(R.id.tvRatingScale);
@@ -85,7 +87,7 @@ public class StarRatingFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 addReview(SharedPrefManager.getInstance(getActivity()).getCustomer().getCustomer_id(),
-                        8, mFeedback.getText().toString(), type, (int) mRatingBar.getRating());
+                        vendor_id, mFeedback.getText().toString(), type, (int) mRatingBar.getRating());
 
             }
         });
@@ -125,7 +127,7 @@ public class StarRatingFragment extends Fragment {
             protected Map<String, String> getParams() throws AuthFailureError {
                 DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
                 Date date = new Date();
-                String s=dateFormat.format(date);
+                String s = dateFormat.format(date);
                 Map<String, String> params = new HashMap<>();
                 params.put("customer_id", String.valueOf(customer_id));
                 params.put("vendor_id", String.valueOf(vendor_id));

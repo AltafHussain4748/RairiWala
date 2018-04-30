@@ -37,4 +37,5 @@
     <string name="bc_CONNECTED">hello</string>
     <string name="title_activity_vendor_review_list">VendorReviewList</string>
     <string name="title_activity_seller_edit_product">SellerEditProduct</string>
+    <string name="title_activity_customer_buying_history">CustomerBuyingHistory</string>
 </resources>

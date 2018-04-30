@@ -45,17 +45,20 @@ public class Rating_Stars_Activity extends AppCompatActivity {
                                 selectedFragment = new StarRatingFragment();
 
                                 bundle.putString("rule", "TIME");
+                                bundle.putInt("vendor_id", vendor_id);
                                 selectedFragment.setArguments(bundle);
 
                                 break;
                             case R.id.action_item2:
                                 selectedFragment = new StarRatingFragment();
                                 bundle.putString("rule", "QUANTITY");
+                                bundle.putInt("vendor_id", vendor_id);
                                 selectedFragment.setArguments(bundle);
                                 break;
                             case R.id.action_item3:
                                 selectedFragment = new StarRatingFragment();
                                 bundle.putString("rule", "PRICE");
+                                bundle.putInt("vendor_id", vendor_id);
                                 selectedFragment.setArguments(bundle);
                                 break;
                         }
@@ -69,6 +72,7 @@ public class Rating_Stars_Activity extends AppCompatActivity {
         //Manually displaying the first fragment - one time only
         Fragment selectedFragment = new StarRatingFragment();
         bundle.putString("rule", "TIME");
+        bundle.putInt("vendor_id", vendor_id);
         selectedFragment.setArguments(bundle);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.frame_layout, selectedFragment);

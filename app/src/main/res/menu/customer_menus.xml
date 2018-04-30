@@ -12,9 +12,9 @@
         android:title="Orders"
         app:showAsAction="never" />
     <item
-        android:id="@+id/rate"
+        android:id="@+id/history"
         android:orderInCategory="100"
-        android:title="Rate"
+        android:title="Buying History"
         app:showAsAction="never" />
 
     <item

@@ -34,5 +34,6 @@ public class Constants {
     public  static  final String NOTIFYSELLER="https://rairriwala.000webhostapp.com/NotificationForlacofStock.php";
     public  static  final String DELETEPRODUCT="https://rairriwala.000webhostapp.com/DeleteProduct.php";
     public  static  final String EDITPRODUCT="https://rairriwala.000webhostapp.com/EditProductDetail.php";
+    public  static  final String BuyingHistory="https://rairriwala.000webhostapp.com/CustomerBuyingHistory.php";
 
 }

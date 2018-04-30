@@ -142,8 +142,8 @@ public class CustomerHomePage extends AppCompatActivity {
             return true;
         } else if (id == R.id.customer_orders) {
             startActivity(new Intent(CustomerHomePage.this, CustomerOrderList.class));
-        } else if (id == R.id.rate) {
-            startActivity(new Intent(CustomerHomePage.this, Rating_Stars_Activity.class));
+        } else if (id == R.id.history) {
+            startActivity(new Intent(CustomerHomePage.this, CustomerBuyingHistory.class));
         }
 
         return super.onOptionsItemSelected(item);
