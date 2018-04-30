@@ -128,6 +128,10 @@
         <activity
             android:name=".CustomerManagment.CustomerBuyingHistory"
             android:label="@string/title_activity_customer_buying_history"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".RairriWalaManagment.VendorSellingHistory"
+            android:label="@string/title_activity_vendor_selling_history"
             android:theme="@style/AppTheme"></activity>
     </application>
 

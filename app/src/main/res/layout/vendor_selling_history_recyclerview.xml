@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/shimmer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:padding="8dp">
+
+
+                <TextView
+                    android:id="@+id/buyername"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:drawableLeft="@drawable/name"
+                    android:fontFamily="sans-serif-condensed"
+                    android:text="Apple "
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+                    android:textColor="#000000"
+                    android:textSize="15dp" />
+
+                <TextView
+                    android:id="@+id/price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@+id/buyername"
+                    android:layout_marginLeft="30dp"
+                    android:layout_toRightOf="@+id/buyername"
+                    android:text="13.3 "
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+                    android:textSize="15dp" />
+
+
+
+                <TextView
+                    android:id="@+id/datetime"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/buyername"
+                    android:layout_marginTop="10dp"
+                    android:drawableLeft="@drawable/time"
+                    android:text="13.3 Inch, 256 GB"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+                    android:textColor="@color/red"
+                    android:textSize="15dp"
+                    android:layout_alignLeft="@id/sellername"/>
+
+            </RelativeLayout>
+        </android.support.v7.widget.CardView>
+    </com.facebook.shimmer.ShimmerFrameLayout>
+</LinearLayout>

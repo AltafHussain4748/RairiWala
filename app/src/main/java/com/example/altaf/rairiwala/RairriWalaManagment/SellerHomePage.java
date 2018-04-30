@@ -318,14 +318,7 @@ public class SellerHomePage extends AppCompatActivity
 
                     fragment = new StockDetailsFragment();
                 }
-            } else if (id == R.id.selling_history) {
-                if (vendor_id <= 0) {
-                    Toast.makeText(this, "Please add location details first", Toast.LENGTH_SHORT).show();
-                } else {
-
-
-                }
-            } else if (id == R.id.new_order) {
+            }  else if (id == R.id.new_order) {
                 if (vendor_id <= 0) {
                     Toast.makeText(this, "Please add location details first", Toast.LENGTH_SHORT).show();
                 } else {
@@ -345,6 +338,16 @@ public class SellerHomePage extends AppCompatActivity
 
                     fragment = new DeliveryPersonManagment();
                 }
+            }
+            else if (id == R.id.selling_history) {
+                if (vendor_id <= 0) {
+                    Toast.makeText(this, "Please add location details first", Toast.LENGTH_SHORT).show();
+                } else {
+
+                    startActivity(new Intent(SellerHomePage.this, VendorSellingHistory.class));
+                }
+
+                //  fragment = new NewOrders();
             }
 //replace the current fragment
             if (fragment != null) {
