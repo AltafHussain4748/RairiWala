@@ -8,12 +8,14 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.InflateException;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -70,6 +72,8 @@ public class StockDetailsAdatpter extends RecyclerView.Adapter<StockDetailsAdatp
         final Product product = productList.get(position);
         Glide.with(mCtx)
                 .load(product.getProduct_image())
+                .asBitmap()
+                .fitCenter()
                 .placeholder(R.drawable.placeholder)
                 .error(R.drawable.error)
                 .into(holder.productimage);
@@ -82,53 +86,68 @@ public class StockDetailsAdatpter extends RecyclerView.Adapter<StockDetailsAdatp
         } else {
             holder.textViewQuantity.setTextColor(Color.GREEN);
         }
-
-        holder.edit.setOnClickListener(new View.OnClickListener() {
+//option menu code
+        holder.option_menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(mCtx, SellerEditProduct.class);
-                Gson gson = new Gson();
-                String productString = gson.toJson(product);
-                intent.putExtra("product", productString);
-                mCtx.startActivity(intent);
+//creating a popup menu
+                PopupMenu popup = new PopupMenu(mCtx, holder.option_menu);
+                //inflating menu from xml resource
+                popup.inflate(R.menu.stock_item_menu);
+                //adding click listener
+                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        switch (item.getItemId()) {
+                            case R.id.edit:
+                                Intent intent = new Intent(mCtx, SellerEditProduct.class);
+                                Gson gson = new Gson();
+                                String productString = gson.toJson(product);
+                                intent.putExtra("product", productString);
+                                mCtx.startActivity(intent);
+                                break;
+                            case R.id.delete:
+                                final NiftyDialogBuilder dialogBuilder = NiftyDialogBuilder.getInstance(mCtx);
+                                dialogBuilder
+                                        .withTitle("Delete product")                                  //.withTitle(null)  no title
+                                        .withTitleColor("#FFFFFF")                                  //def
+                                        .withDividerColor("#11000000")                              //def
+                                        .withMessage("Do you want to Delete it?")                     //.withMessage(null)  no Msg
+                                        .withMessageColor("#FFFFFFFF")                              //def  | withMessageColor(int resid)
+                                        .withDialogColor("#FFE74C3C")                               //def  | withDialogColor(int resid)
+                                        .withIcon(mCtx.getResources().getDrawable(R.drawable.delete))
+                                        .withDuration(700)                                          //def
+                                        .withEffect(RotateBottom)                                         //def Effectstype.Slidetop
+                                        .withButton1Text("No")                                      //def gone
+                                        .withButton2Text("yes")                                  //def gone
+                                        .isCancelableOnTouchOutside(true)                           //def    | isCancelable(true)
+                                        //.setCustomView(View or ResId,context)
+                                        .setButton1Click(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+                                                dialogBuilder.dismiss();
+                                            }
+                                        })
+                                        .setButton2Click(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+                                                deleteProduct(product.getProductDetails().getVendor_id(), product.getProduct_id());
+                                                dialogBuilder.dismiss();
+                                            }
+                                        })
+                                        .show();
+                                break;
+
+                        }
+                        return false;
+                    }
+                });
+                //displaying the popup
+                popup.show();
 
             }
         });
 
-        holder.delete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                final NiftyDialogBuilder dialogBuilder = NiftyDialogBuilder.getInstance(mCtx);
-                dialogBuilder
-                        .withTitle("Delete product")                                  //.withTitle(null)  no title
-                        .withTitleColor("#FFFFFF")                                  //def
-                        .withDividerColor("#11000000")                              //def
-                        .withMessage("Do you want to Delete it?")                     //.withMessage(null)  no Msg
-                        .withMessageColor("#FFFFFFFF")                              //def  | withMessageColor(int resid)
-                        .withDialogColor("#FFE74C3C")                               //def  | withDialogColor(int resid)
-                        .withIcon(mCtx.getResources().getDrawable(R.drawable.delete))
-                        .withDuration(700)                                          //def
-                        .withEffect(RotateBottom)                                         //def Effectstype.Slidetop
-                        .withButton1Text("No")                                      //def gone
-                        .withButton2Text("yes")                                  //def gone
-                        .isCancelableOnTouchOutside(true)                           //def    | isCancelable(true)
-                        //.setCustomView(View or ResId,context)
-                        .setButton1Click(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                dialogBuilder.dismiss();
-                            }
-                        })
-                        .setButton2Click(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                deleteProduct(product.getProductDetails().getVendor_id(), product.getProduct_id());
-                                dialogBuilder.dismiss();
-                            }
-                        })
-                        .show();
-            }
-        });
     }
 
     @Override
@@ -138,9 +157,8 @@ public class StockDetailsAdatpter extends RecyclerView.Adapter<StockDetailsAdatp
 
     class ProductViewHolder extends RecyclerView.ViewHolder {
 
-        TextView textViewname, textViewprice, textViewQuantity;
+        TextView textViewname, textViewprice, textViewQuantity, option_menu;
         ImageView productimage;
-        ImageButton edit, delete;
 
 
         public ProductViewHolder(View itemView) {
@@ -149,8 +167,7 @@ public class StockDetailsAdatpter extends RecyclerView.Adapter<StockDetailsAdatp
             textViewname = itemView.findViewById(R.id.product_name);
             textViewprice = itemView.findViewById(R.id.product_price);
             textViewQuantity = itemView.findViewById(R.id.product_quantity);
-            edit = itemView.findViewById(R.id.product_edit);
-            delete = itemView.findViewById(R.id.product_delete);
+            option_menu = itemView.findViewById(R.id.textViewOptions);
 
         }
     }

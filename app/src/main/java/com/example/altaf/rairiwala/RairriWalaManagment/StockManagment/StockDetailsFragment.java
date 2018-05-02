@@ -139,7 +139,13 @@ public class StockDetailsFragment extends Fragment {
                             e.printStackTrace();
                             progressBar.setVisibility(View.GONE);
                             message.setText("No Products");
-                            message.setVisibility(View.VISIBLE);
+                            if (productList.size() > 0) {
+                                message.setVisibility(View.GONE);
+                            } else {
+                                message.setVisibility(View.VISIBLE);
+                            }
+
+
                         }
                     }
                 },
@@ -148,7 +154,12 @@ public class StockDetailsFragment extends Fragment {
                     public void onErrorResponse(VolleyError error) {
                         message.setText("Error while loading the products");
                         progressBar.setVisibility(View.GONE);
-                        message.setVisibility(View.VISIBLE);
+                        if (productList.size() > 0) {
+                            message.setVisibility(View.GONE);
+                        } else {
+                            message.setVisibility(View.VISIBLE);
+                        }
+
                     }
                 }) {
             @Override
@@ -159,7 +170,7 @@ public class StockDetailsFragment extends Fragment {
                     count = productList.size();
                     params.put("start", String.valueOf(productList.size()));
                 } else {
-                    count = productList.size()-1;
+                    count = productList.size() - 1;
                     params.put("start", String.valueOf(productList.size()));
                 }
 
