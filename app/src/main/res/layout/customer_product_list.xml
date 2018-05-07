@@ -27,13 +27,6 @@
         android:layout_below="@id/mainlayout"
         android:orientation="vertical">
 
-        <ProgressBar
-            android:id="@+id/progressBar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/product_list_customer"
-            android:layout_centerHorizontal="true"
-            android:background="@color/white" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/product_list_customer"
@@ -42,6 +35,13 @@
             android:layout_weight="4"
             tools:layout_editor_absoluteX="745dp"
             tools:layout_editor_absoluteY="-51dp" />
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:background="@color/white" />
 
         <RelativeLayout
             android:id="@+id/badge_layout1"

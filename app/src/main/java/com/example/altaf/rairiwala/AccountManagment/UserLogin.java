@@ -126,7 +126,9 @@ public class UserLogin extends AppCompatActivity {
                                     vendor.setPerson_id(Integer.parseInt(obj.getString("id")));
                                     SharedPrefManager.getInstance(UserLogin.this).addSellerToPref(vendor);
                                     addSellerInfo(vendor.getPerson_id(), vendor);
-                                    startActivity(new Intent(UserLogin.this, SellerHomePage.class));
+                                    Intent intent = new Intent(UserLogin.this, SellerHomePage.class);
+                                    intent.putExtra("stockDetail", "");
+                                    startActivity(intent);
                                     UserLogin.this.finish();
                                 }
 

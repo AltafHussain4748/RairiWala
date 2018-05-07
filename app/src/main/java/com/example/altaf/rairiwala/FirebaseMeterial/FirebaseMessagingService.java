@@ -14,6 +14,7 @@ import com.example.altaf.rairiwala.Models.Customer;
 import com.example.altaf.rairiwala.Models.CustomerAddress;
 import com.example.altaf.rairiwala.Models.Order;
 import com.example.altaf.rairiwala.Models.Vendor;
+import com.example.altaf.rairiwala.PerformanceMonitering.SystemVendorResponseTime;
 import com.example.altaf.rairiwala.R;
 import com.example.altaf.rairiwala.RairriWalaManagment.SellerHomePage;
 import com.example.altaf.rairiwala.RairriWalaManagment.SellerNewOrderList;
@@ -136,6 +137,15 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
                     Type listOfproductType = new TypeToken<CustomerAddress>() {
                     }.getType();
                     customerAddress = gson.fromJson(orderObject.getString("customerAddress"), listOfproductType);
+
+                    //new code of saving order placement time
+                    int order_id = 0;
+                    order_id = orderObject.getInt("order_id");
+                    int vendor_id = SharedPrefManager.getInstance(this).getSeller().getVendor_id();
+                    if (vendor_id != 0 && order_id != 0) {
+                        //function call to save data
+                        new SystemVendorResponseTime(this).addNewOrderPlacementTime(vendor_id, order_id, "placement");
+                    }
                     //practicer
                     if (SharedPrefManagerFirebase.getInstance(this).getActivityStateSellerHomePage() || SharedPrefManagerFirebase.getInstance(this).getStateActivityNewOrderListSeller()) {
                         Intent intent = new Intent("speedExceeded");

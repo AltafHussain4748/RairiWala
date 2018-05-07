@@ -77,10 +77,13 @@ public class StockDetailsFragment extends Fragment {
                 currentItems = linearLayoutManager.getChildCount();
                 totalItems = linearLayoutManager.getItemCount();
                 scrollItems = linearLayoutManager.findFirstVisibleItemPosition();
-                if (currentItems + scrollItems == totalItems && isScrolling) {
-                    isScrolling = false;
-                    loadProducts(SharedPrefManager.getInstance(getActivity()).getSeller().getVendor_id());
+                if (dy > 0) {
+                    if (currentItems + scrollItems == totalItems && isScrolling) {
+                        isScrolling = false;
+                        loadProducts(SharedPrefManager.getInstance(getActivity()).getSeller().getVendor_id());
+                    }
                 }
+
             }
         });
         return view;

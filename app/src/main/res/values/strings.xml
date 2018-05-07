@@ -39,4 +39,6 @@
     <string name="title_activity_seller_edit_product">SellerEditProduct</string>
     <string name="title_activity_customer_buying_history">CustomerBuyingHistory</string>
     <string name="title_activity_vendor_selling_history">VendorSellingHistory</string>
+    <string name="title_activity_nearest_vendors_map">Map</string>
+    <string name="ResponseTime">ResponseTime</string>
 </resources>

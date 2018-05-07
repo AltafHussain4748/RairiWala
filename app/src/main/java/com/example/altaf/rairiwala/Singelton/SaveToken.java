@@ -128,9 +128,9 @@ public class SaveToken {
                                         .setAutoCancel(true)
                                         .setContentTitle("Lack of stock")
                                         .setContentText("Some products have lack of stock")
-                                        .setSmallIcon(R.drawable.addproduct)
+                                        .setSmallIcon(R.drawable.cartt)
                                         .setContentIntent(pendingIntent)
-                                        .setDefaults(Notification.DEFAULT_SOUND);
+                                        .setDefaults(Notification.DEFAULT_VIBRATE);
 
                                 NotificationManager manager = (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
 

@@ -10,6 +10,7 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
@@ -33,8 +34,8 @@ import com.example.altaf.rairiwala.R;
 import com.example.altaf.rairiwala.Singelton.Constants;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.gson.Gson;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -66,6 +67,7 @@ public class NearestVendor extends AppCompatActivity {
             getSupportActionBar().setDisplayShowHomeEnabled(true);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
+
         message = findViewById(R.id.error_message);
         Bundle bundle = getIntent().getExtras();
         type = bundle.getString("CAT");
@@ -116,16 +118,24 @@ public class NearestVendor extends AppCompatActivity {
             return;
         }
 
-        //end of lat long
-
-       /* FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        //floating actiuon button
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.viewVendorOnGoogoleMap);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                if (vendorList.size() > 0) {
+                    Intent intent = new Intent(NearestVendor.this, NearestVendorsMap.class);
+                    Gson gson = new Gson();
+                    String vendors = gson.toJson(vendorList);
+                    intent.putExtra("vendorList", vendors);
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(NearestVendor.this, "No Vendors", Toast.LENGTH_SHORT).show();
+                }
+
             }
-        });*/
+        });
+        //end of floating action button
 
     }
 
@@ -168,6 +178,8 @@ public class NearestVendor extends AppCompatActivity {
                                             v.setName(vendor.getString("Name"));
                                             v.setPerson_phone_number(vendor.getString("Phone_Number"));
                                             v.setDistance(Double.parseDouble(vendor.getString("distance")));
+                                            v.setLatitude(vendor.getDouble("Latitude"));
+                                            v.setLongitude(vendor.getDouble("Longitude"));
                                             vendorList.add(v);
                                         }
 
@@ -245,6 +257,7 @@ public class NearestVendor extends AppCompatActivity {
         }
 
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int d = item.getItemId();

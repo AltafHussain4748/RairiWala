@@ -132,7 +132,10 @@
         <activity
             android:name=".RairriWalaManagment.VendorSellingHistory"
             android:label="@string/title_activity_vendor_selling_history"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".CustomerManagment.NearestVendorsMap"
+            android:label="@string/title_activity_nearest_vendors_map"></activity>
     </application>
 
 </manifest>

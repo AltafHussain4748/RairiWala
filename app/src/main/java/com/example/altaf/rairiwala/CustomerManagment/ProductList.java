@@ -87,14 +87,11 @@ public class ProductList extends AppCompatActivity {
                 totalItems = linearLayoutManager.getItemCount();
                 scrollItems = linearLayoutManager.findFirstVisibleItemPosition();
                 if (dy > 0) {
-
-                }else{
                     if (currentItems + scrollItems == totalItems && isScrolling) {
                         isScrolling = false;
                         loadProducts(vendorid, type);
                     }
                 }
-
 
 
             }
@@ -112,6 +109,7 @@ public class ProductList extends AppCompatActivity {
     }
 
     private void loadProducts(final int vendor_id, final String type) {
+        progressBar.setVisibility(View.VISIBLE);
         /*
         * Creating a String Request
         * The request type is GET defined by first parameter
@@ -153,26 +151,26 @@ public class ProductList extends AppCompatActivity {
 
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            if (productList.size() <= 0) {
-                                message.setText("No Products");
-
-                                message.setVisibility(View.VISIBLE);
-                                Toast.makeText(ProductList.this, "No Products", Toast.LENGTH_SHORT).show();
-                            }
+                            message.setText("Error while loading the products");
                             progressBar.setVisibility(View.GONE);
+                            if (productList.size() > 0) {
+                                message.setVisibility(View.GONE);
+                            } else {
+                                message.setVisibility(View.VISIBLE);
+                            }
                         }
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        if (productList.size() <= 0) {
-                            message.setText("Error while loading the products");
-                            message.setVisibility(View.VISIBLE);
-                            Toast.makeText(ProductList.this, "Error while loading the products", Toast.LENGTH_SHORT).show();
-                        }
-
+                        message.setText("Error while loading the products");
                         progressBar.setVisibility(View.GONE);
+                        if (productList.size() > 0) {
+                            message.setVisibility(View.GONE);
+                        } else {
+                            message.setVisibility(View.VISIBLE);
+                        }
 
                     }
                 }) {

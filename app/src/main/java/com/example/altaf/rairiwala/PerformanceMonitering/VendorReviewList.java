@@ -198,6 +198,9 @@ public class VendorReviewList extends AppCompatActivity {
             intent.putExtra("vendor_id", vendor_id);
             startActivity(intent);
 
+        } else if (d == R.id.responseTime) {
+            new SystemVendorResponseTime(VendorReviewList.this).getResponseTime(vendor_id);
+
         }
         return super.onOptionsItemSelected(item);
     }

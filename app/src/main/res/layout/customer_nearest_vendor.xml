@@ -30,15 +30,17 @@
         tools:layout_editor_absoluteX="745dp"
         tools:layout_editor_absoluteY="-51dp" />
 
+
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
+        android:id="@+id/viewVendorOnGoogoleMap"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
-        app:srcCompat="@android:drawable/ic_dialog_email" />
+        android:src="@drawable/distance"
+        android:visibility="visible" />
 
     <TextView
         android:id="@+id/error_message"
@@ -46,9 +48,9 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
+        android:textAlignment="center"
         android:textColor="@color/red"
         android:textSize="25dp"
-        android:visibility="gone"
-        android:textAlignment="center"/>
+        android:visibility="gone" />
 
 </RelativeLayout>

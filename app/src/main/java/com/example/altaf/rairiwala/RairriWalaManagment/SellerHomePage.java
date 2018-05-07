@@ -82,8 +82,21 @@ public class SellerHomePage extends AppCompatActivity
 // create a FragmentTransaction to begin the transaction and replace the Fragment
         android.app.FragmentTransaction fragmentTransaction = fm.beginTransaction();
 // replace the FrameLayout with new Fragment v
-        fragmentTransaction.replace(R.id.frameLayout, new FragmentAccountDetail());
-        fragmentTransaction.commit(); // save the changes
+        try {
+            Bundle bundle = getIntent().getExtras();
+            String fragmenttoLaunch = bundle.getString("stockDetail");
+            if (fragmenttoLaunch != null && fragmenttoLaunch.equals("stockDetail")) {
+                fragmentTransaction.replace(R.id.frameLayout, new StockDetailsFragment());
+            } else if(fragmenttoLaunch != null && fragmenttoLaunch.equals("mainPage")){
+                fragmentTransaction.replace(R.id.frameLayout, new FragmentAccountDetail());
+            }else {
+                fragmentTransaction.replace(R.id.frameLayout, new FragmentAccountDetail());
+            }
+            fragmentTransaction.commit(); // save the changes
+        } catch (Exception e) {
+            Toast.makeText(this, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+
 
         //broadcast reciever
         LocalBroadcastManager.getInstance(this).registerReceiver(
@@ -318,7 +331,7 @@ public class SellerHomePage extends AppCompatActivity
 
                     fragment = new StockDetailsFragment();
                 }
-            }  else if (id == R.id.new_order) {
+            } else if (id == R.id.new_order) {
                 if (vendor_id <= 0) {
                     Toast.makeText(this, "Please add location details first", Toast.LENGTH_SHORT).show();
                 } else {
@@ -338,8 +351,7 @@ public class SellerHomePage extends AppCompatActivity
 
                     fragment = new DeliveryPersonManagment();
                 }
-            }
-            else if (id == R.id.selling_history) {
+            } else if (id == R.id.selling_history) {
                 if (vendor_id <= 0) {
                     Toast.makeText(this, "Please add location details first", Toast.LENGTH_SHORT).show();
                 } else {

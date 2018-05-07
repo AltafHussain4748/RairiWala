@@ -39,7 +39,10 @@ public class AppStartUpPage extends AppCompatActivity {
                 }
             } else if (vendor != null) {
                 if (vendor.getRule().equals("SELLER")) {
-                    startActivity(new Intent(AppStartUpPage.this, SellerHomePage.class));
+                    Intent intent = new Intent(AppStartUpPage.this, SellerHomePage.class);
+                    intent.putExtra("stockDetail", "mainPage");
+
+                    startActivity(intent);
                     this.finish();
                 }
 

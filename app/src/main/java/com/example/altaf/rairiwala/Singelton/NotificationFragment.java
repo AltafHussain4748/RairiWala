@@ -28,10 +28,12 @@ import com.example.altaf.rairiwala.Models.Order;
 import com.example.altaf.rairiwala.Models.Vendor;
 import com.example.altaf.rairiwala.R;
 import com.example.altaf.rairiwala.RairriWalaManagment.DeliveryPersonManagment;
+import com.example.altaf.rairiwala.RairriWalaManagment.FragmentAccountDetail;
 import com.example.altaf.rairiwala.RairriWalaManagment.NewOrderAdapter;
 import com.example.altaf.rairiwala.RairriWalaManagment.SellerAssignDeliverPerson;
 import com.example.altaf.rairiwala.RairriWalaManagment.SellerHomePage;
 import com.example.altaf.rairiwala.RairriWalaManagment.SellerNewOrderList;
+import com.example.altaf.rairiwala.RairriWalaManagment.VendorSellingHistory;
 import com.example.altaf.rairiwala.Singelton.SharedPrefManager;
 import com.example.altaf.rairiwala.SqliteDatabase.DatabaseHandling;
 import com.gitonway.lee.niftymodaldialogeffects.lib.NiftyDialogBuilder;
@@ -180,9 +182,23 @@ public class NotificationFragment extends Fragment {
                         fragmentTransaction.replace(R.id.frameLayout, fragment);
                         fragmentTransaction.commit();
                         databaseHandling.deleteNote(SharedPrefManager.getInstance(getActivity()).getCustomer().getCustomer_id(), NotificationTags.CONFIRMORDER);
-                        TextView delievryPersonCounter = getActivity().findViewById(R.id.txtCount);
+                        TextView delievryPersonCounter = getActivity().findViewById(R.id.customer_notifictaion_count);
                         delievryPersonCounter.setVisibility(View.GONE);
                         delievryPersonCounter.setText("0");
+                    } else if (deliveryPerson.getTag().equals(NotificationTags.VENDORDELIVERED)) {
+
+                        startActivity(new Intent(getActivity(), VendorSellingHistory.class));
+                      /*  Fragment fragment = new FragmentAccountDetail();
+                        FragmentManager fm = getFragmentManager();
+                        // create a FragmentTransaction to begin the transaction and replace the Fragment
+                        android.app.FragmentTransaction fragmentTransaction = fm.beginTransaction();
+                        // replace the FrameLayout with new Fragment
+                        fragmentTransaction.replace(R.id.frameLayout, fragment);
+                        fragmentTransaction.commit();*/
+                        databaseHandling.deleteNote(SharedPrefManager.getInstance(getActivity()).getSeller().getVendor_id(), NotificationTags.VENDORDELIVERED);
+                        TextView delievryPersonCounter = getActivity().findViewById(R.id.notificationcount);
+                        delievryPersonCounter.setVisibility(View.GONE);
+                        delievryPersonCounter.setText("" + databaseHandling.getNotesCount());
                     }
 
                 } catch (Exception e) {

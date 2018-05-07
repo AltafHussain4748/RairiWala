@@ -19,6 +19,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.altaf.rairiwala.Models.Product;
 import com.example.altaf.rairiwala.R;
+import com.example.altaf.rairiwala.RairriWalaManagment.SellerHomePage;
 import com.example.altaf.rairiwala.Singelton.Constants;
 import com.example.altaf.rairiwala.Singelton.RequestHandler;
 import com.example.altaf.rairiwala.Singelton.SharedPrefManager;
@@ -98,7 +99,9 @@ public class SellerEditProduct extends AppCompatActivity {
                             JSONObject jsonObject = new JSONObject(response);
 
                             if (jsonObject.getBoolean("error") == false) {
-                                Toast.makeText(SellerEditProduct.this, jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(SellerEditProduct.this, SellerHomePage.class);
+                                intent.putExtra("stockDetail", "stockDetail");
+                                startActivity(intent);
                             } else {
                                 Toast.makeText(SellerEditProduct.this, jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
                             }

@@ -16,6 +16,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.altaf.rairiwala.Models.Order;
+import com.example.altaf.rairiwala.PerformanceMonitering.SystemVendorResponseTime;
 import com.example.altaf.rairiwala.R;
 import com.example.altaf.rairiwala.RairriWalaManagment.SellerAssignDeliverPerson;
 import com.example.altaf.rairiwala.Singelton.Constants;
@@ -150,6 +151,7 @@ public class AssignedOrderAdapter extends RecyclerView.Adapter<AssignedOrderAdap
                                 orderLists.remove(position);
                                 notifyItemRemoved(position);
                                 notifyItemRangeChanged(position, orderLists.size());
+                                new SystemVendorResponseTime(mCtx).addNewOrderPlacementTime(vendor_id, order_id, "delivered");
                             } else {
                                 Toast.makeText(mCtx, jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
                             }
