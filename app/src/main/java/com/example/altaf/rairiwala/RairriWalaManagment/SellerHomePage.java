@@ -35,6 +35,7 @@ import com.example.altaf.rairiwala.AccountManagment.ConnectToInternet;
 import com.example.altaf.rairiwala.AccountManagment.UserLogin;
 import com.example.altaf.rairiwala.Models.Notifications;
 import com.example.altaf.rairiwala.Models.Vendor;
+import com.example.altaf.rairiwala.PerformanceMonitering.VendorReviewList;
 import com.example.altaf.rairiwala.R;
 import com.example.altaf.rairiwala.RairriWalaManagment.StockManagment.ADDProductCategoryDisplay;
 import com.example.altaf.rairiwala.RairriWalaManagment.StockManagment.StockDetailsFragment;
@@ -360,6 +361,17 @@ public class SellerHomePage extends AppCompatActivity
                 }
 
                 //  fragment = new NewOrders();
+            }
+            else if(id==R.id.customer_review){
+                if (vendor_id <= 0) {
+                    Toast.makeText(this, "Please add location details first", Toast.LENGTH_SHORT).show();
+                } else {
+
+                    Intent intent = new Intent(SellerHomePage.this, VendorReviewList.class);
+                    intent.putExtra("vendor_id", vendor_id);
+                    intent.putExtra("role", "seller");
+                    startActivity(intent);
+                }
             }
 //replace the current fragment
             if (fragment != null) {

@@ -57,6 +57,7 @@ public class NearestVendorAdapter extends RecyclerView.Adapter<NearestVendorAdap
                 public void onClick(View view) {
                     Intent intent = new Intent(mCtx, VendorReviewList.class);
                     intent.putExtra("vendor_id", v.getVendor_id());
+                    intent.putExtra("role", "customer");
                     mCtx.startActivity(intent);
                 }
             });

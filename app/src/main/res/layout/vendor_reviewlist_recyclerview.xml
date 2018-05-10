@@ -23,7 +23,7 @@
 
                 <TextView
                     android:id="@+id/posted_by"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:fontFamily="sans-serif-condensed"
@@ -34,12 +34,11 @@
 
                 <TextView
                     android:id="@+id/des"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignBottom="@+id/posted_by"
-                    android:layout_toEndOf="@+id/posted_by"
-                    android:layout_toRightOf="@+id/posted_by"
-                    android:lines="5"
+                    android:layout_alignLeft="@id/posted_by"
+                    android:layout_below="@+id/posted_by"
+                    android:layout_marginTop="6dp"
                     android:text="13.3 Inch, 256 GB"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
                     android:textSize="15dp" />
@@ -49,17 +48,19 @@
                     android:id="@+id/stars"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignRight="@id/des"
                     android:layout_below="@+id/des"
                     android:max="5"
+                    style="?android:attr/ratingBarStyleSmall"
                     android:numStars="5"
-                    android:scaleX=".6"
-                    android:scaleY=".6"
-                    />
+                    android:padding="0dp" />
 
                 <TextView
                     android:id="@+id/datetime"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
                     android:layout_below="@id/stars"
                     android:layout_marginTop="10dp"
                     android:text="13.3 Inch, 256 GB"

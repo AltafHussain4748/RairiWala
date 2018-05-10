@@ -49,6 +49,14 @@
                     android:title="Deliver Persons" />
             </menu>
         </item>
+        <item android:title="Reviews">
+            <menu>
+                <item
+                    android:id="@+id/customer_review"
+                    android:icon="@drawable/rating"
+                    android:title="Reviews" />
+            </menu>
+        </item>
     </group>
 
 </menu>

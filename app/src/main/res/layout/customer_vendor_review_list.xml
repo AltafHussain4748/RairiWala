@@ -21,11 +21,117 @@
 
     </android.support.design.widget.AppBarLayout>
 
+    <RelativeLayout
+        android:id="@+id/otherData"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/main"
+        android:layout_margin="5dp"
+        android:layout_marginBottom="5dp">
+
+        <TextView
+            android:id="@+id/responseTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Loading Response Time"
+            android:textAlignment="center"
+            android:textColor="@color/colorPrimary"
+            android:textSize="25dp" />
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/cardLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/responseTime"
+            android:layout_marginTop="10dp">
+
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TableRow android:layout_marginLeft="5dp">
+
+                    <TextView
+                        android:id="@+id/priceRating"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="1dp"
+                        android:text="Price"
+                        android:textSize="15dp" />
+
+                    <RatingBar
+                        android:id="@+id/priceRatingBar"
+                        style="?android:attr/ratingBarStyleSmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="7dp"
+                        android:layout_toRightOf="@id/priceRating"
+                        android:clickable="false"
+                        android:isIndicator="true"
+                        android:numStars="5" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="5dp">
+
+                    <TextView
+                        android:id="@+id/qualityRating"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="0dp"
+                        android:text="Quality"
+                        android:textSize="15dp" />
+
+                    <RatingBar
+                        android:id="@+id/qualityRatingBar"
+                        style="?android:attr/ratingBarStyleSmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="7dp"
+                        android:layout_toRightOf="@id/priceRating"
+                        android:clickable="false"
+                        android:isIndicator="true"
+                        android:numStars="5" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="5dp">
+
+                    <TextView
+                        android:id="@+id/quantityRating"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="0dp"
+                        android:text="Quantity"
+                        android:textSize="15dp" />
+
+                    <RatingBar
+                        android:id="@+id/quantityRatingBar"
+                        style="?android:attr/ratingBarStyleSmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="7dp"
+                        android:layout_toRightOf="@id/priceRating"
+                        android:clickable="false"
+                        android:isIndicator="true"
+                        android:numStars="5" />
+                </TableRow>
+            </TableLayout>
+
+
+        </android.support.v7.widget.CardView>
+
+    </RelativeLayout>
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/review_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/main"
+        android:layout_below="@id/progressBar"
+        android:layout_marginTop="10dp"
         android:layout_weight="4"
         tools:layout_editor_absoluteX="745dp"
         tools:layout_editor_absoluteY="-51dp" />
@@ -34,6 +140,7 @@
         android:id="@+id/error_message"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/progressBar"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:textAlignment="center"
@@ -45,8 +152,7 @@
         android:id="@+id/progressBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/review_list"
-        android:layout_centerHorizontal="true"
-        android:background="@color/white" />
+        android:layout_below="@+id/otherData"
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>
