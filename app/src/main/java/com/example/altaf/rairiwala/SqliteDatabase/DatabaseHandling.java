@@ -1,16 +1,13 @@
 package com.example.altaf.rairiwala.SqliteDatabase;
 
-import android.app.Notification;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.os.Message;
 
 import com.example.altaf.rairiwala.Models.Category;
 import com.example.altaf.rairiwala.Models.Notifications;
-import com.example.altaf.rairiwala.Singelton.SharedPrefManager;
 
 import java.util.ArrayList;
 import java.util.List;

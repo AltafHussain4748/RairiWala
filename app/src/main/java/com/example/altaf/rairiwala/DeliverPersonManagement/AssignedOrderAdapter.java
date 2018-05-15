@@ -18,12 +18,9 @@ import com.android.volley.toolbox.StringRequest;
 import com.example.altaf.rairiwala.Models.Order;
 import com.example.altaf.rairiwala.PerformanceMonitering.SystemVendorResponseTime;
 import com.example.altaf.rairiwala.R;
-import com.example.altaf.rairiwala.RairriWalaManagment.SellerAssignDeliverPerson;
 import com.example.altaf.rairiwala.Singelton.Constants;
 import com.example.altaf.rairiwala.Singelton.OrderDetail;
 import com.example.altaf.rairiwala.Singelton.RequestHandler;
-import com.example.altaf.rairiwala.Singelton.SharedPrefManager;
-import com.example.altaf.rairiwala.Singelton.SharedPrefManagerFirebase;
 import com.gitonway.lee.niftymodaldialogeffects.lib.NiftyDialogBuilder;
 import com.google.gson.Gson;
 

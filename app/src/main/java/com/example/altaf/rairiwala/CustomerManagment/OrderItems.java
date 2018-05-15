@@ -3,8 +3,6 @@ package com.example.altaf.rairiwala.CustomerManagment;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -19,31 +17,18 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
 import com.example.altaf.rairiwala.Models.Product;
 import com.example.altaf.rairiwala.R;
-import com.example.altaf.rairiwala.Singelton.Constants;
-import com.example.altaf.rairiwala.Singelton.RequestHandler;
 import com.example.altaf.rairiwala.Singelton.SaveToken;
 import com.example.altaf.rairiwala.Singelton.SharedPrefManager;
 import com.example.altaf.rairiwala.Singelton.SharedPrefManagerFirebase;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class OrderItems extends AppCompatActivity implements RecyclerItemTouchHelper.RecyclerItemTouchHelperListener {
     ArrayList<Product> products;

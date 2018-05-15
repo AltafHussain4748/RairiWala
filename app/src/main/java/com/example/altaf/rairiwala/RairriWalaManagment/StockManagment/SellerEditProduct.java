@@ -2,8 +2,6 @@ package com.example.altaf.rairiwala.RairriWalaManagment.StockManagment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -23,7 +21,6 @@ import com.example.altaf.rairiwala.RairriWalaManagment.SellerHomePage;
 import com.example.altaf.rairiwala.Singelton.Constants;
 import com.example.altaf.rairiwala.Singelton.RequestHandler;
 import com.example.altaf.rairiwala.Singelton.SharedPrefManager;
-import com.example.altaf.rairiwala.Singelton.SharedPrefManagerFirebase;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -32,7 +29,6 @@ import org.json.JSONObject;
 
 import java.lang.reflect.Type;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class SellerEditProduct extends AppCompatActivity {

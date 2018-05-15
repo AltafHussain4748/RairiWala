@@ -41,4 +41,5 @@
     <string name="title_activity_vendor_selling_history">VendorSellingHistory</string>
     <string name="title_activity_nearest_vendors_map">Map</string>
     <string name="ResponseTime">ResponseTime</string>
+    <string name="title_activity_account_detail">AccountDetail</string>
 </resources>

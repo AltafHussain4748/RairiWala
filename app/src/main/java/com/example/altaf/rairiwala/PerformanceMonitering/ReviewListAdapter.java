@@ -5,31 +5,16 @@ package com.example.altaf.rairiwala.PerformanceMonitering;
  */
 
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.example.altaf.rairiwala.CustomerManagment.OrderItems;
-import com.example.altaf.rairiwala.Models.CustomerAddress;
 import com.example.altaf.rairiwala.Models.FeedBack;
-import com.example.altaf.rairiwala.Models.Order;
-import com.example.altaf.rairiwala.Models.OrderDetails;
-import com.example.altaf.rairiwala.Models.Product;
 import com.example.altaf.rairiwala.R;
-import com.google.gson.Gson;
 
-import java.util.ArrayList;
 import java.util.List;
 
 

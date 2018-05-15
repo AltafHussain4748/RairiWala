@@ -1,8 +1,6 @@
 package com.example.altaf.rairiwala.CustomerManagment;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -21,7 +19,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.altaf.rairiwala.Models.History;
-import com.example.altaf.rairiwala.Models.Product;
 import com.example.altaf.rairiwala.R;
 import com.example.altaf.rairiwala.Singelton.Constants;
 import com.example.altaf.rairiwala.Singelton.SharedPrefManager;

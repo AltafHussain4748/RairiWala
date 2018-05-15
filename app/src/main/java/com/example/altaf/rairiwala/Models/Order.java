@@ -1,7 +1,5 @@
 package com.example.altaf.rairiwala.Models;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**

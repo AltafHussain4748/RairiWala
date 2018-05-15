@@ -19,12 +19,12 @@ import android.widget.GridView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.altaf.rairiwala.AccountManagment.AccountDetail;
 import com.example.altaf.rairiwala.AccountManagment.CheckInterNet;
 import com.example.altaf.rairiwala.AccountManagment.ConnectToInternet;
 import com.example.altaf.rairiwala.AccountManagment.UserLogin;
 import com.example.altaf.rairiwala.Models.Category;
 import com.example.altaf.rairiwala.Models.Notifications;
-import com.example.altaf.rairiwala.PerformanceMonitering.Rating_Stars_Activity;
 import com.example.altaf.rairiwala.R;
 import com.example.altaf.rairiwala.Singelton.NotificationFragment;
 import com.example.altaf.rairiwala.Singelton.SharedPrefManager;
@@ -144,6 +144,8 @@ public class CustomerHomePage extends AppCompatActivity {
             startActivity(new Intent(CustomerHomePage.this, CustomerOrderList.class));
         } else if (id == R.id.history) {
             startActivity(new Intent(CustomerHomePage.this, CustomerBuyingHistory.class));
+        }else if (id == R.id.accountDetail) {
+            startActivity(new Intent(CustomerHomePage.this, AccountDetail.class));
         }
 
         return super.onOptionsItemSelected(item);

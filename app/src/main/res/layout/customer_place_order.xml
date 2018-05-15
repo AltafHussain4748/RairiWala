@@ -37,7 +37,6 @@
         android:hint="House Name"
         android:inputType="text"
         android:maxLines="1"
-        android:textAlignment="center"
         android:textColorHint="@color/red"
         android:layout_margin="3dp"/>
 
@@ -48,7 +47,6 @@
         android:hint="House Name"
         android:inputType="text"
         android:maxLines="1"
-        android:textAlignment="center"
         android:textColorHint="@color/red"
         android:layout_margin="3dp"/>
 

@@ -16,6 +16,11 @@
         android:orderInCategory="100"
         android:title="Buying History"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/accountDetail"
+        android:orderInCategory="100"
+        android:title="AccountDetail"
+        app:showAsAction="never" />
 
     <item
         android:id="@+id/actionNotifications"

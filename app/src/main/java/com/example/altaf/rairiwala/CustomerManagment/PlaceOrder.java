@@ -30,7 +30,6 @@ import com.example.altaf.rairiwala.Models.CustomerAddress;
 import com.example.altaf.rairiwala.Models.Order;
 import com.example.altaf.rairiwala.Models.Product;
 import com.example.altaf.rairiwala.R;
-import com.example.altaf.rairiwala.RairriWalaManagment.AddSellerExtraInformation;
 import com.example.altaf.rairiwala.Singelton.Constants;
 import com.example.altaf.rairiwala.Singelton.SharedPrefManager;
 import com.google.android.gms.location.FusedLocationProviderClient;

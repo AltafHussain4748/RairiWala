@@ -14,12 +14,10 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.example.altaf.rairiwala.AccountManagment.UserRegister;
 import com.example.altaf.rairiwala.R;
 import com.example.altaf.rairiwala.Singelton.Constants;
 import com.example.altaf.rairiwala.Singelton.RequestHandler;
 import com.example.altaf.rairiwala.Singelton.SharedPrefManager;
-import com.google.firebase.auth.PhoneAuthProvider;
 
 import org.json.JSONException;
 import org.json.JSONObject;

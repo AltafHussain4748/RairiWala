@@ -2,7 +2,6 @@ package com.example.altaf.rairiwala.Singelton;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.media.session.MediaSession;
 
 import com.example.altaf.rairiwala.Models.Customer;
 import com.example.altaf.rairiwala.Models.DeliveryPerson;

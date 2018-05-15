@@ -3,14 +3,11 @@ package com.example.altaf.rairiwala.PerformanceMonitering;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.example.altaf.rairiwala.PerformanceMonitering.StarRatingFragment;
 import com.example.altaf.rairiwala.R;

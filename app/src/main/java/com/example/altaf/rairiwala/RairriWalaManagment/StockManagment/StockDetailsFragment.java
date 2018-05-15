@@ -2,7 +2,6 @@ package com.example.altaf.rairiwala.RairriWalaManagment.StockManagment;
 
 import android.app.Fragment;
 
-import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -21,8 +19,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.altaf.rairiwala.CustomerManagment.ProductAdapter;
-import com.example.altaf.rairiwala.CustomerManagment.ProductList;
 import com.example.altaf.rairiwala.Models.Product;
 import com.example.altaf.rairiwala.Models.ProductDetails;
 import com.example.altaf.rairiwala.R;

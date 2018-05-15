@@ -7,7 +7,6 @@ import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.GestureDetector;
@@ -16,32 +15,19 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.altaf.rairiwala.CustomerManagment.CategoryListFragment;
 import com.example.altaf.rairiwala.CustomerManagment.CustomerOrderList;
 import com.example.altaf.rairiwala.DeliverPersonManagement.DeliveryPersonAssignedOrders;
-import com.example.altaf.rairiwala.DeliverPersonManagement.DeliveryPersonHomePage;
-import com.example.altaf.rairiwala.Models.DeliveryPerson;
 import com.example.altaf.rairiwala.Models.Notifications;
-import com.example.altaf.rairiwala.Models.Order;
-import com.example.altaf.rairiwala.Models.Vendor;
 import com.example.altaf.rairiwala.R;
-import com.example.altaf.rairiwala.RairriWalaManagment.DeliveryPersonManagment;
-import com.example.altaf.rairiwala.RairriWalaManagment.FragmentAccountDetail;
-import com.example.altaf.rairiwala.RairriWalaManagment.NewOrderAdapter;
-import com.example.altaf.rairiwala.RairriWalaManagment.SellerAssignDeliverPerson;
-import com.example.altaf.rairiwala.RairriWalaManagment.SellerHomePage;
 import com.example.altaf.rairiwala.RairriWalaManagment.SellerNewOrderList;
 import com.example.altaf.rairiwala.RairriWalaManagment.VendorSellingHistory;
 import com.example.altaf.rairiwala.Singelton.SharedPrefManager;
 import com.example.altaf.rairiwala.SqliteDatabase.DatabaseHandling;
-import com.gitonway.lee.niftymodaldialogeffects.lib.NiftyDialogBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.gitonway.lee.niftymodaldialogeffects.lib.Effectstype.RotateBottom;
 
 /**
  * Created by AltafHussain on 3/5/2018.

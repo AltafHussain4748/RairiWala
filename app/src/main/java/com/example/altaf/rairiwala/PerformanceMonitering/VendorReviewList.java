@@ -2,10 +2,7 @@ package com.example.altaf.rairiwala.PerformanceMonitering;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -16,24 +13,16 @@ import android.widget.AbsListView;
 import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.example.altaf.rairiwala.Models.FeedBack;
-import com.example.altaf.rairiwala.Models.Product;
-import com.example.altaf.rairiwala.Models.ProductDetails;
-import com.example.altaf.rairiwala.Models.Vendor;
 import com.example.altaf.rairiwala.R;
-import com.example.altaf.rairiwala.RairriWalaManagment.StockManagment.StockDetailsAdatpter;
 import com.example.altaf.rairiwala.Singelton.Constants;
 import com.example.altaf.rairiwala.Singelton.RequestHandler;
-import com.example.altaf.rairiwala.Singelton.SharedPrefManager;
-import com.gitonway.lee.niftymodaldialogeffects.lib.NiftyDialogBuilder;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -43,8 +32,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import static com.gitonway.lee.niftymodaldialogeffects.lib.Effectstype.RotateBottom;
 
 public class VendorReviewList extends AppCompatActivity {
     ProgressBar progressBar;

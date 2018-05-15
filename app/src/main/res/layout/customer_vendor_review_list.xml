@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context="com.example.altaf.rairiwala.PerformanceMonitering.VendorReviewList">
 
     <android.support.design.widget.AppBarLayout
@@ -43,12 +44,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/responseTime"
-            android:layout_marginTop="10dp">
+            android:layout_marginTop="10dp"
+            android:background="@color/white">
 
 
             <TableLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:background="@color/white">
 
                 <TableRow android:layout_marginLeft="5dp">
 
@@ -56,9 +59,10 @@
                         android:id="@+id/priceRating"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginLeft="60dp"
                         android:layout_marginTop="1dp"
                         android:text="Price"
-                        android:textSize="15dp" />
+                        android:textSize="17dp" />
 
                     <RatingBar
                         android:id="@+id/priceRatingBar"
@@ -80,9 +84,10 @@
                         android:id="@+id/qualityRating"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginLeft="60dp"
                         android:layout_marginTop="0dp"
                         android:text="Quality"
-                        android:textSize="15dp" />
+                        android:textSize="17dp" />
 
                     <RatingBar
                         android:id="@+id/qualityRatingBar"
@@ -104,9 +109,10 @@
                         android:id="@+id/quantityRating"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginLeft="60dp"
                         android:layout_marginTop="0dp"
                         android:text="Quantity"
-                        android:textSize="15dp" />
+                        android:textSize="17dp" />
 
                     <RatingBar
                         android:id="@+id/quantityRatingBar"
@@ -130,7 +136,7 @@
         android:id="@+id/review_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/progressBar"
+        android:layout_below="@id/otherData"
         android:layout_marginTop="10dp"
         android:layout_weight="4"
         tools:layout_editor_absoluteX="745dp"
@@ -152,7 +158,9 @@
         android:id="@+id/progressBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/otherData"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+
+        android:layout_centerInParent="true"
+        android:layout_centerVertical="true" />
 
 </RelativeLayout>

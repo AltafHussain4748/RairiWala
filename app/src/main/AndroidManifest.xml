@@ -135,7 +135,11 @@
             android:theme="@style/AppTheme" />
         <activity
             android:name=".CustomerManagment.NearestVendorsMap"
-            android:label="@string/title_activity_nearest_vendors_map"></activity>
+            android:label="@string/title_activity_nearest_vendors_map" />
+        <activity
+            android:name=".AccountManagment.AccountDetail"
+            android:label="@string/title_activity_account_detail"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

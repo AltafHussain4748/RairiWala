@@ -1,8 +1,6 @@
 package com.example.altaf.rairiwala.PerformanceMonitering;
 
 import android.content.Context;
-import android.content.pm.FeatureInfo;
-import android.view.View;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -11,10 +9,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.altaf.rairiwala.R;
-import com.example.altaf.rairiwala.RairriWalaManagment.VendorSellingHistory;
 import com.example.altaf.rairiwala.Singelton.Constants;
-import com.gitonway.lee.niftymodaldialogeffects.lib.NiftyDialogBuilder;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -24,8 +19,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-
-import static com.gitonway.lee.niftymodaldialogeffects.lib.Effectstype.RotateBottom;
 
 /**
  * Created by AltafHussain on 5/7/2018.

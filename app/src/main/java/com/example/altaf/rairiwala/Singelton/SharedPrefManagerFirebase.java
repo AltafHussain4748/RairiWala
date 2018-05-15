@@ -5,10 +5,7 @@ package com.example.altaf.rairiwala.Singelton;
  */
 
 import android.content.Context;
-
-import android.content.Context;
 import android.content.SharedPreferences;
-import android.media.session.MediaSession;
 
 
 /**

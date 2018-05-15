@@ -31,5 +31,6 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/main"
         android:layout_centerHorizontal="true"
-        android:background="@color/white" />
+        android:background="@color/white"
+        />
 </LinearLayout>

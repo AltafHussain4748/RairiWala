@@ -3,7 +3,6 @@ package com.example.altaf.rairiwala.AccountManagment;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.support.v7.app.AppCompatActivity;
 
 /**
  * Created by AltafHussain on 3/3/2018.
