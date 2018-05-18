@@ -107,6 +107,7 @@ public class AccountConfirmation extends AppCompatActivity {
 
                                 if (jsonObject.getBoolean("error") == false) {
                                     startActivity(new Intent(AccountConfirmation.this, UserLogin.class));
+                                    AccountConfirmation.this.finish();
                                     Toast.makeText(AccountConfirmation.this, jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
                                 } else {
                                     Toast.makeText(AccountConfirmation.this, jsonObject.getString("message"), Toast.LENGTH_SHORT).show();

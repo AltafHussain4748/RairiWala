@@ -24,7 +24,9 @@ import com.android.volley.toolbox.Volley;
 import com.example.altaf.rairiwala.Models.DeliveryPerson;
 import com.example.altaf.rairiwala.R;
 import com.example.altaf.rairiwala.Singelton.Constants;
+import com.example.altaf.rairiwala.Singelton.RequestHandler;
 import com.example.altaf.rairiwala.Singelton.SharedPrefManager;
+import com.example.altaf.rairiwala.Singelton.SharedPrefManagerFirebase;
 import com.gitonway.lee.niftymodaldialogeffects.lib.NiftyDialogBuilder;
 
 import org.json.JSONArray;
@@ -47,6 +49,7 @@ public class DeliveryPersonManagment extends Fragment {
     View view;
     RecyclerView recyclerView;
     ProgressBar progressBar;
+    Delivery_Person_Adapter newOrderAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -126,7 +129,7 @@ public class DeliveryPersonManagment extends Fragment {
             }
 
             @Override
-            public void onLongClick(View view, int position) {
+            public void onLongClick(View view, final int position) {
                 final DeliveryPerson deliveryPerson = deliveryPersonList.get(position);
                 final NiftyDialogBuilder dialogBuilder = NiftyDialogBuilder.getInstance(getActivity());
                 dialogBuilder
@@ -152,7 +155,7 @@ public class DeliveryPersonManagment extends Fragment {
                         .setButton2Click(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                Toast.makeText(getActivity(), "" + deliveryPerson.getDelivery_person_id(), Toast.LENGTH_SHORT).show();
+                                deleteDeliveryPerson(deliveryPerson.getDelivery_person_id(), position);
                                 dialogBuilder.dismiss();
                             }
                         })
@@ -197,7 +200,7 @@ public class DeliveryPersonManagment extends Fragment {
 
                                 }
 
-                                Delivery_Person_Adapter newOrderAdapter = new Delivery_Person_Adapter(getActivity(), deliveryPersonList);
+                                newOrderAdapter = new Delivery_Person_Adapter(getActivity(), deliveryPersonList);
                                 recyclerView.setAdapter(newOrderAdapter);
 
                             } catch (JSONException e) {
@@ -238,5 +241,45 @@ public class DeliveryPersonManagment extends Fragment {
         public void onLongClick(View view, int position);
     }
 
+    private void deleteDeliveryPerson(final int dp_id, final int position) {
+        Toast.makeText(getActivity(), "Deleteing.....", Toast.LENGTH_SHORT).show();
+        StringRequest stringRequest = new StringRequest(Request.Method.POST,
+                Constants.DELETEDELIVERYPERSON,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+
+                            if (jsonObject.getBoolean("error") == false) {
+
+                                deliveryPersonList.remove(position);
+                                newOrderAdapter.notifyItemRemoved(position);
+                            } else {
+                                Toast.makeText(getActivity(), jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
+                            }
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(getActivity(), "There was some error.Please try again....", Toast.LENGTH_LONG).show();
+
+                    }
+                }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("dp_id", String.valueOf(dp_id));
+                return params;
+            }
+        };
+        RequestHandler.getInstance(getActivity()).addToRequestQueue(stringRequest);
+    }
 }
 

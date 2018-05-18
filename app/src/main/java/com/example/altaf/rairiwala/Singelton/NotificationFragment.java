@@ -15,8 +15,10 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.altaf.rairiwala.CustomerManagment.CategoryListFragment;
+import com.example.altaf.rairiwala.CustomerManagment.CustomerBuyingHistory;
 import com.example.altaf.rairiwala.CustomerManagment.CustomerOrderList;
 import com.example.altaf.rairiwala.DeliverPersonManagement.DeliveryPersonAssignedOrders;
 import com.example.altaf.rairiwala.Models.Notifications;
@@ -185,8 +187,27 @@ public class NotificationFragment extends Fragment {
                         TextView delievryPersonCounter = getActivity().findViewById(R.id.notificationcount);
                         delievryPersonCounter.setVisibility(View.GONE);
                         delievryPersonCounter.setText("" + databaseHandling.getNotesCount());
-                    }
+                    } else if (deliveryPerson.getTag().equals(NotificationTags.CUSTOMERDELIVERED)) {
+                       startActivity(new Intent(getActivity(), CustomerBuyingHistory.class));
+                      Fragment fragment = new CategoryListFragment();
+                        FragmentManager fm = getFragmentManager();
+                        // create a FragmentTransaction to begin the transaction and replace the Fragment
+                        android.app.FragmentTransaction fragmentTransaction = fm.beginTransaction();
+                        // replace the FrameLayout with new Fragment
+                        fragmentTransaction.replace(R.id.frameLayout, fragment);
+                        fragmentTransaction.commit();
 
+                        databaseHandling.deleteNote(SharedPrefManager.getInstance(getActivity()).getCustomer().getCustomer_id(), NotificationTags.CUSTOMERDELIVERED);
+                        TextView delievryPersonCounter = getActivity().findViewById(R.id.customer_notifictaion_count);
+
+                     if(databaseHandling.getNotesCount()>0){
+                         delievryPersonCounter.setVisibility(View.VISIBLE);
+                         delievryPersonCounter.setText("" + databaseHandling.getNotesCount());
+                     }else{
+                         delievryPersonCounter.setVisibility(View.GONE);
+                         delievryPersonCounter.setText("" + databaseHandling.getNotesCount());
+                     }
+                    }
                 } catch (Exception e) {
 
                 }

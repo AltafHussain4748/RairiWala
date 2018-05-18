@@ -59,6 +59,7 @@ public class AppStartUpPage extends AppCompatActivity {
                     Intent intent = new Intent(AppStartUpPage.this, UserRegister.class);
                     intent.putExtra("TYPE", "CUSTOMER");
                     startActivity(intent);
+                    AppStartUpPage.this.finish();
                 }
             });
             findViewById(R.id.join_as_vendor).setOnClickListener(new View.OnClickListener() {
@@ -74,6 +75,7 @@ public class AppStartUpPage extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     startActivity(new Intent(AppStartUpPage.this, UserLogin.class));
+                    AppStartUpPage.this.finish();
                 }
             });
         }

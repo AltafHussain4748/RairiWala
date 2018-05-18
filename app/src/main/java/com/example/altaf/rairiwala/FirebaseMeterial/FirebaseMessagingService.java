@@ -185,10 +185,6 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
                             sendCustomerBroadCast(intent);
                             DatabaseHandling handling = new DatabaseHandling(FirebaseMessagingService.this);
                             handling.insert(NotificationTags.CUSTOMERDELIVERED, "Order Delivered", "Order has been delivered", message.getInt("reciever_id"));
-                        } else {
-
-                            DatabaseHandling handling = new DatabaseHandling(FirebaseMessagingService.this);
-                            handling.insert(NotificationTags.VENDORDELIVERED, "Order Delivered", "Order has been delivered", message.getInt("reciever_id"));
                         }
                     } else if (vendor_id != 0) {
                         Intent i = new Intent(this, SellerHomePage.class);
@@ -209,10 +205,6 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
                         if (SharedPrefManagerFirebase.getInstance(this).getActivityStateSellerHomePage()) {
                             Intent intent = new Intent("speedExceeded");
                             sendLocationBroadcast(intent);
-                            DatabaseHandling handling = new DatabaseHandling(FirebaseMessagingService.this);
-                            handling.insert(NotificationTags.VENDORDELIVERED, "Order Delivered", "Order has been Delivered", message.getInt("reciever_id1"));
-                        } else {
-
                             DatabaseHandling handling = new DatabaseHandling(FirebaseMessagingService.this);
                             handling.insert(NotificationTags.VENDORDELIVERED, "Order Delivered", "Order has been Delivered", message.getInt("reciever_id1"));
                         }

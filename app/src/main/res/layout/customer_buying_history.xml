@@ -42,7 +42,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/main"
             android:layout_centerHorizontal="true"
-            android:background="@color/white" />
+            />
         <TextView
             android:id="@+id/error_message"
             android:layout_width="match_parent"

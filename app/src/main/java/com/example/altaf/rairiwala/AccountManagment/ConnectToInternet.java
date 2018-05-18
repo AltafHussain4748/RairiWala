@@ -17,5 +17,6 @@ public class ConnectToInternet extends AppCompatActivity {
 
     public void openConnection(View view) {
         startActivityForResult(new Intent(android.provider.Settings.ACTION_SETTINGS), 0);
+        ConnectToInternet.this.finish();
     }
 }

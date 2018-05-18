@@ -122,6 +122,7 @@ public class UserRegister extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(UserRegister.this, UserLogin.class));
+                UserRegister.this.finish();
             }
         });
 
@@ -168,6 +169,7 @@ public class UserRegister extends AppCompatActivity {
                 intent.putExtra("pin", pin.getText().toString());
                 //   intent.putExtra("name", "");
                 startActivity(intent);
+                UserRegister.this.finish();
             }
 
         };

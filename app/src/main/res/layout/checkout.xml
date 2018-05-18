@@ -51,14 +51,13 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/home"
                     android:padding="8dp">
 
                     <ImageView
                         android:id="@+id/checkout_product_image"
                         android:layout_width="170dp"
                         android:layout_height="130dp"
-                        android:padding="4dp"
+                        android:scaleType="fitXY"
                         android:src="@drawable/cartt" />
 
                     <TextView
@@ -100,7 +99,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Quantity"
-                            android:textColor="@color/white" />
+                            android:textColor="@color/red" />
 
                         <TextView
                             android:id="@+id/checkout_value"

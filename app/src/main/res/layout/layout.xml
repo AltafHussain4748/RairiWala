@@ -14,7 +14,7 @@
             android:layout_height="wrap_content"
             android:hint="Enter New Name"
             android:imeOptions="actionDone"
-            android:inputType="textPassword" />
+            android:inputType="text" />
 
     </android.support.design.widget.TextInputLayout>
 </FrameLayout>

@@ -15,7 +15,7 @@
             android:layout_height="wrap_content"
             android:hint="Enter old pin"
             android:imeOptions="actionDone"
-            android:inputType="text" />
+            android:inputType="number" />
 
     </android.support.design.widget.TextInputLayout>
 
@@ -29,7 +29,7 @@
             android:layout_height="wrap_content"
             android:hint="Enter new pin"
             android:imeOptions="actionDone"
-            android:inputType="text" />
+            android:inputType="number" />
 
     </android.support.design.widget.TextInputLayout>
 
@@ -43,7 +43,7 @@
             android:layout_height="wrap_content"
             android:hint="Confirm Pin"
             android:imeOptions="actionDone"
-            android:inputType="text" />
+            android:inputType="number" />
 
     </android.support.design.widget.TextInputLayout>
 </LinearLayout>

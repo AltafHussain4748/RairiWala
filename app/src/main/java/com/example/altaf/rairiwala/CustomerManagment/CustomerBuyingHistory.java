@@ -86,7 +86,6 @@ public class CustomerBuyingHistory extends AppCompatActivity {
 
     private void loadProducts(final int customer_id) {
         progressBar.setVisibility(View.VISIBLE);
-        Toast.makeText(this, "" + customer_id, Toast.LENGTH_SHORT).show();
         /*
         * Creating a String Request
         * The request type is GET defined by first parameter

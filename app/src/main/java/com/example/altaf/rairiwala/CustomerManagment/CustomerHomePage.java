@@ -34,13 +34,8 @@ import com.example.altaf.rairiwala.SqliteDatabase.DatabaseHandling;
 import java.util.List;
 
 public class CustomerHomePage extends AppCompatActivity {
-    List<Category> category_List;
-    List<Category> sqliteDb;
-    ProgressDialog progressDialog;
-    GridView androidListView;
-    TextView message;
+
     TextView txtViewCount;
-    DatabaseHandling databaseHandling;
     List<Notifications> notificationsList;
 
     @Override

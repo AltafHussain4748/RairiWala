@@ -53,8 +53,7 @@
             android:layout_weight="3"
             android:ems="10"
             android:hint="ShopName"
-            android:inputType="textPersonName"
-            android:textAlignment="center" />
+            android:inputType="textPersonName" />
 
         <Button
             android:id="@+id/add_extra_information"

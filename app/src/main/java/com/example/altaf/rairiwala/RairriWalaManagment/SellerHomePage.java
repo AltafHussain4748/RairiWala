@@ -85,10 +85,8 @@ public class SellerHomePage extends AppCompatActivity
             String fragmenttoLaunch = bundle.getString("stockDetail");
             if (fragmenttoLaunch != null && fragmenttoLaunch.equals("stockDetail")) {
                 fragmentTransaction.replace(R.id.frameLayout, new StockDetailsFragment());
-            } else if(fragmenttoLaunch != null && fragmenttoLaunch.equals("mainPage")){
-                fragmentTransaction.replace(R.id.frameLayout, new FragmentAccountDetail());
-            }else {
-                fragmentTransaction.replace(R.id.frameLayout, new FragmentAccountDetail());
+            } else {
+                fragmentTransaction.replace(R.id.frameLayout, new StockDetailsFragment());
             }
             fragmentTransaction.commit(); // save the changes
         } catch (Exception e) {
@@ -101,7 +99,7 @@ public class SellerHomePage extends AppCompatActivity
                 mMessageReceiver, new IntentFilter("speedExceeded"));
         if (SharedPrefManager.getInstance(this).getSeller() != null) {
             vendor_id = SharedPrefManager.getInstance(this).getSeller().getVendor_id();
-            if (vendor_id >= 0) {
+            if (vendor_id > 0) {
                 SaveToken saveToken = new SaveToken(this);
                 saveToken.checkSTock();
             }
@@ -358,8 +356,7 @@ public class SellerHomePage extends AppCompatActivity
                 }
 
                 //  fragment = new NewOrders();
-            }
-            else if(id==R.id.customer_review){
+            } else if (id == R.id.customer_review) {
                 if (vendor_id <= 0) {
                     Toast.makeText(this, "Please add location details first", Toast.LENGTH_SHORT).show();
                 } else {
