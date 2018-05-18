@@ -2,6 +2,7 @@ package com.example.altaf.rairiwala.CustomerManagment;
 
 import android.content.Context;
 import android.content.Intent;
+import android.media.Image;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,11 +32,11 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     private List<Product> productList;
     private Context context = null;
     TextView itemcount;
-    Button carts;
+    ImageView carts;
     int count = 0;
     ArrayList<Product> addproducts;
 
-    public ProductAdapter(Context mCtx, List<Product> productList, TextView itemcount, Button carts) {
+    public ProductAdapter(Context mCtx, List<Product> productList, TextView itemcount, ImageView carts) {
         this.mCtx = mCtx;
         this.productList = productList;
         this.itemcount = itemcount;
@@ -99,6 +100,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         holder.cart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                itemcount.setVisibility(View.VISIBLE);
                 boolean isAdded = false;
                 //  Toast.makeText(mCtx, "Price" + txt + "\n" + "Kg Selected" + valuesstring.getText().toString(), Toast.LENGTH_SHORT).show();
                 for (Product pro : addproducts) {

@@ -5,10 +5,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -36,14 +39,14 @@ public class ProductList extends AppCompatActivity {
     List<Product> productList;
     //the recyclerview
     RecyclerView recyclerView;
-    Button carts;
-    TextView itemcart;
+    ImageView cartButton;
     TextView message;
     boolean isScrolling = false;
     int currentItems, totalItems, scrollItems;
     LinearLayoutManager linearLayoutManager;
     int count = 0;
     ProgressBar progressBar;
+    TextView cartCount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,8 +63,6 @@ public class ProductList extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
         final String type = bundle.getString("Cat");
         final int vendorid = bundle.getInt("vendorid");
-        carts = findViewById(R.id.add_cart);
-        itemcart = findViewById(R.id.badge_notification_1);
         recyclerView = findViewById(R.id.product_list_customer);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(linearLayoutManager);
@@ -143,7 +144,7 @@ public class ProductList extends AppCompatActivity {
 
                             }
 
-                            ProductAdapter adapter = new ProductAdapter(ProductList.this, productList, itemcart, carts);
+                            ProductAdapter adapter = new ProductAdapter(ProductList.this, productList, cartCount, cartButton);
                             recyclerView.setAdapter(adapter);
                             recyclerView.scrollToPosition(count);
                             adapter.notifyDataSetChanged();
@@ -193,5 +194,21 @@ public class ProductList extends AppCompatActivity {
 
         //adding our stringrequest to queue
         Volley.newRequestQueue(this).add(stringRequest);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.cart, menu);
+        final View cartCout = menu.findItem(R.id.actionCarts).getActionView();
+        cartCount = (TextView) cartCout.findViewById(R.id.cartCount);
+        cartButton = cartCout.findViewById(R.id.hotlist_bell);
+        if(cartCount.getText().equals("0")){
+            cartCount.setVisibility(View.GONE);
+        }
+
+
+        return true;
     }
 }

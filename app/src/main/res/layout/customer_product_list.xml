@@ -43,37 +43,6 @@
             android:layout_centerHorizontal="true"
             android:background="@color/white" />
 
-        <RelativeLayout
-            android:id="@+id/badge_layout1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true">
-
-            <RelativeLayout
-                android:id="@+id/relative_layout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-                <Button
-                    android:id="@+id/add_cart"
-                    android:layout_width="65dip"
-                    android:layout_height="65dip"
-                    android:background="@drawable/cartt" />
-            </RelativeLayout>
-
-            <TextView
-                android:id="@+id/badge_notification_1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignRight="@id/relative_layout"
-                android:background="@drawable/itemcount"
-                android:text="0"
-                android:textColor="#FFF"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-        </RelativeLayout>
-
 
     </LinearLayout>
 

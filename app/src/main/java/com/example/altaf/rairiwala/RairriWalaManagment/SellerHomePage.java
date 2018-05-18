@@ -200,11 +200,9 @@ public class SellerHomePage extends AppCompatActivity
         sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if (b) {
-                    Toast.makeText(SellerHomePage.this, "Open", Toast.LENGTH_SHORT).show();
+                if (b&&vendor_id!=0) {
                     setShopStatus("Open");
-                } else {
-                    Toast.makeText(SellerHomePage.this, "Close", Toast.LENGTH_SHORT).show();
+                } else if(vendor_id!=0&&b==false){
                     setShopStatus("Close");
                 }
             }
