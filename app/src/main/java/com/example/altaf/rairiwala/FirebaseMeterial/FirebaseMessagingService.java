@@ -12,6 +12,7 @@ import com.example.altaf.rairiwala.CustomerManagment.CustomerOrderList;
 import com.example.altaf.rairiwala.DeliverPersonManagement.DeliveryPersonHomePage;
 import com.example.altaf.rairiwala.Models.Customer;
 import com.example.altaf.rairiwala.Models.CustomerAddress;
+import com.example.altaf.rairiwala.Models.DeliveryPerson;
 import com.example.altaf.rairiwala.Models.Vendor;
 import com.example.altaf.rairiwala.PerformanceMonitering.SystemVendorResponseTime;
 import com.example.altaf.rairiwala.R;
@@ -59,103 +60,112 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
         try {
             if (message.getBoolean("error") == false) {
                 if (message.getString("type").equals("customer_order_confirmed")) {
-                    String orderString = message.getString("message");
-                    //  orderObject = new JSONObject(orderString);
-                    Intent i = new Intent(this, CustomerOrderList.class);
-                    i.putExtra("order", orderString);
-                    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, i, PendingIntent.FLAG_UPDATE_CURRENT);
-                    NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
-                            .setAutoCancel(true)
-                            .setContentTitle("New Order")
-                            .setContentText("Has been confirmed")
-                            .setSmallIcon(R.drawable.addproduct)
-                            .setContentIntent(pendingIntent).setDefaults(Notification.DEFAULT_SOUND);
+                    Customer customer = SharedPrefManager.getInstance(this).getCustomer();
+                    if (customer != null) {
+                        String orderString = message.getString("message");
+                        //  orderObject = new JSONObject(orderString);
+                        Intent i = new Intent(this, CustomerOrderList.class);
+                        i.putExtra("order", orderString);
+                        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, i, PendingIntent.FLAG_UPDATE_CURRENT);
+                        NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
+                                .setAutoCancel(true)
+                                .setContentTitle("New Order")
+                                .setContentText("Has been confirmed")
+                                .setSmallIcon(R.drawable.addproduct)
+                                .setContentIntent(pendingIntent).setDefaults(Notification.DEFAULT_SOUND);
 
-                    NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+                        NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 
-                    manager.notify(0, builder.build());
-                    if (SharedPrefManagerFirebase.getInstance(this).getActivityStateCustomerHomePage()) {
-                        Intent intent = new Intent("customerReciever");
-                        sendCustomerBroadCast(intent);
-                        DatabaseHandling handling = new DatabaseHandling(FirebaseMessagingService.this);
-                        handling.insert(NotificationTags.CONFIRMORDER, "New Order", "Order has been confirmed", message.getInt("reciever_id"));
-                    } else {
+                        manager.notify(0, builder.build());
+                        if (SharedPrefManagerFirebase.getInstance(this).getActivityStateCustomerHomePage()) {
+                            Intent intent = new Intent("customerReciever");
+                            sendCustomerBroadCast(intent);
+                            DatabaseHandling handling = new DatabaseHandling(FirebaseMessagingService.this);
+                            handling.insert(NotificationTags.CONFIRMORDER, "New Order", "Order has been confirmed", message.getInt("reciever_id"));
+                        } else {
 
-                        DatabaseHandling handling = new DatabaseHandling(FirebaseMessagingService.this);
-                        handling.insert(NotificationTags.CONFIRMORDER, "New Order", "Order hass been confirmed ", message.getInt("reciever_id"));
+                            DatabaseHandling handling = new DatabaseHandling(FirebaseMessagingService.this);
+                            handling.insert(NotificationTags.CONFIRMORDER, "New Order", "Order hass been confirmed ", message.getInt("reciever_id"));
+                        }
                     }
                     //    message1 = orderString;
                 } else if (message.getString("type").equals("dp")) {
-                    Intent i = new Intent(this, DeliveryPersonHomePage.class);
-                    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, i, PendingIntent.FLAG_UPDATE_CURRENT);
-                    NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
-                            .setAutoCancel(true)
-                            .setContentTitle("New Order")
-                            .setContentText("New Order is assigned")
-                            .setSmallIcon(R.drawable.addproduct)
-                            .setContentIntent(pendingIntent).setDefaults(Notification.DEFAULT_SOUND);
+                    DeliveryPerson dp = SharedPrefManager.getInstance(this).getDeliveryPerson();
+                    if (dp != null) {
+                        Intent i = new Intent(this, DeliveryPersonHomePage.class);
+                        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, i, PendingIntent.FLAG_UPDATE_CURRENT);
+                        NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
+                                .setAutoCancel(true)
+                                .setContentTitle("New Order")
+                                .setContentText("New Order is assigned")
+                                .setSmallIcon(R.drawable.addproduct)
+                                .setContentIntent(pendingIntent).setDefaults(Notification.DEFAULT_SOUND);
 
-                    NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+                        NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 
-                    manager.notify(0, builder.build());
-                    if (SharedPrefManagerFirebase.getInstance(this).getActivityStateDeliveryPersonHomePage()) {
-                        Intent intent = new Intent("newOrderAssign");
-                        sendAssignOrderBroadcast(intent);
-                        DatabaseHandling handling = new DatabaseHandling(FirebaseMessagingService.this);
-                        handling.insert(NotificationTags.ORDERASSIGNED, "Order Assigned", "Order has been assigned", message.getInt("reciever_id"));
-                    } else {
+                        manager.notify(0, builder.build());
+                        if (SharedPrefManagerFirebase.getInstance(this).getActivityStateDeliveryPersonHomePage()) {
+                            Intent intent = new Intent("newOrderAssign");
+                            sendAssignOrderBroadcast(intent);
+                            DatabaseHandling handling = new DatabaseHandling(FirebaseMessagingService.this);
+                            handling.insert(NotificationTags.ORDERASSIGNED, "Order Assigned", "Order has been assigned", message.getInt("reciever_id"));
+                        } else {
 
-                        DatabaseHandling handling = new DatabaseHandling(FirebaseMessagingService.this);
-                        handling.insert(NotificationTags.ORDERASSIGNED, "Order Assigned", "Order has been assigned", message.getInt("reciever_id"));
+                            DatabaseHandling handling = new DatabaseHandling(FirebaseMessagingService.this);
+                            handling.insert(NotificationTags.ORDERASSIGNED, "Order Assigned", "Order has been assigned", message.getInt("reciever_id"));
+                        }
+
                     }
-
 
                 } else if (message.getString("type").equals("ordersent")) {
-                    String orderString = message.getString("message");
-                    Intent i = new Intent(this, SellerNewOrderList.class);
-                    //   i.putExtra("order", orderString);
-                    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, i, PendingIntent.FLAG_UPDATE_CURRENT);
-                    NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
-                            .setAutoCancel(true)
-                            .setContentTitle("New Order")
-                            .setContentText("New Ordedr has arrived")
-                            .setSmallIcon(R.drawable.addproduct)
-                            .setContentIntent(pendingIntent).setDefaults(Notification.DEFAULT_SOUND);
-
-                    NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-
-                    manager.notify(0, builder.build());
-                    message1 = orderString;
-                    JSONObject orderObject = new JSONObject(orderString);
-                    CustomerAddress customerAddress;
-                    Gson gson = new Gson();
-                    Type listOfproductType = new TypeToken<CustomerAddress>() {
-                    }.getType();
-                    customerAddress = gson.fromJson(orderObject.getString("customerAddress"), listOfproductType);
-
-                    //new code of saving order placement time
-                    int order_id = 0;
-                    order_id = orderObject.getInt("order_id");
                     int vendor_id = SharedPrefManager.getInstance(this).getSeller().getVendor_id();
-                    if (vendor_id != 0 && order_id != 0) {
-                        //function call to save data
-                        new SystemVendorResponseTime(this).addNewOrderPlacementTime(vendor_id, order_id, "placement");
-                    }
-                    //practicer
-                    if (SharedPrefManagerFirebase.getInstance(this).getActivityStateSellerHomePage() || SharedPrefManagerFirebase.getInstance(this).getStateActivityNewOrderListSeller()) {
-                        Intent intent = new Intent("speedExceeded");
-                        sendLocationBroadcast(intent);
-                        DatabaseHandling handling = new DatabaseHandling(FirebaseMessagingService.this);
-                        handling.insert(NotificationTags.NEWORDER, "New Order", "New Order has arrived from " + customerAddress.getName(), message.getInt("reciever_id"));
-                    } else {
+                    if (vendor_id != 0) {
+                        String orderString = message.getString("message");
+                        Intent i = new Intent(this, SellerNewOrderList.class);
+                        //   i.putExtra("order", orderString);
+                        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, i, PendingIntent.FLAG_UPDATE_CURRENT);
+                        NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
+                                .setAutoCancel(true)
+                                .setContentTitle("New Order")
+                                .setContentText("New Ordedr has arrived")
+                                .setSmallIcon(R.drawable.addproduct)
+                                .setContentIntent(pendingIntent).setDefaults(Notification.DEFAULT_SOUND);
 
-                        DatabaseHandling handling = new DatabaseHandling(FirebaseMessagingService.this);
-                        handling.insert(NotificationTags.NEWORDER, "New Order", "New Order has arrived from " + customerAddress.getName(), message.getInt("reciever_id"));
-                    }
+                        NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 
+                        manager.notify(0, builder.build());
+                        message1 = orderString;
+                        JSONObject orderObject = new JSONObject(orderString);
+                        CustomerAddress customerAddress;
+                        Gson gson = new Gson();
+                        Type listOfproductType = new TypeToken<CustomerAddress>() {
+                        }.getType();
+                        customerAddress = gson.fromJson(orderObject.getString("customerAddress"), listOfproductType);
+
+                        //new code of saving order placement time
+                        int order_id = 0;
+                        order_id = orderObject.getInt("order_id");
+
+                        if (vendor_id != 0 && order_id != 0) {
+                            //function call to save data
+                            new SystemVendorResponseTime(this).addNewOrderPlacementTime(vendor_id, order_id, "placement");
+                        }
+                        //practicer
+                        if (SharedPrefManagerFirebase.getInstance(this).getActivityStateSellerHomePage() || SharedPrefManagerFirebase.getInstance(this).getStateActivityNewOrderListSeller()) {
+                            Intent intent = new Intent("speedExceeded");
+                            sendLocationBroadcast(intent);
+                            DatabaseHandling handling = new DatabaseHandling(FirebaseMessagingService.this);
+                            handling.insert(NotificationTags.NEWORDER, "New Order", "New Order has arrived from " + customerAddress.getName(), message.getInt("reciever_id"));
+                        } else {
+
+                            DatabaseHandling handling = new DatabaseHandling(FirebaseMessagingService.this);
+                            handling.insert(NotificationTags.NEWORDER, "New Order", "New Order has arrived from " + customerAddress.getName(), message.getInt("reciever_id"));
+                        }
+
+                    }
                 } else if (message.getString("type").equals("delivered")) {
                     //if the message is aorder delivered
                     int vendor_id = 0;

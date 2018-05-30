@@ -60,8 +60,7 @@ public class StockDetailsAdatpter extends RecyclerView.Adapter<StockDetailsAdatp
 
     @Override
     public void onBindViewHolder(final ProductViewHolder holder, final int position) {
-        positions = position;
-        final Product product = productList.get(position);
+       final Product product = productList.get(position);
         Glide.with(mCtx)
                 .load(product.getProduct_image())
                 .asBitmap()
@@ -123,7 +122,8 @@ public class StockDetailsAdatpter extends RecyclerView.Adapter<StockDetailsAdatp
                                         .setButton2Click(new View.OnClickListener() {
                                             @Override
                                             public void onClick(View v) {
-                                                deleteProduct(product.getProductDetails().getVendor_id(), product.getProduct_id());
+                                                positions = position;
+                                                deleteProduct(product.getProductDetails().getVendor_id(), product.getProduct_id(),holder);
                                                 dialogBuilder.dismiss();
                                             }
                                         })
@@ -164,7 +164,8 @@ public class StockDetailsAdatpter extends RecyclerView.Adapter<StockDetailsAdatp
         }
     }
 
-    public void deleteProduct(final int vendor_id, final int product_id) {
+    public void deleteProduct(final int vendor_id, final int product_id,ProductViewHolder holder) {
+        Toast.makeText(mCtx, "Deleting product....", Toast.LENGTH_SHORT).show();
         StringRequest stringRequest = new StringRequest(Request.Method.POST,
                 Constants.DELETEPRODUCT,
                 new Response.Listener<String>() {
@@ -177,6 +178,7 @@ public class StockDetailsAdatpter extends RecyclerView.Adapter<StockDetailsAdatp
                                 Toast.makeText(mCtx, jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
                                 productList.remove(positions);
                                 notifyItemRemoved(positions);
+                                notifyItemRangeChanged(positions, productList.size());
                             } else {
                                 Toast.makeText(mCtx, jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
                             }

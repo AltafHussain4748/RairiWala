@@ -205,7 +205,7 @@ public class ProductList extends AppCompatActivity {
         cartCount = (TextView) cartCout.findViewById(R.id.cartCount);
         cartButton = cartCout.findViewById(R.id.hotlist_bell);
         if(cartCount.getText().equals("0")){
-            cartCount.setVisibility(View.GONE);
+            cartCount.setVisibility(View.GONE );
         }
 
 

@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.content.LocalBroadcastManager;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -200,11 +201,18 @@ public class SellerHomePage extends AppCompatActivity
         sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if (b&&vendor_id!=0) {
-                    setShopStatus("Open");
-                } else if(vendor_id!=0&&b==false){
-                    setShopStatus("Close");
+                if(vendor_id!=0){
+                    if (b) {
+                        setShopStatus("Open");
+                    } else {
+                        setShopStatus("Close");
+                    }
+                }else{
+
+                    Toast.makeText(SellerHomePage.this, "Please add shop information first", Toast.LENGTH_SHORT).show();
+                    sw.setChecked(false);
                 }
+
             }
         });
 
@@ -312,7 +320,7 @@ public class SellerHomePage extends AppCompatActivity
                 // fragment = new AddSellerExtraInformation();
             } else if (id == R.id.add_product) {
                 if (vendor_id <= 0) {
-                    Toast.makeText(this, "Please add location details first", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Please add shop location details first", Toast.LENGTH_SHORT).show();
                 } else {
 
                     fragment = new ADDProductCategoryDisplay();
@@ -320,14 +328,14 @@ public class SellerHomePage extends AppCompatActivity
 
             } else if (id == R.id.view_stock) {
                 if (vendor_id <= 0) {
-                    Toast.makeText(this, "Please add location details first", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Please add shop location details first", Toast.LENGTH_SHORT).show();
                 } else {
 
                     fragment = new StockDetailsFragment();
                 }
             } else if (id == R.id.new_order) {
                 if (vendor_id <= 0) {
-                    Toast.makeText(this, "Please add location details first", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Please add shop location details first", Toast.LENGTH_SHORT).show();
                 } else {
 
                     startActivity(new Intent(SellerHomePage.this, SellerNewOrderList.class));
@@ -340,14 +348,14 @@ public class SellerHomePage extends AppCompatActivity
                 fragment = new FragmentAccountDetail();
             } else if (id == R.id.add_delivery_person) {
                 if (vendor_id <= 0) {
-                    Toast.makeText(this, "Please add location details first", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Please add shop location details first", Toast.LENGTH_SHORT).show();
                 } else {
 
                     fragment = new DeliveryPersonManagment();
                 }
             } else if (id == R.id.selling_history) {
                 if (vendor_id <= 0) {
-                    Toast.makeText(this, "Please add location details first", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Please add shop location details first", Toast.LENGTH_SHORT).show();
                 } else {
 
                     startActivity(new Intent(SellerHomePage.this, VendorSellingHistory.class));
@@ -356,7 +364,7 @@ public class SellerHomePage extends AppCompatActivity
                 //  fragment = new NewOrders();
             } else if (id == R.id.customer_review) {
                 if (vendor_id <= 0) {
-                    Toast.makeText(this, "Please add location details first", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Please add shop location details first", Toast.LENGTH_SHORT).show();
                 } else {
 
                     Intent intent = new Intent(SellerHomePage.this, VendorReviewList.class);

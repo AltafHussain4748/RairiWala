@@ -176,20 +176,18 @@ public class NotificationFragment extends Fragment {
                     } else if (deliveryPerson.getTag().equals(NotificationTags.VENDORDELIVERED)) {
 
                         startActivity(new Intent(getActivity(), VendorSellingHistory.class));
-                      /*  Fragment fragment = new FragmentAccountDetail();
-                        FragmentManager fm = getFragmentManager();
-                        // create a FragmentTransaction to begin the transaction and replace the Fragment
-                        android.app.FragmentTransaction fragmentTransaction = fm.beginTransaction();
-                        // replace the FrameLayout with new Fragment
-                        fragmentTransaction.replace(R.id.frameLayout, fragment);
-                        fragmentTransaction.commit();*/
                         databaseHandling.deleteNote(SharedPrefManager.getInstance(getActivity()).getSeller().getVendor_id(), NotificationTags.VENDORDELIVERED);
                         TextView delievryPersonCounter = getActivity().findViewById(R.id.notificationcount);
-                        delievryPersonCounter.setVisibility(View.GONE);
-                        delievryPersonCounter.setText("" + databaseHandling.getNotesCount());
+                        if (databaseHandling.getNotesCount() > 0) {
+                            delievryPersonCounter.setVisibility(View.VISIBLE);
+                            delievryPersonCounter.setText("" + databaseHandling.getNotesCount());
+                        } else {
+                            delievryPersonCounter.setVisibility(View.GONE);
+                            delievryPersonCounter.setText("" + databaseHandling.getNotesCount());
+                        }
                     } else if (deliveryPerson.getTag().equals(NotificationTags.CUSTOMERDELIVERED)) {
-                       startActivity(new Intent(getActivity(), CustomerBuyingHistory.class));
-                      Fragment fragment = new CategoryListFragment();
+                        startActivity(new Intent(getActivity(), CustomerBuyingHistory.class));
+                        Fragment fragment = new CategoryListFragment();
                         FragmentManager fm = getFragmentManager();
                         // create a FragmentTransaction to begin the transaction and replace the Fragment
                         android.app.FragmentTransaction fragmentTransaction = fm.beginTransaction();
@@ -200,13 +198,13 @@ public class NotificationFragment extends Fragment {
                         databaseHandling.deleteNote(SharedPrefManager.getInstance(getActivity()).getCustomer().getCustomer_id(), NotificationTags.CUSTOMERDELIVERED);
                         TextView delievryPersonCounter = getActivity().findViewById(R.id.customer_notifictaion_count);
 
-                     if(databaseHandling.getNotesCount()>0){
-                         delievryPersonCounter.setVisibility(View.VISIBLE);
-                         delievryPersonCounter.setText("" + databaseHandling.getNotesCount());
-                     }else{
-                         delievryPersonCounter.setVisibility(View.GONE);
-                         delievryPersonCounter.setText("" + databaseHandling.getNotesCount());
-                     }
+                        if (databaseHandling.getNotesCount() > 0) {
+                            delievryPersonCounter.setVisibility(View.VISIBLE);
+                            delievryPersonCounter.setText("" + databaseHandling.getNotesCount());
+                        } else {
+                            delievryPersonCounter.setVisibility(View.GONE);
+                            delievryPersonCounter.setText("" + databaseHandling.getNotesCount());
+                        }
                     }
                 } catch (Exception e) {
 

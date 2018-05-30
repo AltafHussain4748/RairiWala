@@ -176,10 +176,10 @@ public class UserLogin extends AppCompatActivity {
                                                     SharedPrefManager.getInstance(UserLogin.this).addSellerToPref(vendor);
 
                                                 } else if (vendor1.getString("message").equals("NORECORD")) {
-                                                    vendor.setShop_name("");
+                                                    vendor.setShop_name("Yet to be added");
                                                     vendor.setLatitude(0.0);
                                                     vendor.setLongitude(0.0);
-                                                    vendor.setVendor_id(-1);
+                                                    vendor.setVendor_id(0);
                                                     vendor.setShop_status("Close");
                                                     SharedPrefManager.getInstance(UserLogin.this).addSellerToPref(vendor);
                                                 }

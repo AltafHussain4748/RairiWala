@@ -29,7 +29,8 @@
         android:minWidth="17sp"
         android:text="0"
         android:layout_alignTop="@id/hotlist_bell"
-        android:textColor="@color/red"
+        android:textColor="@color/white"
         android:textSize="17dp"
+        android:background="@drawable/rounded_widgets"
         android:fontFamily="sans-serif"/>
 </RelativeLayout>

@@ -218,6 +218,7 @@ public class AddSellerExtraInformation extends AppCompatActivity implements OnMa
     }
 
     public void addLocations(final int person_id, final double lat, final double longitude) {
+        Toast.makeText(this, "Adding shop location", Toast.LENGTH_SHORT).show();
         if (latitude != 0.0 && longitude != 0.0) {
             //Toast.makeText(AddSellerExtraInformation.this, "" + shopname.getText() + lat.latitude + "  \n" + lat.longitude, Toast.LENGTH_SHORT).show();
             //Volley request code
