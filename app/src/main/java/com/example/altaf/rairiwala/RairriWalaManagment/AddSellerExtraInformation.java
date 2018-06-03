@@ -69,6 +69,7 @@ public class AddSellerExtraInformation extends AppCompatActivity implements OnMa
         mapFragment.getMapAsync(this);
         addLocation = findViewById(R.id.add_extra_information);
         shopname = findViewById(R.id.shop_name);
+        shopname.setText(SharedPrefManager.getInstance(this).getSeller().getShop_name().toString());
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {

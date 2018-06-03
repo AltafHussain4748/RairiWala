@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/home"
+    android:background="@color/blue"
     tools:context="com.example.altaf.rairiwala.AccountManagment.UserRegister">
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/userprofile"
         android:layout_width="70dp"
         android:layout_height="70dp"
@@ -20,7 +20,6 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/userprofile"
         android:layout_margin="20dp"
-        android:layout_marginTop="5dp"
         android:background="@color/white">
 
         <LinearLayout

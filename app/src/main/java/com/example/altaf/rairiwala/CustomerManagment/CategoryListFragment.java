@@ -128,8 +128,8 @@ public class CategoryListFragment
                         } catch (JSONException e) {
                             e.printStackTrace();
                             message.setVisibility(View.VISIBLE);
-                            Toast.makeText(getActivity(), "No Product", Toast.LENGTH_SHORT).show();
-                            message.setText("No Products");
+                            Toast.makeText(getActivity(), "No Category", Toast.LENGTH_SHORT).show();
+                            message.setText("No Category");
                         }
                     }
                 },
@@ -139,7 +139,7 @@ public class CategoryListFragment
                         progressDialog.dismiss();
                         message.setVisibility(View.VISIBLE);
                         message.setText("Error while loading the categories");
-                        Toast.makeText(getActivity(), "Error while loading the products", Toast.LENGTH_SHORT).show();
+
                     }
                 });
 

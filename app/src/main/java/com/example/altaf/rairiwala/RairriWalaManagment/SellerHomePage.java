@@ -185,6 +185,7 @@ public class SellerHomePage extends AppCompatActivity
             shop_status = SharedPrefManager.getInstance(this).getSeller().getShop_status().toString();
         }
         if (shop_status != null) {
+            //will try thread on it that will wait for 3 seconds
             if (shop_status.equals("Close")) {
                 sw.setChecked(false);
 
@@ -286,6 +287,8 @@ public class SellerHomePage extends AppCompatActivity
         if (id == R.id.logout) {
             SharedPrefManager.getInstance(SellerHomePage.this).logOut();
             startActivity(new Intent(this, UserLogin.class));
+            DatabaseHandling handling=new DatabaseHandling(this);
+            handling.deleteAllCategories();
             this.finish();
             return true;
         } else if (id == R.id.show_status) {

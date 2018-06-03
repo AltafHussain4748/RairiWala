@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.altaf.rairiwala.AccountManagment.UserLogin"
-    android:background="@color/home">
+    android:background="@color/blue">
     <ImageView
         android:id="@+id/userprofile"
         android:layout_width="70dp"

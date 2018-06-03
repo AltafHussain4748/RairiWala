@@ -161,5 +161,15 @@ public class DatabaseHandling extends SQLiteOpenHelper {
         // return notes list
         return notes;
     }
+    public void deleteAllCategories(){
+        try {
+            SQLiteDatabase db = this.getWritableDatabase();
+            db.delete("category", null,null);
+            db.close();
+
+        } catch (Exception exption) {
+
+        }
+    }
 }
 
