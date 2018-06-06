@@ -6,6 +6,7 @@ import android.app.PendingIntent;
 import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.LocalBroadcastManager;
+import android.util.Log;
 
 import com.example.altaf.rairiwala.CustomerManagment.CustomerHomePage;
 import com.example.altaf.rairiwala.CustomerManagment.CustomerOrderList;
@@ -87,6 +88,38 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
 
                             DatabaseHandling handling = new DatabaseHandling(FirebaseMessagingService.this);
                             handling.insert(NotificationTags.CONFIRMORDER, "New Order", "Order hass been confirmed ", message.getInt("reciever_id"));
+                        }
+                    }
+                    //    message1 = orderString;
+                } else if (message.getString("type").equals("order_rejected")) {
+                    Log.i("HELLO", "ORDER HAS BEEN REJECTED" + message.getString("vendor_name") + "reciever" + message.getInt("reciever_id"));
+                    Customer customer = SharedPrefManager.getInstance(this).getCustomer();
+                    if (customer != null) {
+                        String orderString = message.getString("message");
+                        //  orderObject = new JSONObject(orderString);
+                        Intent i = new Intent(this, CustomerHomePage.class);
+                        i.putExtra("order", orderString);
+                        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, i, PendingIntent.FLAG_UPDATE_CURRENT);
+                        NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
+                                .setAutoCancel(true)
+                                .setContentTitle("Order Rejected")
+                                .setContentText("Order sent to " + message.get("vendor_name") + " has been rejected")
+                                .setSmallIcon(R.drawable.addproduct)
+                                .setContentIntent(pendingIntent).setDefaults(Notification.DEFAULT_SOUND);
+
+                        NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+
+                        manager.notify(0, builder.build());
+                        if (SharedPrefManagerFirebase.getInstance(this).getActivityStateCustomerHomePage()) {
+                            Intent intent = new Intent("customerReciever");
+                            sendCustomerBroadCast(intent);
+                            DatabaseHandling handling = new DatabaseHandling(FirebaseMessagingService.this);
+                            handling.insert(NotificationTags.ORDER_REJECTED, "Order Rejected", "Order sent to " + message.get("vendor_name") + " has been rejected", message.getInt("reciever_id"));
+                        } else {
+
+                            DatabaseHandling handling = new DatabaseHandling(FirebaseMessagingService.this);
+                            handling.insert(NotificationTags.ORDER_REJECTED, "Order Rejected", "Order sent to " + message.get("vendor_name") + " has been rejected", message.getInt("reciever_id"));
                         }
                     }
                     //    message1 = orderString;
@@ -225,7 +258,7 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
             }
 
         } catch (Exception e) {
-
+            Log.i("HELLO", e.getMessage());
         }
 
 

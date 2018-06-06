@@ -157,8 +157,13 @@ public class NotificationFragment extends Fragment {
                         fragmentTransaction.commit();
                         databaseHandling.deleteNote(SharedPrefManager.getInstance(getActivity()).getDeliveryPerson().getDelivery_person_id(), NotificationTags.ORDERASSIGNED);
                         TextView delievryPersonCounter = getActivity().findViewById(R.id.txtCount);
-                        delievryPersonCounter.setVisibility(View.GONE);
-                        delievryPersonCounter.setText("0");
+                        if (databaseHandling.getNotesCount() > 0) {
+                            delievryPersonCounter.setVisibility(View.VISIBLE);
+                            delievryPersonCounter.setText("" + databaseHandling.getNotesCount());
+                        } else {
+                            delievryPersonCounter.setVisibility(View.GONE);
+                            delievryPersonCounter.setText("" + databaseHandling.getNotesCount());
+                        }
                     } else if (deliveryPerson.getTag().equals(NotificationTags.CONFIRMORDER)) {
 
                         startActivity(new Intent(getActivity(), CustomerOrderList.class));
@@ -171,8 +176,13 @@ public class NotificationFragment extends Fragment {
                         fragmentTransaction.commit();
                         databaseHandling.deleteNote(SharedPrefManager.getInstance(getActivity()).getCustomer().getCustomer_id(), NotificationTags.CONFIRMORDER);
                         TextView delievryPersonCounter = getActivity().findViewById(R.id.customer_notifictaion_count);
-                        delievryPersonCounter.setVisibility(View.GONE);
-                        delievryPersonCounter.setText("0");
+                        if (databaseHandling.getNotesCount() > 0) {
+                            delievryPersonCounter.setVisibility(View.VISIBLE);
+                            delievryPersonCounter.setText("" + databaseHandling.getNotesCount());
+                        } else {
+                            delievryPersonCounter.setVisibility(View.GONE);
+                            delievryPersonCounter.setText("" + databaseHandling.getNotesCount());
+                        }
                     } else if (deliveryPerson.getTag().equals(NotificationTags.VENDORDELIVERED)) {
 
                         startActivity(new Intent(getActivity(), VendorSellingHistory.class));
@@ -196,6 +206,26 @@ public class NotificationFragment extends Fragment {
                         fragmentTransaction.commit();
 
                         databaseHandling.deleteNote(SharedPrefManager.getInstance(getActivity()).getCustomer().getCustomer_id(), NotificationTags.CUSTOMERDELIVERED);
+                        TextView delievryPersonCounter = getActivity().findViewById(R.id.customer_notifictaion_count);
+
+                        if (databaseHandling.getNotesCount() > 0) {
+                            delievryPersonCounter.setVisibility(View.VISIBLE);
+                            delievryPersonCounter.setText("" + databaseHandling.getNotesCount());
+                        } else {
+                            delievryPersonCounter.setVisibility(View.GONE);
+                            delievryPersonCounter.setText("" + databaseHandling.getNotesCount());
+                        }
+                    } else if (deliveryPerson.getTag().equals(NotificationTags.ORDER_REJECTED)) {
+                        startActivity(new Intent(getActivity(), CustomerOrderList.class));
+                        Fragment fragment = new CategoryListFragment();
+                        FragmentManager fm = getFragmentManager();
+                        // create a FragmentTransaction to begin the transaction and replace the Fragment
+                        android.app.FragmentTransaction fragmentTransaction = fm.beginTransaction();
+                        // replace the FrameLayout with new Fragment
+                        fragmentTransaction.replace(R.id.frameLayout, fragment);
+                        fragmentTransaction.commit();
+
+                        databaseHandling.deleteNote(SharedPrefManager.getInstance(getActivity()).getCustomer().getCustomer_id(), NotificationTags.ORDER_REJECTED);
                         TextView delievryPersonCounter = getActivity().findViewById(R.id.customer_notifictaion_count);
 
                         if (databaseHandling.getNotesCount() > 0) {

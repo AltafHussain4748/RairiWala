@@ -41,4 +41,5 @@ public class Constants {
     public  static  final String ADD_ORDER_TIME="https://rairriwala.000webhostapp.com/ResponseTimeData.php";
     public  static  final String DELETEDELIVERYPERSON="https://rairriwala.000webhostapp.com/DeleteDeliveryPerson.php";
     public  static  final String ChangeAccount="https://rairriwala.000webhostapp.com/EditAccount.php";
+    public  static  final String REJECTORDER="https://rairriwala.000webhostapp.com/RejectOrder.php";
 }

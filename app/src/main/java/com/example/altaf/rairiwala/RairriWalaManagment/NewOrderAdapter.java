@@ -8,13 +8,29 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.example.altaf.rairiwala.Models.Order;
 import com.example.altaf.rairiwala.R;
+import com.example.altaf.rairiwala.Singelton.Constants;
 import com.example.altaf.rairiwala.Singelton.OrderDetail;
+import com.example.altaf.rairiwala.Singelton.RequestHandler;
+import com.gitonway.lee.niftymodaldialogeffects.lib.NiftyDialogBuilder;
 import com.google.gson.Gson;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import static com.gitonway.lee.niftymodaldialogeffects.lib.Effectstype.RotateBottom;
 
 
 /**
@@ -25,7 +41,7 @@ public class NewOrderAdapter extends RecyclerView.Adapter<NewOrderAdapter.Produc
     private Context mCtx;
     private List<Order> orderLists;
     private Context context = null;
-
+    int pos = 0;
 
     public NewOrderAdapter(Context mCtx, List<Order> orderLists) {
         this.mCtx = mCtx;
@@ -59,30 +75,54 @@ public class NewOrderAdapter extends RecyclerView.Adapter<NewOrderAdapter.Produc
         });
         if (order.getOrder_status().equals("Confirmed")) {
             holder.btn.setVisibility(View.VISIBLE);
-            holder.confirm_order.setVisibility(View.GONE);
+            holder.reject_order.setVisibility(View.GONE);
             holder.btn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Gson gson = new Gson();
                     String orderString = gson.toJson(orderLists.get(position));
-                    Intent intent=new Intent(mCtx, SellerAssignDeliverPerson.class);
-                    intent.putExtra("order",orderString);
+                    Intent intent = new Intent(mCtx, SellerAssignDeliverPerson.class);
+                    intent.putExtra("order", orderString);
                     mCtx.startActivity(intent);
                 }
             });
 
         } else {
-            holder.confirm_order.setVisibility(View.VISIBLE);
+            holder.reject_order.setVisibility(View.VISIBLE);
             holder.btn.setVisibility(View.GONE);
-            holder.confirm_order.setOnClickListener(new View.OnClickListener() {
+            holder.reject_order.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent = new Intent(mCtx, OrderDetail.class);
-                    Gson gson = new Gson();
-                    String orderString = gson.toJson(order);
-                    intent.putExtra("order", orderString);
-                    mCtx.startActivity(intent);
-
+                    final NiftyDialogBuilder dialogBuilder = NiftyDialogBuilder.getInstance(mCtx);
+                    dialogBuilder
+                            .withTitle("Reject Order")                                  //.withTitle(null)  no title
+                            .withTitleColor("#FFFFFF")                                  //def
+                            .withDividerColor("#11000000")                              //def
+                            .withMessage("Do you want to reject order?")                     //.withMessage(null)  no Msg
+                            .withMessageColor("#FFFFFFFF")                              //def  | withMessageColor(int resid)
+                            .withDialogColor("#FFE74C3C")                               //def  | withDialogColor(int resid)
+                            .withIcon(mCtx.getResources().getDrawable(R.drawable.user))
+                            .withDuration(700)                                          //def
+                            .withEffect(RotateBottom)                                         //def Effectstype.Slidetop
+                            .withButton1Text("No")                                      //def gone
+                            .withButton2Text("yes")                                  //def gone
+                            .isCancelableOnTouchOutside(true)                           //def    | isCancelable(true)
+                            //.setCustomView(View or ResId,context)
+                            .setButton1Click(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    dialogBuilder.dismiss();
+                                }
+                            })
+                            .setButton2Click(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    pos=position;
+                                    deleteOrder(order.getOrder_id(),order.getCustomer_id(),order.getVendor_id());
+                                    dialogBuilder.dismiss();
+                                }
+                            })
+                            .show();
                 }
             });
         }
@@ -97,8 +137,7 @@ public class NewOrderAdapter extends RecyclerView.Adapter<NewOrderAdapter.Produc
     class ProductViewHolder extends RecyclerView.ViewHolder {
 
         TextView textViewname, textViewnumber, time;
-        Button btn, confirm_order, order_items;
-        ;
+        Button btn, reject_order, order_items;
 
 
         public ProductViewHolder(View itemView) {
@@ -108,10 +147,57 @@ public class NewOrderAdapter extends RecyclerView.Adapter<NewOrderAdapter.Produc
             textViewnumber = itemView.findViewById(R.id.number_of_items);
             time = itemView.findViewById(R.id.order_time);
             btn = itemView.findViewById(R.id.assign_delivery_person);
-            confirm_order = itemView.findViewById(R.id.confirm_order);
+            reject_order = itemView.findViewById(R.id.reject_order);
             order_items = itemView.findViewById(R.id.order_items);
 
         }
     }
+
+    private void deleteOrder(final int order_id, final int customer_id, final int vendor_id) {
+        Toast.makeText(mCtx, "Deleteing.....", Toast.LENGTH_SHORT).show();
+        StringRequest stringRequest = new StringRequest(Request.Method.POST,
+                Constants.REJECTORDER,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+
+                            if (jsonObject.getBoolean("error") == false) {
+
+                                orderLists.remove(pos);
+
+                                notifyDataSetChanged();
+                                notifyItemRemoved(pos);
+                            } else {
+                                Toast.makeText(mCtx, jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
+                            }
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            Toast.makeText(mCtx, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(mCtx, "There was some error.Please try again....", Toast.LENGTH_LONG).show();
+
+                    }
+                }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("order_id", String.valueOf(order_id));
+                params.put("customer_id", String.valueOf(customer_id));
+                params.put("vendor_id", String.valueOf(vendor_id));
+                return params;
+            }
+        };
+        RequestHandler.getInstance(mCtx).addToRequestQueue(stringRequest);
+    }
 }
+
 

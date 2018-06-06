@@ -46,8 +46,10 @@ public class CustomerOrderListAdapter extends RecyclerView.Adapter<CustomerOrder
         holder.order_status.setText("Status: " + order.getOrder_status());
         if (order.getOrder_status().equals("Confirmed")) {
             holder.order_status.setTextColor(Color.GREEN);
-        } else {
+        } else if(order.getOrder_status().equals("Rejected")){
             holder.order_status.setTextColor(Color.RED);
+        }else{
+            holder.order_status.setTextColor(Color.BLUE);
         }
 
 

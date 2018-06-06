@@ -185,7 +185,7 @@ public class PlaceOrder extends AppCompatActivity implements OnMapReadyCallback 
 
             @Override
             public void onMarkerDragEnd(Marker marker) {
-                Toast.makeText(PlaceOrder.this, "Latitude:" + marker.getPosition().latitude + "\n" + "Longitude:" + marker.getPosition().longitude, Toast.LENGTH_SHORT).show();
+               // Toast.makeText(PlaceOrder.this, "Latitude:" + marker.getPosition().latitude + "\n" + "Longitude:" + marker.getPosition().longitude, Toast.LENGTH_SHORT).show();
                 latitude = marker.getPosition().latitude;
                 longtude = marker.getPosition().longitude;
             }

@@ -33,15 +33,15 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     private Context context = null;
     TextView itemcount;
     ImageView carts;
-    int count = 0;
-    ArrayList<Product> addproducts;
+    static int count = 0;
+    static ArrayList<Product> addproducts = new ArrayList<>();
 
     public ProductAdapter(Context mCtx, List<Product> productList, TextView itemcount, ImageView carts) {
         this.mCtx = mCtx;
         this.productList = productList;
         this.itemcount = itemcount;
-        addproducts = new ArrayList<>();
         this.carts = carts;
+
     }
 
     @Override
@@ -120,11 +120,31 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
                             addproducts.add(product);
                             count = count + 1;
                             itemcount.setText(Integer.toString(count));
+                            Toast.makeText(mCtx, "Product Added to the Cart", Toast.LENGTH_SHORT).show();
                         } else {
-                            Toast.makeText(mCtx, "" + "Quantity exceeded" + product.getProduct_name() + "\n", Toast.LENGTH_SHORT).show();
+                            if (addproducts.size() <= 0) {
+                                itemcount.setVisibility(View.GONE);
+                            }
+                            Toast.makeText(mCtx, "" + "Vendor do not have much stock of" + product.getProduct_name() + "\n", Toast.LENGTH_SHORT).show();
                         }
                     }
 
+
+                } else {
+                    //object is added to the list update it
+                    if (product.getProductDetails().getQuantity() >= Integer.parseInt(holder.value.getText().toString())) {
+                        product.getProductDetails().setQuantity(Integer.parseInt(holder.value.getText().toString()));
+                        int position = addproducts.indexOf(product);
+                        if (position != -1) {
+                            addproducts.set(position, product);
+                            Toast.makeText(mCtx, "Product Updated", Toast.LENGTH_SHORT).show();
+                        }
+                    } else {
+                        if (addproducts.size() <= 0) {
+                            itemcount.setVisibility(View.GONE);
+                        }
+                        Toast.makeText(mCtx, "" + "Vendor do not have much stock" + product.getProduct_name() + "\n", Toast.LENGTH_SHORT).show();
+                    }
 
                 }
 

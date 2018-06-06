@@ -10,6 +10,7 @@ public class NotificationTags {
     public static final String ORDERASSIGNED = "ORDERASSIGNED";
     public static final String VENDORDELIVERED = "VENDORDELIVERED";
     public static final String CUSTOMERDELIVERED = "CUSTOMERDELIVERED";
+    public static final String ORDER_REJECTED = "ORDERREJECTED";
 
 
 }

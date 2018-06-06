@@ -98,12 +98,12 @@ public class NearestVendorsMap extends FragmentActivity implements OnMapReadyCal
 
                                         try {
                                             LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-                                            mMap.addMarker(new MarkerOptions().position(latLng).title("MyLocation").icon(BitmapDescriptorFactory.fromResource(R.drawable.name)));
+                                            mMap.addMarker(new MarkerOptions().position(latLng).title("MyLocation").title("My Location").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)).rotation((float) 90.0));
                                             for (Vendor vendor : vendorList) {
                                                 mMap.addMarker(new MarkerOptions().position(new LatLng(vendor.getLatitude(), vendor.getLongitude())).title(vendor.getName()));
                                             }
 
-                                            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
+                                            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 17));
                                         } catch (Exception e) {
                                             Toast.makeText(NearestVendorsMap.this, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
                                         }
@@ -126,7 +126,7 @@ public class NearestVendorsMap extends FragmentActivity implements OnMapReadyCal
                 return;
             }
         } catch (Exception e) {
-            Toast.makeText(NearestVendorsMap.this, "Not granted", Toast.LENGTH_SHORT).show();
+            Toast.makeText(NearestVendorsMap.this, "Location permission Not granted", Toast.LENGTH_SHORT).show();
         }
 
 
@@ -148,12 +148,12 @@ public class NearestVendorsMap extends FragmentActivity implements OnMapReadyCal
                                 if (location != null) {
                                     try {
                                         LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-                                        mMap.addMarker(new MarkerOptions().position(latLng).title("MyLocation"));
+                                        mMap.addMarker(new MarkerOptions().position(latLng).title("MyLocation").title("My Location").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)).rotation((float) 90.0));
                                         for (Vendor vendor : vendorList) {
                                             mMap.addMarker(new MarkerOptions().position(new LatLng(vendor.getLatitude(), vendor.getLongitude())).title(vendor.getName()));
                                         }
 
-                                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
+                                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 17));
                                     } catch (Exception e) {
                                         Toast.makeText(NearestVendorsMap.this, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
                                     }

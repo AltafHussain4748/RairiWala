@@ -133,6 +133,8 @@ public class CustomerHomePage extends AppCompatActivity {
         if (id == R.id.logout) {
             SharedPrefManager.getInstance(CustomerHomePage.this).logOut();
             startActivity(new Intent(this, UserLogin.class));
+            DatabaseHandling handling=new DatabaseHandling(this);
+            handling.deleteAllCategories();
             this.finish();
             return true;
         } else if (id == R.id.customer_orders) {

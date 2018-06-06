@@ -126,10 +126,7 @@ public class UserLogin extends AppCompatActivity {
                                     vendor.setPerson_id(Integer.parseInt(obj.getString("id")));
                                     SharedPrefManager.getInstance(UserLogin.this).addSellerToPref(vendor);
                                     addSellerInfo(vendor.getPerson_id(), vendor);
-                                    Intent intent = new Intent(UserLogin.this, SellerHomePage.class);
-                                    intent.putExtra("stockDetail", "");
-                                    startActivity(intent);
-                                    UserLogin.this.finish();
+
                                 }
 
                             } else {
@@ -183,7 +180,10 @@ public class UserLogin extends AppCompatActivity {
                                                     vendor.setShop_status("Close");
                                                     SharedPrefManager.getInstance(UserLogin.this).addSellerToPref(vendor);
                                                 }
-                                                Toast.makeText(UserLogin.this, "Added", Toast.LENGTH_SHORT).show();
+                                                Intent intent = new Intent(UserLogin.this, SellerHomePage.class);
+                                                intent.putExtra("stockDetail", "");
+                                                startActivity(intent);
+                                                UserLogin.this.finish();
 
                                             } catch (JSONException e) {
                                                 e.printStackTrace();
