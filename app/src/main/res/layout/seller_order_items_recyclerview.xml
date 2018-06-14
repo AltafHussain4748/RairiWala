@@ -75,7 +75,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Quantity"
-                            android:textColor="@color/white" />
+                            android:textColor="@color/red" />
 
                         <TextView
                             android:id="@+id/seller_order_value"
