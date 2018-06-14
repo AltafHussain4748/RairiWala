@@ -23,6 +23,7 @@ import com.example.altaf.rairiwala.Models.FeedBack;
 import com.example.altaf.rairiwala.R;
 import com.example.altaf.rairiwala.Singelton.Constants;
 import com.example.altaf.rairiwala.Singelton.RequestHandler;
+import com.example.altaf.rairiwala.Singelton.SharedPrefManager;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -75,7 +76,11 @@ public class VendorReviewList extends AppCompatActivity {
         price_reviewcount = findViewById(R.id.priceRating);
         quantity_reviewcount = findViewById(R.id.quantityRating);
         quality_reviewcount = findViewById(R.id.qualityRating);
-        getResponseTime(vendor_id);
+        if (SharedPrefManager.getInstance(this).getAverageTime() == 0 || SharedPrefManager.getInstance(this).getAverageTime() < 0) {
+            getResponseTime(vendor_id);
+        } else {
+            responseTime.setText(SharedPrefManager.getInstance(this).getAverageTime() + " Minutes");
+        }
         loadReviews(vendor_id);
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -107,12 +112,12 @@ public class VendorReviewList extends AppCompatActivity {
     private void loadReviews(final int vendor_id) {
         progressBar.setVisibility(View.VISIBLE);
         /*
-        * Creating a String Request
-        * The request type is GET defined by first parameter
-        * The URL is defined in the second parameter
-        * Then we have a Response Listener and a Error Listener
-        * In response listener we will get the JSON response as a String
-        * */
+         * Creating a String Request
+         * The request type is GET defined by first parameter
+         * The URL is defined in the second parameter
+         * Then we have a Response Listener and a Error Listener
+         * In response listener we will get the JSON response as a String
+         * */
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.GETREVIEWS,
                 new Response.Listener<String>() {
 
@@ -249,7 +254,8 @@ public class VendorReviewList extends AppCompatActivity {
                         try {
                             JSONObject jsonObject = new JSONObject(response);
                             if (jsonObject.getBoolean("error") == false) {
-                                responseTime.setText("Delivery Time: " + jsonObject.getString("message") + "Minutes");
+                                responseTime.setText(jsonObject.getString("message") + " Minutes");
+                                SharedPrefManager.getInstance(VendorReviewList.this).saveAverageTime(Integer.parseInt(jsonObject.getString("message")));
                             } else {
                                 responseTime.setText(jsonObject.getString("message"));
                             }

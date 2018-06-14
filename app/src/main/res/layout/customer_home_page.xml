@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.altaf.rairiwala.CustomerManagment.CustomerHomePage"
-    android:background="@color/blue">
+    android:background="@color/white">
 
 
     <android.support.design.widget.AppBarLayout

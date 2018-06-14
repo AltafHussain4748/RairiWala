@@ -22,26 +22,22 @@ import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.List;
 
-
-/**
- * Created by AltafHussain on 12/31/2017.
- */
-
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductViewHolder> {
     private Context mCtx;
     private List<Product> productList;
     private Context context = null;
     TextView itemcount;
     ImageView carts;
-    static int count = 0;
-    static ArrayList<Product> addproducts = new ArrayList<>();
+    int count ;
+    static ArrayList<Product> addproducts;
 
     public ProductAdapter(Context mCtx, List<Product> productList, TextView itemcount, ImageView carts) {
         this.mCtx = mCtx;
         this.productList = productList;
         this.itemcount = itemcount;
         this.carts = carts;
-
+        addproducts = new ArrayList<>();
+        count=0;
     }
 
     @Override
@@ -100,11 +96,9 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         holder.cart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                itemcount.setVisibility(View.VISIBLE);
-                boolean isAdded = false;
-                //  Toast.makeText(mCtx, "Price" + txt + "\n" + "Kg Selected" + valuesstring.getText().toString(), Toast.LENGTH_SHORT).show();
-                for (Product pro : addproducts) {
 
+                boolean isAdded = false;
+                for (Product pro : addproducts) {
                     if (pro.getProduct_id() == product.getProduct_id()) {
                         isAdded = true;
                     }
@@ -114,6 +108,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
                     String product_names = null;
                     if (Integer.parseInt(holder.value.getText().toString()) <= 0) {
                         Toast.makeText(mCtx, "Please Select Quantity", Toast.LENGTH_SHORT).show();
+
                     } else {
                         if (product.getProductDetails().getQuantity() >= Integer.parseInt(holder.value.getText().toString())) {
                             product.getProductDetails().setQuantity(Integer.parseInt(holder.value.getText().toString()));
@@ -121,10 +116,13 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
                             count = count + 1;
                             itemcount.setText(Integer.toString(count));
                             Toast.makeText(mCtx, "Product Added to the Cart", Toast.LENGTH_SHORT).show();
-                        } else {
-                            if (addproducts.size() <= 0) {
+                            if (count == 0) {
                                 itemcount.setVisibility(View.GONE);
+                            } else {
+                                itemcount.setVisibility(View.VISIBLE);
                             }
+                        } else {
+
                             Toast.makeText(mCtx, "" + "Vendor do not have much stock of" + product.getProduct_name() + "\n", Toast.LENGTH_SHORT).show();
                         }
                     }
@@ -140,9 +138,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
                             Toast.makeText(mCtx, "Product Updated", Toast.LENGTH_SHORT).show();
                         }
                     } else {
-                        if (addproducts.size() <= 0) {
-                            itemcount.setVisibility(View.GONE);
-                        }
+
                         Toast.makeText(mCtx, "" + "Vendor do not have much stock" + product.getProduct_name() + "\n", Toast.LENGTH_SHORT).show();
                     }
 

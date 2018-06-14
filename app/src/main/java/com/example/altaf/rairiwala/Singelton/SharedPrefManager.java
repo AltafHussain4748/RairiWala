@@ -21,6 +21,7 @@ public class SharedPrefManager {
     private static final String KEY_SELLER = "seller";
     private static final String PERSONID = "PERSONID";
     private static final String DeliveryPerson = "DeliveryPerson";
+    private static final String TIMES = "tIMES";
 
     private SharedPrefManager(Context context) {
         mCtx = context;
@@ -115,6 +116,19 @@ public class SharedPrefManager {
         SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
         int id = sharedPreferences.getInt(PERSONID, 0);
         return id;
+    }
+
+    public boolean saveAverageTime(int time) {
+        SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt(TIMES, time);
+        editor.apply();
+        return true;
+    }
+
+    public int getAverageTime() {
+        SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
+        return sharedPreferences.getInt(TIMES, 0);
     }
 
 }

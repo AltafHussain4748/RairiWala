@@ -159,6 +159,7 @@ public class SellerAssignDeliverPerson extends AppCompatActivity {
                             @Override
                             public void onClick(View v) {
                                 assignDeliveryPerson(deliveryPerson.getDelivery_person_id(), order.getOrder_id());
+                                Toast.makeText(SellerAssignDeliverPerson.this, "" + deliveryPerson.getDelivery_person_id() + "    " + order.getOrder_id(), Toast.LENGTH_SHORT).show();
                                 dialogBuilder.dismiss();
                             }
                         })

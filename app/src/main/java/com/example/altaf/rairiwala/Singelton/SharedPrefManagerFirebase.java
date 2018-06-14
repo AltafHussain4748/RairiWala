@@ -112,5 +112,13 @@ public class SharedPrefManagerFirebase  {
         boolean isAlive = sharedPreferences.getBoolean("saveActivityStateCustomerPersonHomePage", false);
         return isAlive;
     }
+    public boolean alsoDelete() {
+        SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAMES, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.clear();
+        editor.apply();
+        return true;
+    }
+
 }
 
