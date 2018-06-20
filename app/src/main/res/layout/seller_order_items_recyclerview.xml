@@ -54,7 +54,7 @@
                         android:layout_alignRight="@+id/seller_order_product_name"
                         android:layout_alignStart="@+id/seller_order_product_name"
                         android:layout_below="@id/seller_order_product_name"
-                        android:layout_marginTop="5dp"
+                        android:layout_marginTop="10dp"
                         android:text="13.3 Inch, 256 GB"
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
                         android:textSize="15dp" />

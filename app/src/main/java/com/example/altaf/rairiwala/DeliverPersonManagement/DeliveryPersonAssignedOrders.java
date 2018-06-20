@@ -23,7 +23,9 @@ import com.example.altaf.rairiwala.Models.Order;
 import com.example.altaf.rairiwala.R;
 import com.example.altaf.rairiwala.Singelton.Constants;
 import com.example.altaf.rairiwala.Singelton.SharedPrefManager;
+
 import android.app.Fragment;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -100,7 +102,7 @@ public class DeliveryPersonAssignedOrders extends Fragment {
                                     ordersList.add(newOrder);
 
                                 }
-                                ordersList.stream().distinct().collect(Collectors.toList());
+
                                 assignedOrderAdapter = new AssignedOrderAdapter(getActivity(), ordersList);
                                 recyclerView.setAdapter(assignedOrderAdapter);
 

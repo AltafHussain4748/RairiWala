@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.Image;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,18 +27,20 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     private Context mCtx;
     private List<Product> productList;
     private Context context = null;
-    TextView itemcount;
-    ImageView carts;
-    int count ;
-    static ArrayList<Product> addproducts;
+    private TextView itemcount;
+    private ImageView carts;
+    private int count=0;
+    private ArrayList<Product> addproducts=new ArrayList<>();
 
     public ProductAdapter(Context mCtx, List<Product> productList, TextView itemcount, ImageView carts) {
         this.mCtx = mCtx;
         this.productList = productList;
         this.itemcount = itemcount;
         this.carts = carts;
-        addproducts = new ArrayList<>();
-        count=0;
+        Log.i("HELLOWORLD",addproducts.size()+"");
+        if(addproducts.size()<=0){
+            itemcount.setVisibility(View.GONE);
+        }
     }
 
     @Override

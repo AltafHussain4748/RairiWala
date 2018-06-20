@@ -37,6 +37,7 @@ import java.util.Map;
 
 public class ProductList extends AppCompatActivity {
     List<Product> productList;
+    List<Product> cartList;
     //the recyclerview
     RecyclerView recyclerView;
     ImageView cartButton;
@@ -47,6 +48,7 @@ public class ProductList extends AppCompatActivity {
     int count = 0;
     ProgressBar progressBar;
     TextView cartCount;
+    ProductAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +69,7 @@ public class ProductList extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(linearLayoutManager);
         productList = new ArrayList<>();
+
         message = findViewById(R.id.error_message);
         loadProducts(vendorid, type);
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -104,6 +107,7 @@ public class ProductList extends AppCompatActivity {
         int d = item.getItemId();
         if (d == android.R.id.home) {
             this.finish();
+            adapter.onDetachedFromRecyclerView(recyclerView);
         }
         return super.onOptionsItemSelected(item);
     }
@@ -111,12 +115,12 @@ public class ProductList extends AppCompatActivity {
     private void loadProducts(final int vendor_id, final String type) {
         progressBar.setVisibility(View.VISIBLE);
         /*
-        * Creating a String Request
-        * The request type is GET defined by first parameter
-        * The URL is defined in the second parameter
-        * Then we have a Response Listener and a Error Listener
-        * In response listener we will get the JSON response as a String
-        * */
+         * Creating a String Request
+         * The request type is GET defined by first parameter
+         * The URL is defined in the second parameter
+         * Then we have a Response Listener and a Error Listener
+         * In response listener we will get the JSON response as a String
+         * */
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.URL_PRODUCTS_CUSTOMER,
                 new Response.Listener<String>() {
                     @Override
@@ -125,7 +129,7 @@ public class ProductList extends AppCompatActivity {
                             progressBar.setVisibility(View.GONE);
                             //converting the string to json array object
                             JSONArray array = new JSONArray(response);
-                            //traversing through all the object
+                            cartList = new ArrayList<>();
                             for (int i = 0; i < array.length(); i++) {
 
                                 //getting product object from json array
@@ -140,14 +144,19 @@ public class ProductList extends AppCompatActivity {
                                 pro.setProduct_image(product.getString("image"));
                                 pro.setProduct_id(product.getInt("productid"));
                                 pro.setProduct_type(product.getString("quantity_type"));
-                                productList.add(pro);
+                                cartList.add(pro);
 
                             }
+                            if (productList.size() == 0) {
+                                productList.addAll(cartList);
+                                adapter = new ProductAdapter(ProductList.this, productList, cartCount, cartButton);
+                                recyclerView.setAdapter(adapter);
+                            } else {
+                                productList.addAll(cartList);
+                                recyclerView.scrollToPosition(count);
+                                adapter.notifyDataSetChanged();
+                            }
 
-                            ProductAdapter adapter = new ProductAdapter(ProductList.this, productList, cartCount, cartButton);
-                            recyclerView.setAdapter(adapter);
-                            recyclerView.scrollToPosition(count);
-                            adapter.notifyDataSetChanged();
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -204,9 +213,10 @@ public class ProductList extends AppCompatActivity {
         final View cartCout = menu.findItem(R.id.actionCarts).getActionView();
         cartCount = (TextView) cartCout.findViewById(R.id.cartCount);
         cartButton = cartCout.findViewById(R.id.hotlist_bell);
-        if(cartCount.getText().equals("0")){
-            cartCount.setVisibility(View.GONE );
+        if (cartCount.getText().equals("0")) {
+            cartCount.setVisibility(View.GONE);
         }
+        productList.clear();
 
 
         return true;

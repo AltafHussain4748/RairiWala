@@ -124,7 +124,7 @@ public class AccountDetail extends AppCompatActivity {
                                 }
                             }
                             if (deliveryPerson != null) {
-                                if (deliveryPerson.getPin().equals(oldPin.getText())) {
+                                if (deliveryPerson.getPin().toString().equals(oldPin.getText().toString())) {
                                     changeData(SharedPrefManager.getInstance(AccountDetail.this).getPersonId(), Integer.parseInt(confirmPin.getText().toString()), newPin.getText().toString(), "pin");
 
                                 } else {

@@ -4,15 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/blue"
+    android:background="@color/white"
     tools:context="com.example.altaf.rairiwala.AccountManagment.ConnectToInternet">
 
-    <TextView
+    <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:text="Connect to Internet"
+        android:text="Reconnect"
+        android:background="@drawable/rounded_button_widget"
         android:textSize="25dp"
         android:textAlignment="center"
         android:textColor="@color/red"

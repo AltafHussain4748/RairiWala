@@ -19,6 +19,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.altaf.rairiwala.AccountManagment.AccountDetail;
 import com.example.altaf.rairiwala.AccountManagment.CheckInterNet;
 import com.example.altaf.rairiwala.AccountManagment.ConnectToInternet;
 import com.example.altaf.rairiwala.AccountManagment.UserLogin;
@@ -143,6 +144,9 @@ public class DeliveryPersonHomePage extends AppCompatActivity {
             startActivity(new Intent(this, UserLogin.class));
             this.finish();
             return true;
+        } else if (id == R.id.accountDetailsDp) {
+            startActivity(new Intent(DeliveryPersonHomePage.this, AccountDetail.class));
+            this.finish();
         }
 
         return super.onOptionsItemSelected(item);
