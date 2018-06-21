@@ -4,19 +4,28 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/blue"
+    android:background="@color/white"
     tools:context="com.example.altaf.rairiwala.AccountManagment.AccountConfirmation">
 
     <TextView
+        android:id="@+id/timer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/verify"
+        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="86dp"
-        android:text="Enter Verification code"
-        android:layout_alignLeft="@+id/otp"
+        android:layout_marginTop="120dp"
+        android:text="Timer"
         android:textColor="@color/red"
-        android:textSize="20dp"/>
+        android:textSize="20dp" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="182dp"
+        android:text="Enter Verification code"
+        android:textColor="@color/red"
+        android:textSize="20dp" />
     <EditText
         android:id="@+id/otp"
         android:layout_width="wrap_content"
@@ -35,5 +44,6 @@
         android:layout_below="@+id/otp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
-        android:text="Verify" />
+        android:text="Verify"
+        android:background="@drawable/rounded_button_widget"/>
 </RelativeLayout>

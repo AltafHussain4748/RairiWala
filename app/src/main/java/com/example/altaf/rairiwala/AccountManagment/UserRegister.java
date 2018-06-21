@@ -78,7 +78,7 @@ public class UserRegister extends AppCompatActivity {
                                         } else if (jsonObject.getString("message").equals("DONOTEXISTS")) {
                                             PhoneAuthProvider.getInstance().verifyPhoneNumber(
                                                     "+92" + phone_number.getText().toString(),
-                                                    60,
+                                                    120,
                                                     java.util.concurrent.TimeUnit.SECONDS,
                                                     UserRegister.this,
                                                     mCallbacks);
@@ -167,6 +167,7 @@ public class UserRegister extends AppCompatActivity {
                 intent.putExtra("phone", "+92" + phone_number.getText().toString());
                 intent.putExtra("name", name.getText().toString());
                 intent.putExtra("pin", pin.getText().toString());
+                intent.putExtra("TYPE",type);
                 //   intent.putExtra("name", "");
                 startActivity(intent);
                 UserRegister.this.finish();
