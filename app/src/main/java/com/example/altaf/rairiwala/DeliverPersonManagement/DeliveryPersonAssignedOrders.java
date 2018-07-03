@@ -98,6 +98,7 @@ public class DeliveryPersonAssignedOrders extends Fragment {
                                     newOrder.setOrder_status(order.getString("Order_Status"));
                                     newOrder.setOrder_time(order.getString("DateTime"));
                                     newOrder.setOrder_id(order.getInt("Order_Id"));
+                                    newOrder.setTotalbill(order.getInt("totalBill"));
                                     newOrder.setDeliveryperson_id(order.getInt("DeliverPerson"));
                                     ordersList.add(newOrder);
 

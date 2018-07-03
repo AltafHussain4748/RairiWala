@@ -63,6 +63,7 @@ public class AssignedOrderAdapter extends RecyclerView.Adapter<AssignedOrderAdap
         holder.textViewname.setText("  " + order.getCustomerAddress().getName());
         holder.textViewnumber.setText("  " + order.getCustomerAddress().getHouseName());
         holder.time.setText("  " + order.getOrder_time());
+        holder.totalBill.setText("Rs: " + order.getTotalbill());
         holder.order_items.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -120,7 +121,7 @@ public class AssignedOrderAdapter extends RecyclerView.Adapter<AssignedOrderAdap
 
     class ProductViewHolder extends RecyclerView.ViewHolder {
 
-        TextView textViewname, textViewnumber, time;
+        TextView textViewname, textViewnumber, time, totalBill;
         Button order_items, delivery_order;
 
         public ProductViewHolder(View itemView) {
@@ -131,6 +132,7 @@ public class AssignedOrderAdapter extends RecyclerView.Adapter<AssignedOrderAdap
             time = itemView.findViewById(R.id.order_time);
             order_items = itemView.findViewById(R.id.order_items);
             delivery_order = itemView.findViewById(R.id.order_delivery);
+            totalBill = itemView.findViewById(R.id.order_bill);
         }
     }
 

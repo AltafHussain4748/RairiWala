@@ -27,7 +27,7 @@
 
             <TextView
                 android:id="@+id/sender_name"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:layout_toRightOf="@id/imageView"
@@ -38,7 +38,7 @@
 
             <TextView
                 android:id="@+id/number_of_items"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/sender_name"
                 android:layout_marginLeft="5dp"
@@ -62,6 +62,21 @@
                 android:text="0000"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
                 android:textColor="#000000" />
+
+            <TextView
+                android:id="@+id/order_bill"
+                android:layout_width="119dp"
+                android:layout_height="wrap_content"
+
+                android:layout_alignBottom="@+id/number_of_items"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignTop="@id/number_of_items"
+                android:layout_marginLeft="15dp"
+                android:text="Rs"
+                android:textAlignment="center"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+                android:textColor="@color/red" />
 
             <LinearLayout
                 android:layout_width="match_parent"

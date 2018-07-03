@@ -97,6 +97,7 @@ public class SellerNewOrderList extends AppCompatActivity {
                                     newOrder.setOrder_status(order.getString("Order_Status"));
                                     newOrder.setOrder_time(order.getString("DateTime"));
                                     newOrder.setOrder_id(order.getInt("Order_Id"));
+                                    newOrder.setTotalbill(order.getInt("totalBill"));
                                     newOrder.setDeliveryperson_id(0);
                                     ordersList.add(newOrder);
 
@@ -159,6 +160,7 @@ public class SellerNewOrderList extends AppCompatActivity {
                     newOrder.setOrder_status(orderObject.getString("order_status"));
                     newOrder.setOrder_time(orderObject.getString("order_time"));
                     newOrder.setOrder_id(orderObject.getInt("order_id"));
+                    newOrder.setTotalbill(orderObject.getInt("totalBill"));
                     if (ordersList.size() == 0) {
                         ordersList.add(newOrder);
                         newOrderAdapter = new NewOrderAdapter(SellerNewOrderList.this, ordersList);
