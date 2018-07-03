@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/txt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginTop="100dp"
+        android:text="Enter phone number"
+        android:textAlignment="center"
+        android:textColor="@color/red"
+        android:textSize="20dp" />
+
+    <EditText
+        android:id="@+id/phoneNumberForgetPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/txt"
+        android:layout_alignRight="@id/txt"
+        android:layout_below="@+id/txt"
+        android:layout_marginTop="20dp"
+        android:hint="3400000000"
+        android:inputType="number"
+
+        />
+
+    <Button
+        android:id="@+id/buttonVerification"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/txt"
+        android:layout_alignRight="@id/txt"
+        android:layout_below="@id/phoneNumberForgetPassword"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/rounded_widgets"
+        android:text="Send Code"
+        android:textColor="@color/white" />
+</RelativeLayout>
