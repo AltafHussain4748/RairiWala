@@ -4,9 +4,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,6 +19,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.altaf.rairiwala.Models.Order;
 import com.example.altaf.rairiwala.R;
+import com.example.altaf.rairiwala.RairriWalaManagment.StockManagment.SellerEditProduct;
 import com.example.altaf.rairiwala.Singelton.Constants;
 import com.example.altaf.rairiwala.Singelton.OrderDetail;
 import com.example.altaf.rairiwala.Singelton.RequestHandler;
@@ -57,12 +60,69 @@ public class NewOrderAdapter extends RecyclerView.Adapter<NewOrderAdapter.Produc
     }
 
     @Override
-    public void onBindViewHolder(com.example.altaf.rairiwala.RairriWalaManagment.NewOrderAdapter.ProductViewHolder holder, final int position) {
+    public void onBindViewHolder(final com.example.altaf.rairiwala.RairriWalaManagment.NewOrderAdapter.ProductViewHolder holder, final int position) {
         final Order order = orderLists.get(position);
         holder.textViewname.setText("  " + order.getCustomerAddress().getName());
         holder.textViewnumber.setText("  " + order.getCustomerAddress().getHouseName());
         holder.time.setText("  " + order.getOrder_time());
-        holder.totalBill.setText("Rs: "+order.getTotalbill());
+        holder.totalBill.setText("Rs: " + order.getTotalbill());
+        if (order.getOrder_status().equals("NEW")) {
+            //option menu code
+            holder.option_menu.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+//creating a popup menu
+                    PopupMenu popup = new PopupMenu(mCtx, holder.option_menu);
+                    //inflating menu from xml resource
+                    popup.inflate(R.menu.report_customer_menu);
+                    //adding click listener
+                    popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                        @Override
+                        public boolean onMenuItemClick(MenuItem item) {
+                            switch (item.getItemId()) {
+
+                                case R.id.report_customer:
+                                    final NiftyDialogBuilder dialogBuilder = NiftyDialogBuilder.getInstance(mCtx);
+                                    dialogBuilder
+                                            .withTitle("Report Customer")                                  //.withTitle(null)  no title
+                                            .withTitleColor("#FFFFFF")                                  //def
+                                            .withDividerColor("#11000000")                              //def
+                                            .withMessage("Want to report this customer?")                     //.withMessage(null)  no Msg
+                                            .withMessageColor("#FFFFFFFF")                              //def  | withMessageColor(int resid)
+                                            .withDialogColor("#FFE74C3C")                               //def  | withDialogColor(int resid)
+                                            .withIcon(mCtx.getResources().getDrawable(R.drawable.delete))
+                                            .withDuration(700)                                          //def
+                                            .withEffect(RotateBottom)                                         //def Effectstype.Slidetop
+                                            .withButton1Text("No")                                      //def gone
+                                            .withButton2Text("yes")                                  //def gone
+                                            .isCancelableOnTouchOutside(true)                           //def    | isCancelable(true)
+                                            //.setCustomView(View or ResId,context)
+                                            .setButton1Click(new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View v) {
+                                                    dialogBuilder.dismiss();
+                                                }
+                                            })
+                                            .setButton2Click(new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View v) {
+                                                    Toast.makeText(mCtx, "Seller Id:" + order.getVendor_id() + "  Customer Id" + order.getCustomer_id(), Toast.LENGTH_SHORT).show();
+                                                    dialogBuilder.dismiss();
+                                                }
+                                            })
+                                            .show();
+                                    break;
+
+                            }
+                            return false;
+                        }
+                    });
+                    //displaying the popup
+                    popup.show();
+
+                }
+            });
+        }
         holder.order_items.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -118,8 +178,8 @@ public class NewOrderAdapter extends RecyclerView.Adapter<NewOrderAdapter.Produc
                             .setButton2Click(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    pos=position;
-                                    deleteOrder(order.getOrder_id(),order.getCustomer_id(),order.getVendor_id());
+                                    pos = position;
+                                    deleteOrder(order.getOrder_id(), order.getCustomer_id(), order.getVendor_id());
                                     dialogBuilder.dismiss();
                                 }
                             })
@@ -137,7 +197,7 @@ public class NewOrderAdapter extends RecyclerView.Adapter<NewOrderAdapter.Produc
 
     class ProductViewHolder extends RecyclerView.ViewHolder {
 
-        TextView textViewname, textViewnumber, time,totalBill;
+        TextView textViewname, textViewnumber, time, totalBill, option_menu;
         Button btn, reject_order, order_items;
 
 
@@ -150,7 +210,8 @@ public class NewOrderAdapter extends RecyclerView.Adapter<NewOrderAdapter.Produc
             btn = itemView.findViewById(R.id.assign_delivery_person);
             reject_order = itemView.findViewById(R.id.reject_order);
             order_items = itemView.findViewById(R.id.order_items);
-            totalBill=itemView.findViewById(R.id.order_bill);
+            totalBill = itemView.findViewById(R.id.order_bill);
+            option_menu = itemView.findViewById(R.id.textViewOptions);
 
         }
     }

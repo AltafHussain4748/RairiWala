@@ -20,6 +20,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.example.altaf.rairiwala.R;
 import com.example.altaf.rairiwala.Singelton.Constants;
 import com.example.altaf.rairiwala.Singelton.RequestHandler;
+import com.example.altaf.rairiwala.Singelton.SaveToken;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -115,7 +116,8 @@ public class AccountConfirmation extends AppCompatActivity {
                             // Log.d(TAG, "signInWithCredential:success");
                             // startActivity(new Intent(AccountConfirmation.this, UserLogin.class));
                             Toast.makeText(AccountConfirmation.this, "Verification Done", Toast.LENGTH_SHORT).show();
-                            userRegister();
+                            new SaveToken(AccountConfirmation.this).userRegister(name,pin,rule,phonenumber);
+
                             // ...
                         } else {
                             // Log.w(TAG, "signInWithCredential:failure", task.getException());
@@ -135,53 +137,5 @@ public class AccountConfirmation extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void userRegister() {
-        if (name != null && pin != null && rule != null && phonenumber != null) {
-            ///start string request
-            StringRequest stringRequest = new StringRequest(Request.Method.POST,
-                    Constants.REGISTER_USER,
-                    new Response.Listener<String>() {
-                        @Override
-                        public void onResponse(String response) {
-                            try {
-                                JSONObject jsonObject = new JSONObject(response);
 
-                                if (jsonObject.getBoolean("error") == false) {
-                                    startActivity(new Intent(AccountConfirmation.this, UserLogin.class));
-                                    AccountConfirmation.this.finish();
-                                    Toast.makeText(AccountConfirmation.this, jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
-                                } else {
-                                    Toast.makeText(AccountConfirmation.this, jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
-                                }
-
-
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    },
-                    new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            Toast.makeText(getApplicationContext(), "There was some error.Please try again....", Toast.LENGTH_LONG).show();
-
-                        }
-                    }) {
-                @Override
-                protected Map<String, String> getParams() throws AuthFailureError {
-                    Map<String, String> params = new HashMap<>();
-                    params.put("phone", phonenumber);
-                    params.put("name", name);
-                    params.put("rule", rule);
-                    params.put("pin", pin);
-
-
-                    return params;
-                }
-            };
-            RequestHandler.getInstance(AccountConfirmation.this).addToRequestQueue(stringRequest);
-            // end string request
-        }
-
-    }
 }

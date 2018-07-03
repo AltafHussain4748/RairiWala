@@ -17,6 +17,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.example.altaf.rairiwala.R;
 import com.example.altaf.rairiwala.Singelton.Constants;
 import com.example.altaf.rairiwala.Singelton.RequestHandler;
+import com.example.altaf.rairiwala.Singelton.SaveToken;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.FirebaseTooManyRequestsException;
 import com.google.firebase.auth.FirebaseAuth;
@@ -39,7 +40,7 @@ public class UserRegister extends AppCompatActivity {
     private FirebaseAuth mAuth;
     EditText phone_number, pin, name;
     Button btn;
-    boolean isExists = true;
+    boolean isVerified = false;
     ProgressDialog progressDialog;
 
     @Override
@@ -83,7 +84,7 @@ public class UserRegister extends AppCompatActivity {
                                                     UserRegister.this,
                                                     mCallbacks);
                                         } else {
-                                            Toast.makeText(UserRegister.this, jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(UserRegister.this, "User Already rEGISTERED", Toast.LENGTH_SHORT).show();
                                         }
 
 
@@ -135,6 +136,7 @@ public class UserRegister extends AppCompatActivity {
                 Toast.makeText(UserRegister.this, "VerificationComplete" + "\n" + phone_number.getText() + name.getText() + pin.getText(), Toast.LENGTH_SHORT).show();
                 // Log.d(TAG, "onVerificationCompleted:" + credential);
                 mVerificationInProgress = false;*/
+                isVerified = true;
 
             }
 
@@ -161,16 +163,23 @@ public class UserRegister extends AppCompatActivity {
                 // Save verification ID and resending token so we can use them later
                 mVerificationId = verificationId;
                 mResendToken = token;
-                Intent intent = new Intent(UserRegister.this, AccountConfirmation.class);
-                intent.putExtra("ID", mVerificationId);
-                intent.putExtra("Rule", type);
-                intent.putExtra("phone", "+92" + phone_number.getText().toString());
-                intent.putExtra("name", name.getText().toString());
-                intent.putExtra("pin", pin.getText().toString());
-                intent.putExtra("TYPE",type);
-                //   intent.putExtra("name", "");
-                startActivity(intent);
-                UserRegister.this.finish();
+                if (isVerified) {
+                    new SaveToken(UserRegister.this).userRegister(name.getText().toString(), pin.getText().toString(), type, "+92" + phone_number.getText().toString());
+
+                } else {
+                    Intent intent = new Intent(UserRegister.this, AccountConfirmation.class);
+                    intent.putExtra("ID", mVerificationId);
+                    intent.putExtra("Rule", type);
+                    intent.putExtra("phone", "+92" + phone_number.getText().toString());
+                    intent.putExtra("name", name.getText().toString());
+                    intent.putExtra("pin", pin.getText().toString());
+                    intent.putExtra("TYPE", type);
+                    //   intent.putExtra("name", "");
+                    startActivity(intent);
+                    UserRegister.this.finish();
+                    isVerified = false;
+                }
+
             }
 
         };

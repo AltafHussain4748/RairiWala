@@ -35,7 +35,7 @@ import java.util.Map;
 
 public class UserLogin extends AppCompatActivity {
     EditText phone, pin;
-    TextView notAccount;
+    TextView notAccount, forgetPassword;
     Button login;
     ProgressDialog progressDialog;
 
@@ -46,6 +46,13 @@ public class UserLogin extends AppCompatActivity {
         phone = findViewById(R.id.login_phone_number);
         pin = findViewById(R.id.login_up_pin);
         notAccount = findViewById(R.id.donot_have_account);
+        forgetPassword = findViewById(R.id.forgetPassword);
+        forgetPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(UserLogin.this, PasswordRecovery.class));
+            }
+        });
         login = findViewById(R.id.login);
         progressDialog = new ProgressDialog(this);
         notAccount.setOnClickListener(new View.OnClickListener() {

@@ -42,4 +42,8 @@
     <string name="title_activity_nearest_vendors_map">Map</string>
     <string name="ResponseTime">ResponseTime</string>
     <string name="title_activity_account_detail">AccountDetail</string>
+    <string name="report_customer">Report Customer</string>
+    <string name="forget_password">Forget Password?</string>
+    <string name="title_activity_password_recovery">PasswordRecovery</string>
+    <string name="title_activity_update_password">UpdatePassword</string>
 </resources>

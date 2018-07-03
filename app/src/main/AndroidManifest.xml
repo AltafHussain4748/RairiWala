@@ -143,6 +143,14 @@
         <activity
             android:name=".AccountManagment.AccountDetail"
             android:label="@string/title_activity_account_detail"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".AccountManagment.PasswordRecovery"
+            android:label="@string/title_activity_password_recovery"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".AccountManagment.UpdatePassword"
+            android:label="@string/title_activity_update_password"
             android:theme="@style/AppTheme"></activity>
     </application>
 

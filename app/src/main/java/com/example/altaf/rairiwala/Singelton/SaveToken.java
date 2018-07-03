@@ -14,6 +14,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.altaf.rairiwala.AccountManagment.AccountConfirmation;
+import com.example.altaf.rairiwala.AccountManagment.UserLogin;
 import com.example.altaf.rairiwala.Models.Product;
 import com.example.altaf.rairiwala.Models.ProductDetails;
 import com.example.altaf.rairiwala.R;
@@ -159,6 +161,56 @@ public class SaveToken {
         };
         //adding our stringrequest to queue
         Volley.newRequestQueue(context).add(stringRequest);
+
+    }
+
+    public void userRegister(final String name1, final String pin1, final String rule1, final String phonenumber1) {
+        if (name1 != null && pin1 != null && rule1 != null && phonenumber1 != null) {
+            ///start string request
+            StringRequest stringRequest = new StringRequest(Request.Method.POST,
+                    Constants.REGISTER_USER,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            try {
+                                JSONObject jsonObject = new JSONObject(response);
+
+                                if (jsonObject.getBoolean("error") == false) {
+                                    context.startActivity(new Intent(context, UserLogin.class));
+
+                                    Toast.makeText(context, jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
+                                } else {
+                                    Toast.makeText(context, jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
+                                }
+
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Toast.makeText(context, "There was some error.Please try again....", Toast.LENGTH_LONG).show();
+
+                        }
+                    }) {
+                @Override
+                protected Map<String, String> getParams() throws AuthFailureError {
+                    Map<String, String> params = new HashMap<>();
+                    params.put("phone", phonenumber1);
+                    params.put("name", name1);
+                    params.put("rule", rule1);
+                    params.put("pin", pin1);
+
+
+                    return params;
+                }
+            };
+            RequestHandler.getInstance(context).addToRequestQueue(stringRequest);
+            // end string request
+        }
 
     }
 }

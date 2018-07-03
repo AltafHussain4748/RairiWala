@@ -58,8 +58,9 @@
                 android:layout_marginBottom="10dp"
                 android:layout_marginTop="15dp"
                 android:layout_toRightOf="@id/imageView"
-                android:drawableLeft="@drawable/time"
+                android:gravity="end"
                 android:text="0000"
+                android:textAlignment="textEnd"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
                 android:textColor="#000000" />
 
@@ -69,12 +70,14 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
+                android:layout_alignRight="@id/order_time"
                 android:layout_alignTop="@+id/number_of_items"
                 android:layout_marginLeft="10dp"
-                android:layout_toRightOf="@id/number_of_items"
-                android:text="Rs"
 
-                android:textAlignment="center"
+                android:layout_toRightOf="@id/number_of_items"
+                android:gravity="end"
+                android:text="Rs"
+                android:textAlignment="textEnd"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
                 android:textColor="@color/red" />
 
@@ -127,6 +130,17 @@
 
 
             </LinearLayout>
+
+            <TextView
+                android:id="@+id/textViewOptions"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:text="&#8942;"
+                android:textAppearance="?android:textAppearanceLarge"
+                android:textColor="@color/red" />
         </RelativeLayout>
 
     </android.support.v7.widget.CardView>
