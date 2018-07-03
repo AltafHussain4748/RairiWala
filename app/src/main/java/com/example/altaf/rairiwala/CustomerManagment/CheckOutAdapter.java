@@ -1,5 +1,6 @@
 package com.example.altaf.rairiwala.CustomerManagment;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
@@ -8,15 +9,30 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.bumptech.glide.Glide;
 import com.example.altaf.rairiwala.Models.Product;
 import com.example.altaf.rairiwala.R;
+import com.example.altaf.rairiwala.Singelton.Constants;
+import com.example.altaf.rairiwala.Singelton.RequestHandler;
+import com.example.altaf.rairiwala.Singelton.SharedPrefManager;
 import com.google.gson.Gson;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -57,11 +73,8 @@ public class CheckOutAdapter extends RecyclerView.Adapter<CheckOutAdapter.Produc
         orders.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Gson gson = new Gson();
-                String jsonString = gson.toJson(productList);
-                Intent intent = new Intent(mCtx, PlaceOrder.class);
-                intent.putExtra("PRODUCT_LIST", jsonString);
-                mCtx.startActivity(intent);
+
+                isReported(product.getProductDetails().getVendor_id(), SharedPrefManager.getInstance(mCtx).getCustomer().getCustomer_id());
             }
         });
     }
@@ -106,4 +119,54 @@ public class CheckOutAdapter extends RecyclerView.Adapter<CheckOutAdapter.Produc
         notifyItemInserted(position);
     }
 
+    public void isReported(final int vendor_id, final int customer_id) {
+        final ProgressDialog progressDialog=new ProgressDialog(mCtx);
+        progressDialog.setMessage("Please wait...");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+        StringRequest stringRequest = new StringRequest(Request.Method.POST,
+                Constants.ISREPORTED,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            progressDialog.dismiss();
+                            JSONObject jsonObject = new JSONObject(response);
+
+                            if (jsonObject.getBoolean("error") == true) {
+                                Gson gson = new Gson();
+                                String jsonString = gson.toJson(productList);
+                                Intent intent = new Intent(mCtx, PlaceOrder.class);
+                                intent.putExtra("PRODUCT_LIST", jsonString);
+                                mCtx.startActivity(intent);
+                            } else {
+                                Toast.makeText(mCtx, "You cannot send orders to this vendor", Toast.LENGTH_SHORT).show();
+                            }
+
+
+                        } catch (JSONException e) {
+                            progressDialog.dismiss();
+                            e.printStackTrace();
+                            Toast.makeText(mCtx, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        progressDialog.dismiss();
+                        Toast.makeText(mCtx, "There was some error.Please try again....", Toast.LENGTH_LONG).show();
+
+                    }
+                }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("customer_id", String.valueOf(customer_id));
+                params.put("vendor_id", String.valueOf(vendor_id));
+                return params;
+            }
+        };
+        RequestHandler.getInstance(mCtx).addToRequestQueue(stringRequest);
+    }
 }

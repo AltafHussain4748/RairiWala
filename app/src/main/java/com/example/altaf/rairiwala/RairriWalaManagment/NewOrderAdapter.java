@@ -87,7 +87,7 @@ public class NewOrderAdapter extends RecyclerView.Adapter<NewOrderAdapter.Produc
                                             .withTitle("Report Customer")                                  //.withTitle(null)  no title
                                             .withTitleColor("#FFFFFF")                                  //def
                                             .withDividerColor("#11000000")                              //def
-                                            .withMessage("Want to report this customer?")                     //.withMessage(null)  no Msg
+                                            .withMessage("This customer will not be able to send you orders again?")                     //.withMessage(null)  no Msg
                                             .withMessageColor("#FFFFFFFF")                              //def  | withMessageColor(int resid)
                                             .withDialogColor("#FFE74C3C")                               //def  | withDialogColor(int resid)
                                             .withIcon(mCtx.getResources().getDrawable(R.drawable.delete))
@@ -106,7 +106,8 @@ public class NewOrderAdapter extends RecyclerView.Adapter<NewOrderAdapter.Produc
                                             .setButton2Click(new View.OnClickListener() {
                                                 @Override
                                                 public void onClick(View v) {
-                                                    Toast.makeText(mCtx, "Seller Id:" + order.getVendor_id() + "  Customer Id" + order.getCustomer_id(), Toast.LENGTH_SHORT).show();
+                                                   // Toast.makeText(mCtx, "Seller Id:" + order.getVendor_id() + "  Customer Id" + order.getCustomer_id(), Toast.LENGTH_SHORT).show();
+                                                    reportCustomer(order.getVendor_id(),order.getCustomer_id());
                                                     dialogBuilder.dismiss();
                                                 }
                                             })
@@ -254,6 +255,47 @@ public class NewOrderAdapter extends RecyclerView.Adapter<NewOrderAdapter.Produc
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
                 params.put("order_id", String.valueOf(order_id));
+                params.put("customer_id", String.valueOf(customer_id));
+                params.put("vendor_id", String.valueOf(vendor_id));
+                return params;
+            }
+        };
+        RequestHandler.getInstance(mCtx).addToRequestQueue(stringRequest);
+    }
+
+    private void reportCustomer(final int vendor_id, final int customer_id) {
+        Toast.makeText(mCtx, "Reporting Customer.....", Toast.LENGTH_SHORT).show();
+        StringRequest stringRequest = new StringRequest(Request.Method.POST,
+                Constants.REPORTCUSTOMER,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+
+                            if (jsonObject.getBoolean("error") == false)
+                                Toast.makeText(mCtx, jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
+                            else {
+                                Toast.makeText(mCtx, jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
+                            }
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            Toast.makeText(mCtx, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(mCtx, "There was some error.Please try again....", Toast.LENGTH_LONG).show();
+
+                    }
+                }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
                 params.put("customer_id", String.valueOf(customer_id));
                 params.put("vendor_id", String.valueOf(vendor_id));
                 return params;

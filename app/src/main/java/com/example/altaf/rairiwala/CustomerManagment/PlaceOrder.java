@@ -288,6 +288,7 @@ public class PlaceOrder extends AppCompatActivity implements OnMapReadyCallback 
 
     public void sendOrder(final String order, final int vendor_id) {
         if (order != null && vendor_id != 0) {
+            Toast.makeText(this, "Sending order", Toast.LENGTH_SHORT).show();
             StringRequest stringRequest = new StringRequest(Request.Method.POST,
                     Constants.PlaceOrder,
                     new Response.Listener<String>() {

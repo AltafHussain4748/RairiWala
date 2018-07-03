@@ -43,5 +43,7 @@ public class Constants {
     public  static  final String ChangeAccount="https://rairriwala.000webhostapp.com/EditAccount.php";
     public  static  final String REJECTORDER="https://rairriwala.000webhostapp.com/RejectOrder.php";
     public  static  final String RESETPASSWORD="https://rairriwala.000webhostapp.com/ResetPassword.php";
+    public  static  final String REPORTCUSTOMER="https://rairriwala.000webhostapp.com/ReportCustomer.php";
+    public static  final  String ISREPORTED="https://rairriwala.000webhostapp.com/ISCUSTOMERREPORTED.php";
 
 }
