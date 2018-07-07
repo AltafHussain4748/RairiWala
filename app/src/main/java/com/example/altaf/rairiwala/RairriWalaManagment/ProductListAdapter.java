@@ -73,62 +73,70 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
         holder.pro_add_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                StringRequest stringRequest = new StringRequest(
-                        Request.Method.POST,
-                        Constants.URL_SELLER_ADD_PRODUCT,
-                        new Response.Listener<String>() {
-                            @Override
-                            public void onResponse(String response) {
-                                try {
-                                    JSONObject obj = new JSONObject(response);
+             if(holder.quantity.getText().toString()!=null&&holder.price.getText()!=null){
+                 if(Integer.parseInt(holder.quantity.getText().toString())>0&&Integer.parseInt(holder.price.getText().toString())>0){
+                     StringRequest stringRequest = new StringRequest(
+                             Request.Method.POST,
+                             Constants.URL_SELLER_ADD_PRODUCT,
+                             new Response.Listener<String>() {
+                                 @Override
+                                 public void onResponse(String response) {
+                                     try {
+                                         JSONObject obj = new JSONObject(response);
 
-                                    if (obj.getBoolean("error") == false) {
-
-
-                                        Toast.makeText(
-                                                mCtx,
-                                                "Added",
-                                                Toast.LENGTH_LONG
-                                        ).show();
+                                         if (obj.getBoolean("error") == false) {
 
 
-                                    } else {
-                                        Toast.makeText(
-                                                mCtx,
-                                                obj.getString("message"),
-                                                Toast.LENGTH_LONG
-                                        ).show();
-                                    }
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        },
-                        new Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                Toast.makeText(
-                                        mCtx,
-                                        "There was an error",
-                                        Toast.LENGTH_LONG
-                                ).show();
-                            }
-                        }
-                ) {
-                    @Override
-                    protected Map<String, String> getParams() throws AuthFailureError {
-                        Map<String, String> params = new HashMap<>();
-                        params.put("vendorid", String.valueOf(SharedPrefManager.getInstance(mCtx).getSeller().getVendor_id()));
-                        params.put("productid", String.valueOf(product.getProduct_id()));
-                        params.put("price", String.valueOf(holder.price.getText()));
-                        params.put("quantity", String.valueOf(holder.quantity.getText()));
-                        params.put("category", CategoryType);
-                        return params;
-                    }
+                                             Toast.makeText(
+                                                     mCtx,
+                                                     "Added",
+                                                     Toast.LENGTH_LONG
+                                             ).show();
 
-                };
 
-                RequestHandler.getInstance(mCtx).addToRequestQueue(stringRequest);
+                                         } else {
+                                             Toast.makeText(
+                                                     mCtx,
+                                                     obj.getString("message"),
+                                                     Toast.LENGTH_LONG
+                                             ).show();
+                                         }
+                                     } catch (JSONException e) {
+                                         e.printStackTrace();
+                                     }
+                                 }
+                             },
+                             new Response.ErrorListener() {
+                                 @Override
+                                 public void onErrorResponse(VolleyError error) {
+                                     Toast.makeText(
+                                             mCtx,
+                                             "There was an error",
+                                             Toast.LENGTH_LONG
+                                     ).show();
+                                 }
+                             }
+                     ) {
+                         @Override
+                         protected Map<String, String> getParams() throws AuthFailureError {
+                             Map<String, String> params = new HashMap<>();
+                             params.put("vendorid", String.valueOf(SharedPrefManager.getInstance(mCtx).getSeller().getVendor_id()));
+                             params.put("productid", String.valueOf(product.getProduct_id()));
+                             params.put("price", String.valueOf(holder.price.getText()));
+                             params.put("quantity", String.valueOf(holder.quantity.getText()));
+                             params.put("category", CategoryType);
+                             return params;
+                         }
+
+                     };
+
+                     RequestHandler.getInstance(mCtx).addToRequestQueue(stringRequest);
+                 }else{
+                     Toast.makeText(mCtx, "Quantity must be selected", Toast.LENGTH_SHORT).show();
+                 }
+             }else{
+                 Toast.makeText(mCtx, "Invalid data", Toast.LENGTH_SHORT).show();
+             }
             }
         });
     }

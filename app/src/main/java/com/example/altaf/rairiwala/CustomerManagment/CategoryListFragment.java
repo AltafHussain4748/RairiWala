@@ -78,7 +78,6 @@ public class CategoryListFragment
         sqliteDb = databaseHandling.getAllCategories();
         notificationsList = new ArrayList<>();
         if (sqliteDb.size() > 0) {
-            Category category = sqliteDb.get(0);
             CategoryListView adapter = new CategoryListView(getActivity(), (ArrayList<Category>) sqliteDb);
             androidListView.setAdapter(adapter);
         } else {

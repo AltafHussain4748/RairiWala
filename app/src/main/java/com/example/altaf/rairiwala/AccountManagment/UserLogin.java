@@ -1,9 +1,11 @@
 package com.example.altaf.rairiwala.AccountManagment;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -30,8 +32,17 @@ import com.example.altaf.rairiwala.Singelton.SharedPrefManager;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.security.SecureRandom;
+import java.security.cert.X509Certificate;
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSession;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
 
 public class UserLogin extends AppCompatActivity {
     EditText phone, pin;
@@ -47,6 +58,7 @@ public class UserLogin extends AppCompatActivity {
         pin = findViewById(R.id.login_up_pin);
         notAccount = findViewById(R.id.donot_have_account);
         forgetPassword = findViewById(R.id.forgetPassword);
+        handleSSLHandshake();
         forgetPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -230,10 +242,10 @@ public class UserLogin extends AppCompatActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         progressDialog.dismiss();
-
+                        Log.i("MISTAKES",error.getMessage());
                         Toast.makeText(
                                 getApplicationContext(),
-                                "There was an error",
+                                error.getMessage(),
                                 Toast.LENGTH_LONG
                         ).show();
                     }
@@ -251,5 +263,35 @@ public class UserLogin extends AppCompatActivity {
         stringRequest.setRetryPolicy(new DefaultRetryPolicy(20 * 1000, 10, 1.0f));
         RequestHandler.getInstance(this).addToRequestQueue(stringRequest);
         //end of volley request code
+    }
+
+    @SuppressLint("TrulyRandom")
+    public static void handleSSLHandshake() {
+        try {
+            TrustManager[] trustAllCerts = new TrustManager[]{new X509TrustManager() {
+                public X509Certificate[] getAcceptedIssuers() {
+                    return new X509Certificate[0];
+                }
+
+                @Override
+                public void checkClientTrusted(X509Certificate[] certs, String authType) {
+                }
+
+                @Override
+                public void checkServerTrusted(X509Certificate[] certs, String authType) {
+                }
+            }};
+
+            SSLContext sc = SSLContext.getInstance("SSL");
+            sc.init(null, trustAllCerts, new SecureRandom());
+            HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
+            HttpsURLConnection.setDefaultHostnameVerifier(new HostnameVerifier() {
+                @Override
+                public boolean verify(String arg0, SSLSession arg1) {
+                    return true;
+                }
+            });
+        } catch (Exception ignored) {
+        }
     }
 }

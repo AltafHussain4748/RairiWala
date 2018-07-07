@@ -142,6 +142,7 @@ public class DeliveryPersonHomePage extends AppCompatActivity {
         if (id == R.id.logout) {
             SharedPrefManager.getInstance(DeliveryPersonHomePage.this).logOut();
             startActivity(new Intent(this, UserLogin.class));
+            finishAffinity();
             this.finish();
             return true;
         } else if (id == R.id.accountDetailsDp) {

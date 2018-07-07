@@ -1,15 +1,20 @@
 package com.example.altaf.rairiwala.CustomerManagment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.altaf.rairiwala.Models.Order;
 import com.example.altaf.rairiwala.R;
+import com.example.altaf.rairiwala.RairriWalaManagment.SellerAssignDeliverPerson;
+import com.google.gson.Gson;
 
 import java.util.List;
 
@@ -38,7 +43,7 @@ public class CustomerOrderListAdapter extends RecyclerView.Adapter<CustomerOrder
     }
 
     @Override
-    public void onBindViewHolder(CustomerOrderListAdapter.ProductViewHolder holder, int position) {
+    public void onBindViewHolder(CustomerOrderListAdapter.ProductViewHolder holder, final int position) {
         final Order order = orderLists.get(position);
         holder.textViewname.setText("Name:" + order.getCustomerAddress().getName());
         holder.textViewnumber.setText("House Name:" + order.getCustomerAddress().getHouseName());
@@ -52,7 +57,13 @@ public class CustomerOrderListAdapter extends RecyclerView.Adapter<CustomerOrder
             holder.order_status.setTextColor(Color.BLUE);
         }
 
+        holder.linearLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
+                Toast.makeText(mCtx, "" + position, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override
@@ -63,6 +74,7 @@ public class CustomerOrderListAdapter extends RecyclerView.Adapter<CustomerOrder
     class ProductViewHolder extends RecyclerView.ViewHolder {
 
         TextView textViewname, textViewnumber, time, order_status;
+        LinearLayout linearLayout;
 
         public ProductViewHolder(View itemView) {
             super(itemView);
@@ -71,6 +83,7 @@ public class CustomerOrderListAdapter extends RecyclerView.Adapter<CustomerOrder
             textViewnumber = itemView.findViewById(R.id.number_of_items);
             time = itemView.findViewById(R.id.order_time);
             order_status = itemView.findViewById(R.id.order_status);
+            linearLayout = itemView.findViewById(R.id.ordersRecyclerview);
 
         }
     }

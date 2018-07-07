@@ -28,9 +28,11 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.example.altaf.rairiwala.AccountManagment.AccountDetail;
 import com.example.altaf.rairiwala.AccountManagment.CheckInterNet;
 import com.example.altaf.rairiwala.AccountManagment.ConnectToInternet;
 import com.example.altaf.rairiwala.AccountManagment.UserLogin;
+import com.example.altaf.rairiwala.CustomerManagment.CustomerHomePage;
 import com.example.altaf.rairiwala.Models.Notifications;
 import com.example.altaf.rairiwala.Models.Vendor;
 import com.example.altaf.rairiwala.PerformanceMonitering.VendorReviewList;
@@ -67,6 +69,7 @@ public class SellerHomePage extends AppCompatActivity
         setSupportActionBar(toolbar);
         //  getSupportActionBar().setTitle("Home");
         txtViewCount = findViewById(R.id.notificationcount);
+
         notificationsList = new ArrayList<>();
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -106,6 +109,9 @@ public class SellerHomePage extends AppCompatActivity
             }
         }
 
+        View headerView = navigationView.getHeaderView(0);
+        TextView navUsername = (TextView) headerView.findViewById(R.id.usernameAppBar);
+        navUsername.setText(SharedPrefManager.getInstance(this).getSeller().getName());
     }
 
     @Override
@@ -202,13 +208,13 @@ public class SellerHomePage extends AppCompatActivity
         sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if(vendor_id!=0){
+                if (vendor_id != 0) {
                     if (b) {
                         setShopStatus("Open");
                     } else {
                         setShopStatus("Close");
                     }
-                }else{
+                } else {
 
                     Toast.makeText(SellerHomePage.this, "Please add shop information first", Toast.LENGTH_SHORT).show();
                     sw.setChecked(false);
@@ -287,8 +293,9 @@ public class SellerHomePage extends AppCompatActivity
         if (id == R.id.logout) {
             SharedPrefManager.getInstance(SellerHomePage.this).logOut();
             startActivity(new Intent(this, UserLogin.class));
-            DatabaseHandling handling=new DatabaseHandling(this);
+            DatabaseHandling handling = new DatabaseHandling(this);
             handling.deleteAllCategories();
+            finishAffinity();
             this.finish();
             return true;
         } else if (id == R.id.show_status) {
@@ -348,7 +355,7 @@ public class SellerHomePage extends AppCompatActivity
             } else if (id == R.id.assignedorder) {
                 //  fragment = new AssignedOrders();
             } else if (id == R.id.account_details) {
-                fragment = new FragmentAccountDetail();
+                startActivity(new Intent(SellerHomePage.this, AccountDetail.class));
             } else if (id == R.id.add_delivery_person) {
                 if (vendor_id <= 0) {
                     Toast.makeText(this, "Please add shop location details first", Toast.LENGTH_SHORT).show();

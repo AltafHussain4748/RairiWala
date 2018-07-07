@@ -135,6 +135,7 @@ public class CustomerHomePage extends AppCompatActivity {
             startActivity(new Intent(this, UserLogin.class));
             DatabaseHandling handling=new DatabaseHandling(this);
             handling.deleteAllCategories();
+            finishAffinity();
             this.finish();
             return true;
         } else if (id == R.id.customer_orders) {

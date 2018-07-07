@@ -20,6 +20,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.altaf.rairiwala.Models.Customer;
 import com.example.altaf.rairiwala.Models.DeliveryPerson;
+import com.example.altaf.rairiwala.Models.Vendor;
 import com.example.altaf.rairiwala.R;
 import com.example.altaf.rairiwala.Singelton.Constants;
 import com.example.altaf.rairiwala.Singelton.RequestHandler;
@@ -115,6 +116,7 @@ public class AccountDetail extends AppCompatActivity {
                         if (newPin.getText().toString().equals(confirmPin.getText().toString())) {
                             Customer customer = SharedPrefManager.getInstance(AccountDetail.this).getCustomer();
                             DeliveryPerson deliveryPerson = SharedPrefManager.getInstance(AccountDetail.this).getDeliveryPerson();
+                            Vendor vendor = SharedPrefManager.getInstance(AccountDetail.this).getSeller();
                             if (customer != null) {
                                 if (customer.getPin().toString().equals(oldPin.getText().toString())) {
                                     changeData(SharedPrefManager.getInstance(AccountDetail.this).getPersonId(), Integer.parseInt(confirmPin.getText().toString()), newPin.getText().toString(), "pin");
@@ -124,6 +126,14 @@ public class AccountDetail extends AppCompatActivity {
                                 }
                             }
                             if (deliveryPerson != null) {
+                                if (deliveryPerson.getPin().toString().equals(oldPin.getText().toString())) {
+                                    changeData(SharedPrefManager.getInstance(AccountDetail.this).getPersonId(), Integer.parseInt(confirmPin.getText().toString()), newPin.getText().toString(), "pin");
+
+                                } else {
+                                    Toast.makeText(AccountDetail.this, "Old pin incorrect", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                            if (vendor != null) {
                                 if (deliveryPerson.getPin().toString().equals(oldPin.getText().toString())) {
                                     changeData(SharedPrefManager.getInstance(AccountDetail.this).getPersonId(), Integer.parseInt(confirmPin.getText().toString()), newPin.getText().toString(), "pin");
 
@@ -149,6 +159,7 @@ public class AccountDetail extends AppCompatActivity {
         });
         Customer customer = SharedPrefManager.getInstance(this).getCustomer();
         DeliveryPerson deliveryPerson = SharedPrefManager.getInstance(this).getDeliveryPerson();
+        Vendor vendor = SharedPrefManager.getInstance(AccountDetail.this).getSeller();
         if (customer != null) {
             name.setText(customer.getName());
             pin.setText(customer.getPin());
@@ -159,7 +170,11 @@ public class AccountDetail extends AppCompatActivity {
             pin.setText(deliveryPerson.getPin());
             phoneNumber.setText(deliveryPerson.getPerson_phone_number());
         }
-
+        if (vendor != null) {
+            name.setText(vendor.getName());
+            pin.setText(vendor.getPin());
+            phoneNumber.setText(vendor.getPerson_phone_number());
+        }
     }
 
     @Override
@@ -184,6 +199,7 @@ public class AccountDetail extends AppCompatActivity {
                             if (jsonObject.getBoolean("error") == false) {
                                 Customer customer = SharedPrefManager.getInstance(AccountDetail.this).getCustomer();
                                 DeliveryPerson deliveryPerson = SharedPrefManager.getInstance(AccountDetail.this).getDeliveryPerson();
+                                Vendor vendor = SharedPrefManager.getInstance(AccountDetail.this).getSeller();
                                 Toast.makeText(AccountDetail.this, "" + jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
                                 if (customer != null) {
                                     if (type.equals("pin")) {
@@ -204,6 +220,16 @@ public class AccountDetail extends AppCompatActivity {
                                         deliveryPerson.setName(name1);
                                         name.setText(name1);
                                         SharedPrefManager.getInstance(AccountDetail.this).addDeliveryPersonToPref(deliveryPerson);
+                                    }
+                                } else if (vendor != null) {
+                                    if (type.equals("pin")) {
+                                        vendor.setPin(String.valueOf(pin1));
+                                        pin.setText(String.valueOf(pin1));
+                                        SharedPrefManager.getInstance(AccountDetail.this).addSellerToPref(vendor);
+                                    } else if (type.equals("name")) {
+                                        vendor.setName(name1);
+                                        name.setText(name1);
+                                        SharedPrefManager.getInstance(AccountDetail.this).addSellerToPref(vendor);
                                     }
                                 }
 
