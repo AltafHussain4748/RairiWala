@@ -1,4 +1,4 @@
-package com.example.altaf.rairiwala.RairriWalaManagment.StockManagment;
+package com.example.altaf.rairiwala.CustomerManagment;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -13,6 +13,7 @@ import com.example.altaf.rairiwala.Models.Category;
 import com.example.altaf.rairiwala.R;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by AltafHussain on 2/12/2018.
@@ -21,9 +22,9 @@ import java.util.ArrayList;
 public class CategoryListView extends BaseAdapter {
 
     private Context mContext;
-    ArrayList<Category> categories;
+    List<Category> categories;
 
-    public CategoryListView(Context context, ArrayList<Category> categories) {
+    public CategoryListView(Context context, List<Category> categories) {
         mContext = context;
         this.categories = categories;
 

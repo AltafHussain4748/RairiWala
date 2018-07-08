@@ -50,7 +50,7 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-gson:2.1.0'
     implementation 'com.github.clans:fab:1.6.4'
     implementation 'com.github.sd6352051:NiftyDialogEffects:v1.0.3'
-    implementation 'com.github.jd-alexander:library:1.1.0'
+    implementation 'com.akexorcist:googledirectionlibrary:1.1.1'
 
 }
 apply plugin: 'com.google.gms.google-services'

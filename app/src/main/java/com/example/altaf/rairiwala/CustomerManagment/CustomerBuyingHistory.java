@@ -125,7 +125,7 @@ public class CustomerBuyingHistory extends AppCompatActivity {
                         } catch (JSONException e) {
                             e.printStackTrace();
                             progressBar.setVisibility(View.GONE);
-                            message.setText(e.getMessage());
+                            message.setText("There is some error");
 
                             if (productList.size() > 0) {
                                 message.setVisibility(View.GONE);

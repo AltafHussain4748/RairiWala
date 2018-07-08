@@ -73,7 +73,9 @@ public class NearestVendorsMap extends FragmentActivity implements OnMapReadyCal
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
-
+        mMap.getUiSettings().setZoomControlsEnabled(true);
+        mMap.getUiSettings().setMyLocationButtonEnabled(true);
+        mMap.getUiSettings().setAllGesturesEnabled(true);
 
         try {
             locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
@@ -103,7 +105,7 @@ public class NearestVendorsMap extends FragmentActivity implements OnMapReadyCal
                                                 mMap.addMarker(new MarkerOptions().position(new LatLng(vendor.getLatitude(), vendor.getLongitude())).title(vendor.getName()));
                                             }
 
-                                            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 17));
+                                            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 13));
                                         } catch (Exception e) {
                                             Toast.makeText(NearestVendorsMap.this, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
                                         }
@@ -153,7 +155,7 @@ public class NearestVendorsMap extends FragmentActivity implements OnMapReadyCal
                                             mMap.addMarker(new MarkerOptions().position(new LatLng(vendor.getLatitude(), vendor.getLongitude())).title(vendor.getName()));
                                         }
 
-                                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 17));
+                                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 13));
                                     } catch (Exception e) {
                                         Toast.makeText(NearestVendorsMap.this, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
                                     }

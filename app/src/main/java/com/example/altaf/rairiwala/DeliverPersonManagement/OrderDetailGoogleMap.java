@@ -4,10 +4,12 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
@@ -15,14 +17,16 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
-import com.directions.route.AbstractRouting;
-import com.directions.route.Route;
-import com.directions.route.RouteException;
-import com.directions.route.Routing;
-import com.directions.route.RoutingListener;
+import com.akexorcist.googledirection.DirectionCallback;
+import com.akexorcist.googledirection.GoogleDirection;
+import com.akexorcist.googledirection.constant.TransportMode;
+import com.akexorcist.googledirection.model.Direction;
+import com.akexorcist.googledirection.model.Route;
+import com.akexorcist.googledirection.util.DirectionConverter;
 import com.example.altaf.rairiwala.Models.Order;
 import com.example.altaf.rairiwala.R;
 import com.google.android.gms.common.ConnectionResult;
@@ -38,6 +42,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polygon;
@@ -50,9 +55,10 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+
 import com.google.android.gms.location.places.*;
 
-public class OrderDetailGoogleMap extends FragmentActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener, RoutingListener {
+public class OrderDetailGoogleMap extends FragmentActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener, DirectionCallback {
 
     Order order;
     private GoogleMap mMap;
@@ -60,8 +66,11 @@ public class OrderDetailGoogleMap extends FragmentActivity implements OnMapReady
     LatLng start, end;
     GoogleApiClient googleApiClient;
     LocationRequest locationRequest;
-    private Marker currentPositionMarker = null;
-    private List<Polyline> polylines;
+    private String serverKey = "AIzaSyBzJWevmylaYiR9SNXAZl8jJtiVpd-N2Mc";
+    //private LatLng origin;
+    //private LatLng destination;
+    private LatLng origin = new LatLng(37.7849569, -122.4068855);
+    private LatLng destination = new LatLng(37.7814432, -122.4460177);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,9 +99,21 @@ public class OrderDetailGoogleMap extends FragmentActivity implements OnMapReady
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
-        LatLng orderLocation = new LatLng(order.getCustomerAddress().getLatiitude(), order.getCustomerAddress().getLongitude());
-        start = new LatLng(order.getCustomerAddress().getLatiitude(), order.getCustomerAddress().getLongitude());
-        mMap.addMarker(new MarkerOptions().position(orderLocation).title("Order Location"));
+        mMap.getUiSettings().setZoomControlsEnabled(true);
+        mMap.getUiSettings().setMyLocationButtonEnabled(true);
+        mMap.getUiSettings().setAllGesturesEnabled(true);
+        // LatLng orderLocation = new LatLng(order.getCustomerAddress().getLatiitude(), order.getCustomerAddress().getLongitude());
+        //  destination = new LatLng(order.getCustomerAddress().getLatiitude(), order.getCustomerAddress().getLongitude());
+
+        if (destination != null && origin != null) {
+            GoogleDirection.withServerKey(serverKey)
+                    .from(origin)
+                    .to(destination)
+                    .transportMode(TransportMode.BICYCLING)
+                    .execute(this);
+        }
+        //mMap.addMarker(new MarkerOptions().position(orderLocation).title("Order Location"));
+
     }
 
     @Override
@@ -100,8 +121,8 @@ public class OrderDetailGoogleMap extends FragmentActivity implements OnMapReady
         if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             //Make request to get the users location
             locationRequest = LocationRequest.create();
-            locationRequest.setInterval(10000);
-            locationRequest.setFastestInterval(10000);
+            locationRequest.setInterval(6000);
+            locationRequest.setFastestInterval(6000);
             locationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
             if (ContextCompat.checkSelfPermission(this,
                     android.Manifest.permission.ACCESS_FINE_LOCATION)
@@ -140,7 +161,7 @@ public class OrderDetailGoogleMap extends FragmentActivity implements OnMapReady
     @Override
     public void onLocationChanged(Location location) {
 
-        LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+      /*  LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
         end = new LatLng(location.getLatitude(), location.getLongitude());
         if (currentPositionMarker != null) {
             currentPositionMarker.setPosition(latLng);
@@ -148,13 +169,12 @@ public class OrderDetailGoogleMap extends FragmentActivity implements OnMapReady
             currentPositionMarker = mMap.addMarker(new MarkerOptions().position(latLng).title("My Location"));
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 17));
         }
-        Routing routing = new Routing.Builder()
-                .travelMode(AbstractRouting.TravelMode.BIKING)
-                .withListener(this)
-                .waypoints(start, end)
-                .build();
-        routing.execute();
-        Toast.makeText(this, "Location Updated", Toast.LENGTH_SHORT).show();
+*/
+        //origin = new LatLng(location.getLatitude(), location.getLongitude());
+
+
+        //    mMap.clear();
+
 
     }
 
@@ -187,64 +207,34 @@ public class OrderDetailGoogleMap extends FragmentActivity implements OnMapReady
         googleApiClient.disconnect();
     }
 
-    @Override
-    public void onRoutingFailure(RouteException e) {
-
-    }
 
     @Override
-    public void onRoutingStart() {
+    public void onDirectionSuccess(Direction direction, String rawBody) {
+        Toast.makeText(this, ""+rawBody, Toast.LENGTH_SHORT).show();
+        if (direction.isOK()) {
+            Route route = direction.getRouteList().get(0);
+            mMap.addMarker(new MarkerOptions().position(origin));
+            mMap.addMarker(new MarkerOptions().position(destination));
 
-    }
+            ArrayList<LatLng> directionPositionList = route.getLegList().get(0).getDirectionPoint();
+            mMap.addPolyline(DirectionConverter.createPolyline(this, directionPositionList, 5, Color.RED));
+            setCameraWithCoordinationBounds(route);
 
-    @Override
-    public void onRoutingSuccess(ArrayList<Route> arrayList, int i) {
-        Toast.makeText(this, "Routing method called", Toast.LENGTH_SHORT).show();
-        drawRout(arrayList);
-    }
 
-    @Override
-    public void onRoutingCancelled() {
-
-    }
-
-    private void drawRout(ArrayList<Route> route) {
-        CameraUpdate center = CameraUpdateFactory.newLatLng(start);
-        Toast.makeText(this, "Called API", Toast.LENGTH_SHORT).show();
-        mMap.moveCamera(center);
-
-        polylines = new ArrayList<>();
-        if (polylines.size() > 0) {
-            for (Polyline poly : polylines) {
-                poly.remove();
-            }
+        } else {
+            Toast.makeText(this, direction.toString(), Toast.LENGTH_SHORT).show();
         }
+    }
 
+    @Override
+    public void onDirectionFailure(Throwable t) {
+        Toast.makeText(this, "" + t.getMessage(), Toast.LENGTH_SHORT).show();
+    }
 
-        //add route(s) to the map.
-        for (int i = 0; i < route.size(); i++) {
-
-
-            PolylineOptions polyOptions = new PolylineOptions();
-            polyOptions.width(10 + i * 3);
-            polyOptions.addAll(route.get(i).getPoints());
-            Polyline polyline = mMap.addPolyline(polyOptions);
-            polylines.add(polyline);
-
-            //  Toast.makeText(getApplicationContext(), "Route " + (i + 1) + ": distance - " + route.get(i).getDistanceValue() + ": duration - " + route.get(i).getDurationValue(), Toast.LENGTH_SHORT).show();
-        }
-
-        // Start marker
-        MarkerOptions options = new MarkerOptions();
-        options.position(start);
-        options.icon(BitmapDescriptorFactory.fromResource(R.drawable.add1));
-        mMap.addMarker(options);
-
-        // End marker
-        options = new MarkerOptions();
-        options.position(end);
-        options.icon(BitmapDescriptorFactory.fromResource(R.drawable.add1));
-        mMap.addMarker(options);
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(start, 17));
+    private void setCameraWithCoordinationBounds(Route route) {
+        LatLng southwest = route.getBound().getSouthwestCoordination().getCoordination();
+        LatLng northeast = route.getBound().getNortheastCoordination().getCoordination();
+        LatLngBounds bounds = new LatLngBounds(southwest, northeast);
+        mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, 100));
     }
 }

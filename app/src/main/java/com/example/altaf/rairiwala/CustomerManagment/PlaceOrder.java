@@ -1,5 +1,6 @@
 package com.example.altaf.rairiwala.CustomerManagment;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -56,7 +57,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class PlaceOrder extends AppCompatActivity implements OnMapReadyCallback {
+public class PlaceOrder extends AppCompatActivity implements OnMapReadyCallback{
+        //GoogleMap.OnMyLocationClickListener {
     List<Product> products;
     private GoogleMap mMap;
     double latitude = 0.0;
@@ -170,7 +172,22 @@ public class PlaceOrder extends AppCompatActivity implements OnMapReadyCallback 
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
-
+        mMap.getUiSettings().setZoomControlsEnabled(true);
+        mMap.getUiSettings().setMyLocationButtonEnabled(true);
+        mMap.getUiSettings().setAllGesturesEnabled(true);
+        mMap.getUiSettings().setZoomGesturesEnabled(true);
+      /*  if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+            return;
+        }*/
+       // mMap.setMyLocationEnabled(true);
         //marker grable
         mMap.setOnMarkerDragListener(new GoogleMap.OnMarkerDragListener() {
             @Override
@@ -185,7 +202,7 @@ public class PlaceOrder extends AppCompatActivity implements OnMapReadyCallback 
 
             @Override
             public void onMarkerDragEnd(Marker marker) {
-               // Toast.makeText(PlaceOrder.this, "Latitude:" + marker.getPosition().latitude + "\n" + "Longitude:" + marker.getPosition().longitude, Toast.LENGTH_SHORT).show();
+                // Toast.makeText(PlaceOrder.this, "Latitude:" + marker.getPosition().latitude + "\n" + "Longitude:" + marker.getPosition().longitude, Toast.LENGTH_SHORT).show();
                 latitude = marker.getPosition().latitude;
                 longtude = marker.getPosition().longitude;
             }
@@ -331,4 +348,8 @@ public class PlaceOrder extends AppCompatActivity implements OnMapReadyCallback 
         }
     }
 
+    /*@Override
+    public void onMyLocationClick(@NonNull Location location) {
+        Toast.makeText(this, "Current location:\n" + location, Toast.LENGTH_LONG).show();
+    }*/
 }

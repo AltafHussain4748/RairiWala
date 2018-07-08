@@ -21,7 +21,6 @@ import com.android.volley.toolbox.Volley;
 import com.example.altaf.rairiwala.Models.Category;
 import com.example.altaf.rairiwala.Models.Notifications;
 import com.example.altaf.rairiwala.R;
-import com.example.altaf.rairiwala.RairriWalaManagment.StockManagment.CategoryListView;
 import com.example.altaf.rairiwala.Singelton.Constants;
 import com.example.altaf.rairiwala.SqliteDatabase.DatabaseHandling;
 
@@ -122,7 +121,8 @@ public class CategoryListFragment
                             for (Category category : category_List) {
                                 databaseHandling.insertCategories(category);
                             }
-                            CategoryListView adapter = new CategoryListView(getActivity(), (ArrayList<Category>) category_List);
+
+                            CategoryListView adapter = new CategoryListView(getActivity(), sqliteDb);
                             androidListView.setAdapter(adapter);
                         } catch (JSONException e) {
                             e.printStackTrace();
