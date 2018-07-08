@@ -59,6 +59,7 @@ public class NearestVendorAdapter extends RecyclerView.Adapter<NearestVendorAdap
                     intent.putExtra("vendor_id", v.getVendor_id());
                     intent.putExtra("role", "customer");
                     mCtx.startActivity(intent);
+
                 }
             });
             holder.viewproducts.setOnClickListener(new View.OnClickListener() {

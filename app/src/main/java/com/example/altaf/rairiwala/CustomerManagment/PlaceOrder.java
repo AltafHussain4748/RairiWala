@@ -269,6 +269,7 @@ public class PlaceOrder extends AppCompatActivity implements OnMapReadyCallback{
             this.finish();
         } else if (d == R.id.home_return) {
             startActivity(new Intent(PlaceOrder.this, CustomerHomePage.class));
+            this.finish();
         }
         return super.onOptionsItemSelected(item);
     }

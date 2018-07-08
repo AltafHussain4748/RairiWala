@@ -68,6 +68,7 @@ public class CategoryListFragment
                 intent.putExtra("CAT", category.getCategroy_name());
                 startActivity(intent);
 
+
             }
         });
         progressDialog = new ProgressDialog(getActivity());
