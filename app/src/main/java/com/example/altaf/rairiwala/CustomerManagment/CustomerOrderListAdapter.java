@@ -2,6 +2,7 @@ package com.example.altaf.rairiwala.CustomerManagment;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -18,10 +19,7 @@ import com.google.gson.Gson;
 
 import java.util.List;
 
-
-/**
- * Created by AltafHussain on 12/31/2017.
- */
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class CustomerOrderListAdapter extends RecyclerView.Adapter<CustomerOrderListAdapter.ProductViewHolder> {
     private Context mCtx;
@@ -53,8 +51,11 @@ public class CustomerOrderListAdapter extends RecyclerView.Adapter<CustomerOrder
             holder.order_status.setTextColor(Color.GREEN);
         } else if (order.getOrder_status().equals("Rejected")) {
             holder.order_status.setTextColor(Color.RED);
-        } else {
+            //
+        } else if (order.getOrder_status().equals("ASSIGNED")) {
             holder.order_status.setTextColor(Color.BLUE);
+            // holder.imageView.setImageBitmap(Bitmap.createBitmap(mCtx.getResources().getDrawable(R.drawable.dp));
+
         }
 
         holder.linearLayout.setOnClickListener(new View.OnClickListener() {
@@ -75,6 +76,7 @@ public class CustomerOrderListAdapter extends RecyclerView.Adapter<CustomerOrder
 
         TextView textViewname, textViewnumber, time, order_status;
         LinearLayout linearLayout;
+        CircleImageView imageView;
 
         public ProductViewHolder(View itemView) {
             super(itemView);
@@ -84,6 +86,7 @@ public class CustomerOrderListAdapter extends RecyclerView.Adapter<CustomerOrder
             time = itemView.findViewById(R.id.order_time);
             order_status = itemView.findViewById(R.id.order_status);
             linearLayout = itemView.findViewById(R.id.ordersRecyclerview);
+            imageView = itemView.findViewById(R.id.imageView);
 
         }
     }

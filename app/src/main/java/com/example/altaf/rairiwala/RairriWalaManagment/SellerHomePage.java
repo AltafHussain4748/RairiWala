@@ -353,7 +353,12 @@ public class SellerHomePage extends AppCompatActivity
 
                 //  fragment = new NewOrders();
             } else if (id == R.id.assignedorder) {
-                //  fragment = new AssignedOrders();
+                if (vendor_id <= 0) {
+                    Toast.makeText(this, "Please add shop location details first", Toast.LENGTH_SHORT).show();
+                } else {
+
+                    fragment = new GetVendorAssignedOrdersFragment();
+                }
             } else if (id == R.id.account_details) {
                 startActivity(new Intent(SellerHomePage.this, AccountDetail.class));
             } else if (id == R.id.add_delivery_person) {
