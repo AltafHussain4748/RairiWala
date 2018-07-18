@@ -65,8 +65,13 @@ public class CustomerOrderListAdapter extends RecyclerView.Adapter<CustomerOrder
             Drawable image = resources.getDrawable(R.drawable.dp);
             holder.imageView.setImageDrawable(image);
 
+        } else if (order.getOrder_status().equals("NEW")) {
+            holder.order_status.setTextColor(Color.CYAN);
+            Resources resources = mCtx.getResources();
+            Drawable image = resources.getDrawable(R.drawable.neworder);
+            holder.imageView.setImageDrawable(image);
+            //
         }
-
         holder.linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -74,7 +79,7 @@ public class CustomerOrderListAdapter extends RecyclerView.Adapter<CustomerOrder
                 Gson gson = new Gson();
                 String orderString = gson.toJson(order);
                 intent.putExtra("order", orderString);
-                intent.putExtra("rule","customer_hide");
+                intent.putExtra("rule", "customer_hide");
                 mCtx.startActivity(intent);
             }
         });
