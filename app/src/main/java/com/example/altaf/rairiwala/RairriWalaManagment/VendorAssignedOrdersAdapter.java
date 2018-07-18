@@ -54,6 +54,7 @@ public class VendorAssignedOrdersAdapter extends RecyclerView.Adapter<
                 Gson gson = new Gson();
                 String orderString = gson.toJson(order);
                 intent.putExtra("order", orderString);
+                intent.putExtra("rule","seller");
                 mCtx.startActivity(intent);
             }
         });

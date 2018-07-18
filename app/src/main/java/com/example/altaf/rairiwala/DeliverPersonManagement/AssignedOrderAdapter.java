@@ -71,6 +71,7 @@ public class AssignedOrderAdapter extends RecyclerView.Adapter<AssignedOrderAdap
                 Gson gson = new Gson();
                 String orderString = gson.toJson(order);
                 intent.putExtra("order", orderString);
+                intent.putExtra("rule","dp");
                 mCtx.startActivity(intent);
 
             }

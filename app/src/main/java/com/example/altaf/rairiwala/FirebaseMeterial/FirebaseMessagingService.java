@@ -38,17 +38,16 @@ import java.lang.reflect.Type;
  */
 public class FirebaseMessagingService extends com.google.firebase.messaging.FirebaseMessagingService {
     String message1 = "";
-    JSONObject orderObject = null;
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
-        // Toast.makeText(this, ""+remoteMessage, Toast.LENGTH_SHORT).show();
-        // showNotification(remoteMessage.getData().get("message"));
-        // Check if message contains a data payload.
+
         try {
             JSONObject json = new JSONObject(remoteMessage.getData().toString());
-            showNotification(json);
+            showNotification(json.getJSONObject("data"));
+            Log.i("HELLO", "App Data");
         } catch (JSONException e) {
+            Log.i("HELLO", e.getMessage() + "   " + remoteMessage.getData().toString());
             e.printStackTrace();
         }
 
@@ -201,6 +200,7 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
                     }
                 } else if (message.getString("type").equals("delivered")) {
                     //if the message is aorder delivered
+
                     int vendor_id = 0;
                     Customer customer = SharedPrefManager.getInstance(FirebaseMessagingService.this).getCustomer();
                     Vendor vendor = SharedPrefManager.getInstance(FirebaseMessagingService.this).getSeller();
@@ -228,6 +228,9 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
                             sendCustomerBroadCast(intent);
                             DatabaseHandling handling = new DatabaseHandling(FirebaseMessagingService.this);
                             handling.insert(NotificationTags.CUSTOMERDELIVERED, "Order Delivered", "Order has been delivered", message.getInt("reciever_id"));
+                        } else {
+                            DatabaseHandling handling = new DatabaseHandling(FirebaseMessagingService.this);
+                            handling.insert(NotificationTags.CUSTOMERDELIVERED, "Order Delivered", "Order has been delivered", message.getInt("reciever_id"));
                         }
                     } else if (vendor_id != 0) {
                         Intent i = new Intent(this, SellerHomePage.class);
@@ -250,15 +253,17 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
                             sendLocationBroadcast(intent);
                             DatabaseHandling handling = new DatabaseHandling(FirebaseMessagingService.this);
                             handling.insert(NotificationTags.VENDORDELIVERED, "Order Delivered", "Order has been Delivered", message.getInt("reciever_id1"));
+                        } else {
+                            DatabaseHandling handling = new DatabaseHandling(FirebaseMessagingService.this);
+                            handling.insert(NotificationTags.VENDORDELIVERED, "Order Delivered", "Order has been Delivered", message.getInt("reciever_id1"));
                         }
                     }
-
-
+                    Log.i("HELLO", "Delivered");
                 }
             }
 
         } catch (Exception e) {
-            Log.i("HELLO", e.getMessage());
+            Log.i("HELLO", e.getMessage() + "   Error occured");
         }
 
 

@@ -2,12 +2,15 @@ package com.example.altaf.rairiwala.CustomerManagment;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -15,6 +18,7 @@ import android.widget.Toast;
 import com.example.altaf.rairiwala.Models.Order;
 import com.example.altaf.rairiwala.R;
 import com.example.altaf.rairiwala.RairriWalaManagment.SellerAssignDeliverPerson;
+import com.example.altaf.rairiwala.Singelton.OrderDetail;
 import com.google.gson.Gson;
 
 import java.util.List;
@@ -51,18 +55,27 @@ public class CustomerOrderListAdapter extends RecyclerView.Adapter<CustomerOrder
             holder.order_status.setTextColor(Color.GREEN);
         } else if (order.getOrder_status().equals("Rejected")) {
             holder.order_status.setTextColor(Color.RED);
+            Resources resources = mCtx.getResources();
+            Drawable image = resources.getDrawable(R.drawable.delete);
+            holder.imageView.setImageDrawable(image);
             //
         } else if (order.getOrder_status().equals("ASSIGNED")) {
             holder.order_status.setTextColor(Color.BLUE);
-            // holder.imageView.setImageBitmap(Bitmap.createBitmap(mCtx.getResources().getDrawable(R.drawable.dp));
+            Resources resources = mCtx.getResources();
+            Drawable image = resources.getDrawable(R.drawable.dp);
+            holder.imageView.setImageDrawable(image);
 
         }
 
         holder.linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                Toast.makeText(mCtx, "" + position, Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(mCtx, OrderDetail.class);
+                Gson gson = new Gson();
+                String orderString = gson.toJson(order);
+                intent.putExtra("order", orderString);
+                intent.putExtra("rule","customer_hide");
+                mCtx.startActivity(intent);
             }
         });
     }
@@ -76,7 +89,7 @@ public class CustomerOrderListAdapter extends RecyclerView.Adapter<CustomerOrder
 
         TextView textViewname, textViewnumber, time, order_status;
         LinearLayout linearLayout;
-        CircleImageView imageView;
+        ImageView imageView;
 
         public ProductViewHolder(View itemView) {
             super(itemView);

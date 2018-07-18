@@ -106,8 +106,8 @@ public class NewOrderAdapter extends RecyclerView.Adapter<NewOrderAdapter.Produc
                                             .setButton2Click(new View.OnClickListener() {
                                                 @Override
                                                 public void onClick(View v) {
-                                                   // Toast.makeText(mCtx, "Seller Id:" + order.getVendor_id() + "  Customer Id" + order.getCustomer_id(), Toast.LENGTH_SHORT).show();
-                                                    reportCustomer(order.getVendor_id(),order.getCustomer_id());
+                                                    // Toast.makeText(mCtx, "Seller Id:" + order.getVendor_id() + "  Customer Id" + order.getCustomer_id(), Toast.LENGTH_SHORT).show();
+                                                    reportCustomer(order.getVendor_id(), order.getCustomer_id());
                                                     dialogBuilder.dismiss();
                                                 }
                                             })
@@ -131,6 +131,7 @@ public class NewOrderAdapter extends RecyclerView.Adapter<NewOrderAdapter.Produc
                 Gson gson = new Gson();
                 String orderString = gson.toJson(order);
                 intent.putExtra("order", orderString);
+                intent.putExtra("rule", "seller");
                 mCtx.startActivity(intent);
 
             }
@@ -230,7 +231,7 @@ public class NewOrderAdapter extends RecyclerView.Adapter<NewOrderAdapter.Produc
                             if (jsonObject.getBoolean("error") == false) {
 
                                 orderLists.remove(pos);
-
+                                Toast.makeText(mCtx, jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
                                 notifyDataSetChanged();
                                 notifyItemRemoved(pos);
                             } else {

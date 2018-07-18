@@ -46,7 +46,6 @@ public class OrderDetail extends AppCompatActivity {
 
     List<Product> productList;
     Button confirm;
-    //the recyclerview
     RecyclerView recyclerView;
     ProgressBar progressBar;
 
@@ -65,20 +64,22 @@ public class OrderDetail extends AppCompatActivity {
             progressBar = findViewById(R.id.progressBar);
             recyclerView = findViewById(R.id.order_details);
             recyclerView.setHasFixedSize(true);
+            FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
             recyclerView.setLayoutManager(new LinearLayoutManager(this));
             productList = new ArrayList<>();
             Bundle bundle = getIntent().getExtras();
             final String jsonString = bundle.getString("order");
+            final String rule = bundle.getString("rule");
             final Order order;
             Gson gson = new Gson();
             Type listOfproductType = new TypeToken<Order>() {
             }.getType();
             order = gson.fromJson(jsonString, listOfproductType);
-            if (order.getOrder_status().equals("Confirmed")) {
+            if (order.getOrder_status().equals("Confirmed") && (rule.equals("seller"))) {
                 confirm.setVisibility(View.GONE);
-            } else if (order.getOrder_status().equals("ASSIGNED")) {
+            } else if (order.getOrder_status().equals("ASSIGNED") && (rule.equals("seller") || rule.equals("dp"))) {
 
-                FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+
                 confirm.setVisibility(View.GONE);
                 fab.setVisibility(View.VISIBLE);
                 fab.setOnClickListener(new View.OnClickListener() {
@@ -90,6 +91,10 @@ public class OrderDetail extends AppCompatActivity {
                     }
                 });
 
+            }
+            if (rule.equals("customer_hide")) {
+                confirm.setVisibility(View.GONE);
+                fab.setVisibility(View.GONE);
             }
             if (order.getProductArrayList() == null) {
                 loadOrderItems(order.getVendor_id(), order.getOrder_id());
@@ -138,11 +143,13 @@ public class OrderDetail extends AppCompatActivity {
                                 startActivity(new Intent(OrderDetail.this, SellerNewOrderList.class));
                             } else {
                                 Toast.makeText(OrderDetail.this, jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
+                                confirm.setVisibility(View.GONE);
                             }
 
 
                         } catch (JSONException e) {
                             e.printStackTrace();
+                            confirm.setVisibility(View.GONE);
                         }
                     }
                 },
@@ -150,7 +157,7 @@ public class OrderDetail extends AppCompatActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Toast.makeText(getApplicationContext(), "There was some error.Please try again....", Toast.LENGTH_LONG).show();
-
+                        confirm.setVisibility(View.GONE);
                     }
                 }) {
             @Override
