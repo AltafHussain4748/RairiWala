@@ -133,7 +133,7 @@ public class SellerAssignDeliverPerson extends AppCompatActivity {
 
             @Override
             public void onLongClick(View view, int position) {
-                final DeliveryPerson deliveryPerson = deliveryPersonList.get(0);
+                final DeliveryPerson deliveryPerson = deliveryPersonList.get(position);
                 final NiftyDialogBuilder dialogBuilder = NiftyDialogBuilder.getInstance(SellerAssignDeliverPerson.this);
                 dialogBuilder
                         .withTitle("Assign Dp")                                  //.withTitle(null)  no title
@@ -252,7 +252,7 @@ public class SellerAssignDeliverPerson extends AppCompatActivity {
     }
 
     public void assignDeliveryPerson(final int dp_id, final int order_id) {
-        Toast.makeText(this, "Seinding....", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Sending....", Toast.LENGTH_SHORT).show();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.NotifyDeliveryPerson,
                 new Response.Listener<String>() {
                     @Override
