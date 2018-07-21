@@ -148,13 +148,13 @@ public class NearestVendor extends AppCompatActivity {
                 progressDialog.setCancelable(false);
                 progressDialog.show();
 
-        /*
-        * Creating a String Request
-        * The request type is GET defined by first parameter
-        * The URL is defined in the second parameter
-        * Then we have a Response Listener and a Error Listener
-        * In response listener we will get the JSON response as a String
-        * */
+                /*
+                 * Creating a String Request
+                 * The request type is GET defined by first parameter
+                 * The URL is defined in the second parameter
+                 * Then we have a Response Listener and a Error Listener
+                 * In response listener we will get the JSON response as a String
+                 * */
                 StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.URL_NEAREST_VENDORS,
                         new Response.Listener<String>() {
                             @Override
@@ -192,8 +192,7 @@ public class NearestVendor extends AppCompatActivity {
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                     message.setVisibility(View.VISIBLE);
-                                    message.setText("No new Order");
-                                    Toast.makeText(NearestVendor.this, " No new Order", Toast.LENGTH_SHORT).show();
+                                    message.setText("No Sellers Selling this product");
                                 }
                             }
                         },

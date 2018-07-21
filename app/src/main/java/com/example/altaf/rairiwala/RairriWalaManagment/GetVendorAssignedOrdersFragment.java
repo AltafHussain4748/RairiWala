@@ -97,7 +97,6 @@ public class GetVendorAssignedOrdersFragment extends Fragment {
                                         newOrder.setDeliveryperson_id(0);
                                     }
 
-                                    newOrder.setDeliveryperson_id(0);
                                     orderList.add(newOrder);
 
 

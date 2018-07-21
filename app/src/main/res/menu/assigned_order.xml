@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/delivery_person_assigned"
+        android:title="Delivery Person"
+
+        />
+
+    <item
+        android:id="@+id/order_detail_assigned"
+        android:title="Order Details"
+      />
+
+
+</menu>
