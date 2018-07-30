@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
 import android.support.annotation.NonNull;
@@ -49,16 +51,18 @@ import com.google.gson.reflect.TypeToken;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.lang.reflect.Type;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
-public class PlaceOrder extends AppCompatActivity implements OnMapReadyCallback{
-        //GoogleMap.OnMyLocationClickListener {
+public class PlaceOrder extends AppCompatActivity implements OnMapReadyCallback {
+    //GoogleMap.OnMyLocationClickListener {
     List<Product> products;
     private GoogleMap mMap;
     double latitude = 0.0;
@@ -187,7 +191,7 @@ public class PlaceOrder extends AppCompatActivity implements OnMapReadyCallback{
             ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 1);
             return;
         }*/
-       // mMap.setMyLocationEnabled(true);
+        // mMap.setMyLocationEnabled(true);
         //marker grable
         mMap.setOnMarkerDragListener(new GoogleMap.OnMarkerDragListener() {
             @Override
@@ -205,6 +209,7 @@ public class PlaceOrder extends AppCompatActivity implements OnMapReadyCallback{
                 // Toast.makeText(PlaceOrder.this, "Latitude:" + marker.getPosition().latitude + "\n" + "Longitude:" + marker.getPosition().longitude, Toast.LENGTH_SHORT).show();
                 latitude = marker.getPosition().latitude;
                 longtude = marker.getPosition().longitude;
+                getAddress(latitude,longtude);
             }
         });
         // Add a marker in Sydney and move the camera
@@ -232,6 +237,7 @@ public class PlaceOrder extends AppCompatActivity implements OnMapReadyCallback{
                                     LatLng sydney = new LatLng(latitude, longtude);
                                     mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in meri locationy").draggable(true));
                                     mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 17));
+                                    getAddress(location.getLatitude(),location.getLongitude());
                                 }
                             }
                         });
@@ -294,6 +300,7 @@ public class PlaceOrder extends AppCompatActivity implements OnMapReadyCallback{
                                     LatLng sydney = new LatLng(latitude, longtude);
                                     mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in meri locationy").draggable(true));
                                     mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 17));
+                                    getAddress(location.getLatitude(),location.getLongitude());
                                 }
                             }
                         });
@@ -353,4 +360,26 @@ public class PlaceOrder extends AppCompatActivity implements OnMapReadyCallback{
     public void onMyLocationClick(@NonNull Location location) {
         Toast.makeText(this, "Current location:\n" + location, Toast.LENGTH_LONG).show();
     }*/
+    private void getAddress(double latitide, double longitude) {
+        Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+
+        try {
+            List<Address> addresses = geocoder.getFromLocation(latitude, longitude, 1);
+
+            if (addresses != null) {
+                Address returnedAddress = addresses.get(0);
+                StringBuilder strReturnedAddress = new StringBuilder();
+                for (int i = 0; i < returnedAddress.getMaxAddressLineIndex(); i++) {
+                    strReturnedAddress.append(returnedAddress.getAddressLine(i)).append("");
+                }
+                Toast.makeText(this, strReturnedAddress.toString(), Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(this, "No address found", Toast.LENGTH_SHORT).show();
+            }
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            Toast.makeText(this, "No address found", Toast.LENGTH_SHORT).show();
+        }
+    }
 }

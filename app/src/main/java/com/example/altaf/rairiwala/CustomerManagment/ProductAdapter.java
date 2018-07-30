@@ -29,16 +29,16 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     private Context context = null;
     private TextView itemcount;
     private ImageView carts;
-    private int count=0;
-    private ArrayList<Product> addproducts=new ArrayList<>();
+    private int count = 0;
+    private ArrayList<Product> addproducts = new ArrayList<>();
 
     public ProductAdapter(Context mCtx, List<Product> productList, TextView itemcount, ImageView carts) {
         this.mCtx = mCtx;
         this.productList = productList;
         this.itemcount = itemcount;
         this.carts = carts;
-        Log.i("HELLOWORLD",addproducts.size()+"");
-        if(addproducts.size()<=0){
+        Log.i("HELLOWORLD", addproducts.size() + "");
+        if (addproducts.size() <= 0) {
             itemcount.setVisibility(View.GONE);
         }
     }
@@ -61,6 +61,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
 
         holder.textViewname.setText("Name :" + product.getProduct_name());
         holder.textViewprice.setText("Price :" + product.getProductDetails().getPrice() + "/" + product.getProduct_type());
+        holder.product_quantity.setText("Quantity :" + product.getProductDetails().getQuantity());
 
 
         final String txt = holder.textViewprice.getText().toString();
@@ -177,7 +178,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
 
     class ProductViewHolder extends RecyclerView.ViewHolder {
 
-        TextView textViewname, textViewprice;
+        TextView textViewname, textViewprice, product_quantity;
         ImageView productimage;
         ImageButton cart;
         EditText value;
@@ -193,6 +194,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             value = itemView.findViewById(R.id.value);
             pos = itemView.findViewById(R.id.positive);
             nag = itemView.findViewById(R.id.negative);
+            product_quantity = itemView.findViewById(R.id.product_quantity);
 
 
         }

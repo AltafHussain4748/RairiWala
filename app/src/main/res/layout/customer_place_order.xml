@@ -21,6 +21,7 @@
             app:popupTheme="@style/AppTheme.PopupOverlay" />
 
     </android.support.design.widget.AppBarLayout>
+
     <fragment xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:map="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
@@ -34,21 +35,21 @@
         android:id="@+id/house_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="3dp"
         android:hint="House Name"
         android:inputType="text"
         android:maxLines="1"
-        android:textColorHint="@color/red"
-        android:layout_margin="3dp"/>
+        android:textColorHint="@color/red" />
 
     <EditText
         android:id="@+id/street_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="House Name"
+        android:layout_margin="3dp"
+        android:hint="Street Name"
         android:inputType="text"
         android:maxLines="1"
-        android:textColorHint="@color/red"
-        android:layout_margin="3dp"/>
+        android:textColorHint="@color/red" />
 
     <Button
         android:id="@+id/placeorder"

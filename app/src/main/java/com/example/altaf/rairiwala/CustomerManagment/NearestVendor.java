@@ -173,14 +173,17 @@ public class NearestVendor extends AppCompatActivity {
 
                                             //getting product object from json array
                                             JSONObject vendor = array.getJSONObject(i);
-                                            Vendor v = new Vendor();
-                                            v.setVendor_id(Integer.parseInt(vendor.getString("Vendor_Id")));
-                                            v.setName(vendor.getString("Name"));
-                                            v.setPerson_phone_number(vendor.getString("Phone_Number"));
-                                            v.setDistance(Double.parseDouble(vendor.getString("distance")));
-                                            v.setLatitude(vendor.getDouble("Latitude"));
-                                            v.setLongitude(vendor.getDouble("Longitude"));
-                                            vendorList.add(v);
+                                            if (Double.parseDouble(vendor.getString("distance")) < 5.0) {
+                                                Vendor v = new Vendor();
+                                                v.setVendor_id(Integer.parseInt(vendor.getString("Vendor_Id")));
+                                                v.setName(vendor.getString("Name"));
+                                                v.setPerson_phone_number(vendor.getString("Phone_Number"));
+                                                v.setDistance(Double.parseDouble(vendor.getString("distance")));
+                                                v.setLatitude(vendor.getDouble("Latitude"));
+                                                v.setLongitude(vendor.getDouble("Longitude"));
+                                                vendorList.add(v);
+                                            }
+
                                         }
 
                                         //creating adapter object and setting it to recyclerview
