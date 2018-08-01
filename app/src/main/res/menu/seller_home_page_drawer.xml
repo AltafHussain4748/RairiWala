@@ -11,7 +11,7 @@
         <item
             android:id="@+id/extra_information"
             android:icon="@drawable/add1"
-            android:title="Add Location" />
+            android:title="Add Shop Location" />
 
         <item android:title="Stock Managment">
             <menu>

@@ -89,7 +89,7 @@ public class StockDetailsFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        getActivity().setTitle("Stock");
+        getActivity().setTitle("Home");
     }
 
     private void loadProducts(final int vendor_id) {

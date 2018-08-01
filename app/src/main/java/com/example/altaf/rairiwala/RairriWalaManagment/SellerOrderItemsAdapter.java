@@ -55,7 +55,7 @@ public class SellerOrderItemsAdapter extends RecyclerView.Adapter<SellerOrderIte
                 int totalprice = product.getProductDetails().getQuantity() * product.getProductDetails().getPrice();
                 holder.name.setText("Name :"+product.getProduct_name());
                 holder.price.setText("Total Price :"+totalprice);
-                holder.value1.setText(":"+product.getProductDetails().getQuantity());
+                holder.value1.setText(":"+product.getProductDetails().getQuantity()+" "+product.getProduct_type());
             } else {
                 count++;
             }
