@@ -289,4 +289,9 @@ public class VendorReviewList extends AppCompatActivity {
         RequestHandler.getInstance(VendorReviewList.this).addToRequestQueue(stringRequest);
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        this.finish();
+    }
 }

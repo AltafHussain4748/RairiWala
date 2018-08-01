@@ -280,7 +280,11 @@ public class PlaceOrder extends AppCompatActivity implements OnMapReadyCallback 
         return super.onOptionsItemSelected(item);
     }
 
-    //Request permisiions
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        this.finish();
+    }    //Request permisiions
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);

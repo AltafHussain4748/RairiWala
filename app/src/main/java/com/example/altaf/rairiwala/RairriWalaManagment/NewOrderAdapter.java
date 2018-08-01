@@ -219,7 +219,7 @@ public class NewOrderAdapter extends RecyclerView.Adapter<NewOrderAdapter.Produc
     }
 
     private void deleteOrder(final int order_id, final int customer_id, final int vendor_id) {
-        Toast.makeText(mCtx, "Deleteing.....", Toast.LENGTH_SHORT).show();
+        Toast.makeText(mCtx, "Deleting.....", Toast.LENGTH_SHORT).show();
         StringRequest stringRequest = new StringRequest(Request.Method.POST,
                 Constants.REJECTORDER,
                 new Response.Listener<String>() {

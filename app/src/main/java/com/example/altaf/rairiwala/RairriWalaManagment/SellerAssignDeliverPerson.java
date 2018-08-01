@@ -159,7 +159,7 @@ public class SellerAssignDeliverPerson extends AppCompatActivity {
                             @Override
                             public void onClick(View v) {
                                 assignDeliveryPerson(deliveryPerson.getDelivery_person_id(), order.getOrder_id());
-                                Toast.makeText(SellerAssignDeliverPerson.this, "" + deliveryPerson.getDelivery_person_id() + "    " + order.getOrder_id(), Toast.LENGTH_SHORT).show();
+                                // Toast.makeText(SellerAssignDeliverPerson.this, "" + deliveryPerson.getDelivery_person_id() + "    " + order.getOrder_id(), Toast.LENGTH_SHORT).show();
                                 dialogBuilder.dismiss();
                             }
                         })
@@ -264,6 +264,7 @@ public class SellerAssignDeliverPerson extends AppCompatActivity {
                             if (jsonObject.getBoolean("error") == false) {
                                 Toast.makeText(SellerAssignDeliverPerson.this, "" + jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
                                 startActivity(new Intent(SellerAssignDeliverPerson.this, SellerNewOrderList.class));
+                                SellerAssignDeliverPerson.this.finish();
                             } else {
 
                                 Toast.makeText(SellerAssignDeliverPerson.this, "" + jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
@@ -301,4 +302,9 @@ public class SellerAssignDeliverPerson extends AppCompatActivity {
         Volley.newRequestQueue(SellerAssignDeliverPerson.this).add(stringRequest);
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        this.finish();
+    }
 }

@@ -284,5 +284,10 @@ public class VendorSellingHistory extends AppCompatActivity {
         //adding our stringrequest to queue
         Volley.newRequestQueue(VendorSellingHistory.this).add(stringRequest);
     }
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        this.finish();
+    }
 }
 

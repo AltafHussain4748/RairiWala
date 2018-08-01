@@ -205,10 +205,22 @@ public class SellerNewOrderList extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int d = item.getItemId();
         if (d == android.R.id.home) {
+            Intent intent = new Intent(this, SellerHomePage.class);
+            intent.putExtra("stockDetail", "stockDetail");
+            startActivity(intent);
             this.finish();
+            finishAffinity();
         }
         return super.onOptionsItemSelected(item);
     }
 
-
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(this, SellerHomePage.class);
+        intent.putExtra("stockDetail", "stockDetail");
+        startActivity(intent);
+        this.finish();
+        finishAffinity();
+    }
 }

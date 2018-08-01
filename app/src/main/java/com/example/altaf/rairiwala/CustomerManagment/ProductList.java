@@ -112,6 +112,12 @@ public class ProductList extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        this.finish();
+    }
+
     private void loadProducts(final int vendor_id, final String type) {
         progressBar.setVisibility(View.VISIBLE);
         /*

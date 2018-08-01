@@ -141,6 +141,7 @@ public class OrderDetail extends AppCompatActivity {
                             if (jsonObject.getBoolean("error") == false) {
                                 Toast.makeText(OrderDetail.this, jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
                                 startActivity(new Intent(OrderDetail.this, SellerNewOrderList.class));
+                                    OrderDetail.this.finish();
                             } else {
                                 Toast.makeText(OrderDetail.this, jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
                                 confirm.setVisibility(View.GONE);
@@ -246,6 +247,11 @@ public class OrderDetail extends AppCompatActivity {
         //adding our stringrequest to queue
         Volley.newRequestQueue(this).add(stringRequest);
         stringRequest.setRetryPolicy(new DefaultRetryPolicy(20 * 1000, 10, 1.0f));
+    }
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        this.finish();
     }
 }
 

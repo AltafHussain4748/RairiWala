@@ -185,7 +185,11 @@ public class AccountDetail extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        this.finish();
+    }
     private void changeData(final int person_id1, final int pin1, final String name1, final String type) {
         Toast.makeText(this, "Updating", Toast.LENGTH_SHORT).show();
         StringRequest stringRequest = new StringRequest(Request.Method.POST,

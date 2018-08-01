@@ -94,7 +94,7 @@ public class OrderDetailGoogleMap extends FragmentActivity implements OnMapReady
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-       // mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+        // mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
         mMap.getUiSettings().setZoomControlsEnabled(true);
         mMap.getUiSettings().setMyLocationButtonEnabled(true);
         mMap.getUiSettings().setAllGesturesEnabled(true);
@@ -215,5 +215,10 @@ public class OrderDetailGoogleMap extends FragmentActivity implements OnMapReady
                 });
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        this.finish();
+    }
 
 }

@@ -68,7 +68,11 @@ public class SellerAddProduct extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        this.finish();
+    }
     //load products
     private void loadProducts(final int category_id) {
         progressDialog.setMessage("Loading Products...");

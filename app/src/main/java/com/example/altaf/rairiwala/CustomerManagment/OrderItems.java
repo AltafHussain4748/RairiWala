@@ -98,7 +98,11 @@ public class OrderItems extends AppCompatActivity implements RecyclerItemTouchHe
         }
         return super.onOptionsItemSelected(item);
     }
-
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        this.finish();
+    }
     @Override
     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction, int position) {
         if (viewHolder instanceof CheckOutAdapter.ProductViewHolder) {

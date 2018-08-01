@@ -170,5 +170,9 @@ public class NearestVendorsMap extends FragmentActivity implements OnMapReadyCal
 
     }
 
-
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        this.finish();
+    }
 }

@@ -306,5 +306,9 @@ public class AddSellerExtraInformation extends AppCompatActivity implements OnMa
         }
         return super.onOptionsItemSelected(item);
     }
-
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        this.finish();
+    }
 }

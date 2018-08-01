@@ -130,5 +130,9 @@ public class SellerEditProduct extends AppCompatActivity {
         RequestHandler.getInstance(SellerEditProduct.this).addToRequestQueue(stringRequest);
 
     }
-
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        this.finish();
+    }
 }
