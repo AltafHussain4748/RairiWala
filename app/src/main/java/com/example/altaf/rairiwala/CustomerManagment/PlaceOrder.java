@@ -41,6 +41,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -193,6 +194,32 @@ public class PlaceOrder extends AppCompatActivity implements OnMapReadyCallback 
         }*/
         // mMap.setMyLocationEnabled(true);
         //marker grable
+        //testing
+      /*  mMap.setOnCameraMoveStartedListener(new GoogleMap.OnCameraMoveStartedListener() {
+            @Override
+            public void onCameraMoveStarted(int i) {
+                Toast.makeText(PlaceOrder.this, "Started", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        mMap.setOnCameraIdleListener(new GoogleMap.OnCameraIdleListener() {
+            @Override
+            public void onCameraIdle() {
+                // Cleaning all the markers.
+                if (mMap != null) {
+                    mMap.clear();
+                }
+
+                Toast.makeText(PlaceOrder.this, "" + mMap.getCameraPosition().target.latitude
+                        , Toast.LENGTH_SHORT).show();
+                latitude = mMap.getCameraPosition().target.latitude;
+                longtude = mMap.getCameraPosition().target.longitude;
+                LatLng sydney = new LatLng(latitude, longtude);
+                mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in my locationy").draggable(true));
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 17));
+            }
+        });*/
+        //testing
         mMap.setOnMarkerDragListener(new GoogleMap.OnMarkerDragListener() {
             @Override
             public void onMarkerDragStart(Marker marker) {
@@ -209,7 +236,7 @@ public class PlaceOrder extends AppCompatActivity implements OnMapReadyCallback 
                 // Toast.makeText(PlaceOrder.this, "Latitude:" + marker.getPosition().latitude + "\n" + "Longitude:" + marker.getPosition().longitude, Toast.LENGTH_SHORT).show();
                 latitude = marker.getPosition().latitude;
                 longtude = marker.getPosition().longitude;
-                getAddress(latitude,longtude);
+                getAddress(latitude, longtude);
             }
         });
         // Add a marker in Sydney and move the camera
@@ -235,9 +262,9 @@ public class PlaceOrder extends AppCompatActivity implements OnMapReadyCallback 
                                     latitude = location.getLatitude();
                                     longtude = location.getLongitude();
                                     LatLng sydney = new LatLng(latitude, longtude);
-                                    mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in meri locationy").draggable(true));
+                                    mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in my locationy").draggable(true));
                                     mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 17));
-                                    getAddress(location.getLatitude(),location.getLongitude());
+                                    getAddress(location.getLatitude(), location.getLongitude());
                                 }
                             }
                         });
@@ -285,6 +312,7 @@ public class PlaceOrder extends AppCompatActivity implements OnMapReadyCallback 
         super.onBackPressed();
         this.finish();
     }    //Request permisiions
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -302,9 +330,9 @@ public class PlaceOrder extends AppCompatActivity implements OnMapReadyCallback 
                                     latitude = location.getLatitude();
                                     longtude = location.getLongitude();
                                     LatLng sydney = new LatLng(latitude, longtude);
-                                    mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in meri locationy").draggable(true));
+                                    mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in my locationy").draggable(true));
                                     mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 17));
-                                    getAddress(location.getLatitude(),location.getLongitude());
+                                    getAddress(location.getLatitude(), location.getLongitude());
                                 }
                             }
                         });

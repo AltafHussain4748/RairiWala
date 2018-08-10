@@ -9,10 +9,10 @@
     <item
         android:id="@+id/show_status"
         android:enabled="true"
-        android:title=""
+        android:title="off"
         android:visible="true"
         app:actionLayout="@layout/show_protected_switch"
-        app:showAsAction="always" />
+        app:showAsAction="always|withText" />
 
     <item
         android:id="@+id/actionNotifications"

@@ -180,9 +180,10 @@ public class SellerHomePage extends AppCompatActivity
             }
         });
 //end of notification management
-        MenuItem swithcItem = menu.findItem(R.id.show_status);
+        final MenuItem swithcItem = menu.findItem(R.id.show_status);
         swithcItem.setActionView(R.layout.show_protected_switch);
         final Switch sw = menu.findItem(R.id.show_status).getActionView().findViewById(R.id.shop_status);
+        final TextView status = menu.findItem(R.id.show_status).getActionView().findViewById(R.id.isoff);
         String shop_status = null;
         int id = 0;
         id = SharedPrefManager.getInstance(this).getSeller().getVendor_id();
@@ -194,14 +195,18 @@ public class SellerHomePage extends AppCompatActivity
             //will try thread on it that will wait for 3 seconds
             if (shop_status.equals("Close")) {
                 sw.setChecked(false);
-
+                status.setText("Off");
             } else if (shop_status.equals("Open")) {
                 sw.setChecked(true);
+                status.setText("On");
             } else {
                 sw.setChecked(false);
+                status.setText("Off");
+
             }
         } else {
             sw.setChecked(false);
+            status.setText("Off");
         }
 
 
@@ -210,14 +215,16 @@ public class SellerHomePage extends AppCompatActivity
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (vendor_id != 0) {
                     if (b) {
-                        setShopStatus("Open");
+                        setShopStatus("Open", status);
                     } else {
-                        setShopStatus("Close");
+                        setShopStatus("Close",status);
+
                     }
                 } else {
 
                     Toast.makeText(SellerHomePage.this, "Please add shop information first", Toast.LENGTH_SHORT).show();
                     sw.setChecked(false);
+                    status.setText("Off");
                 }
 
             }
@@ -228,7 +235,7 @@ public class SellerHomePage extends AppCompatActivity
     }
 
     //set the shop sattus function
-    private void setShopStatus(final String status) {
+    private void setShopStatus(final String status, final TextView txtStatus) {
         final int vendor_id = SharedPrefManager.getInstance(this).getSeller().getVendor_id();
         if (vendor_id <= 0 && status == null) {
             Toast.makeText(this, "Some Error", Toast.LENGTH_SHORT).show();
@@ -244,6 +251,11 @@ public class SellerHomePage extends AppCompatActivity
                                 if (jsonObject.getBoolean("error") == false) {
                                     Vendor vendor = SharedPrefManager.getInstance(SellerHomePage.this).getSeller();
                                     String status = jsonObject.getString("status");
+                                    if (status.equals("Close")) {
+                                        txtStatus.setText("Off");
+                                    } else if (status.equals("Open")) {
+                                        txtStatus.setText("On");
+                                    }
                                     vendor.setShop_status(status);
                                     SharedPrefManager.getInstance(SellerHomePage.this).addSellerToPref(vendor);
                                     Toast.makeText(SellerHomePage.this, "" + jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
