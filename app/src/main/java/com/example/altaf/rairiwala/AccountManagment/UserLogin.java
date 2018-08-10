@@ -106,45 +106,63 @@ public class UserLogin extends AppCompatActivity {
                                 //save vendor to sharedpref manager
                                 if (obj.getString("Account_Rule").equals("CUSTOMER")) {
 
-                                    Customer customer = new Customer();
-                                    customer.setCustomer_id(Integer.parseInt(obj.getString("customer_id")));
-                                    customer.setPin(obj.getString("Person_Password"));
-                                    customer.setPerson_phone_number(obj.getString("Person_Phone_Number"));
-                                    customer.setName(obj.getString("Person_Name"));
-                                    customer.setRule(obj.getString("Account_Rule"));
-                                    customer.setStatus(obj.getString("Account_Status"));
-                                    customer.setPerson_id(Integer.parseInt(obj.getString("id")));
-                                    if (SharedPrefManager.getInstance(UserLogin.this).addCustomerToPref(customer)) {
-                                        startActivity(new Intent(UserLogin.this, CustomerHomePage.class));
-                                        UserLogin.this.finish();
-                                    } else {
-                                        Toast.makeText(UserLogin.this, "Some Error", Toast.LENGTH_SHORT).show();
+                                    if (obj.getString("Account_Status").equals("verified")) {
+                                        Customer customer = new Customer();
+                                        customer.setCustomer_id(Integer.parseInt(obj.getString("customer_id")));
+                                        customer.setPin(obj.getString("Person_Password"));
+                                        customer.setPerson_phone_number(obj.getString("Person_Phone_Number"));
+                                        customer.setName(obj.getString("Person_Name"));
+                                        customer.setRule(obj.getString("Account_Rule"));
+                                        customer.setStatus(obj.getString("Account_Status"));
+                                        customer.setPerson_id(Integer.parseInt(obj.getString("id")));
+                                        if (SharedPrefManager.getInstance(UserLogin.this).addCustomerToPref(customer)) {
+                                            startActivity(new Intent(UserLogin.this, CustomerHomePage.class));
+                                            UserLogin.this.finish();
+                                        } else {
+                                            Toast.makeText(UserLogin.this, "Some Error", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }else{
+                                        Toast.makeText(UserLogin.this, "Your account is either suspended by admin or you deactivated your account", Toast.LENGTH_SHORT).show();
                                     }
                                 } else if (obj.getString("Account_Rule").equals("DP")) {
-                                    DeliveryPerson deliveryPerson = new DeliveryPerson();
-                                    deliveryPerson.setPin(obj.getString("Person_Password"));
-                                    deliveryPerson.setPerson_phone_number(obj.getString("Person_Phone_Number"));
-                                    deliveryPerson.setName(obj.getString("Person_Name"));
-                                    deliveryPerson.setRule(obj.getString("Account_Rule"));
-                                    deliveryPerson.setStatus(obj.getString("Account_Status"));
-                                    deliveryPerson.setDelivery_person_id(obj.getInt("Delivery_PId"));
-                                    deliveryPerson.setVendor_id(obj.getInt("vendor_id"));
-                                    deliveryPerson.setPerson_id(Integer.parseInt(obj.getString("id")));
-                                    SharedPrefManager.getInstance(UserLogin.this).addDeliveryPersonToPref(deliveryPerson);
-                                    startActivity(new Intent(UserLogin.this, DeliveryPersonHomePage.class));
-                                    UserLogin.this.finish();
+                                    if(obj.getString("Account_Status").equals("verified")){
+                                        DeliveryPerson deliveryPerson = new DeliveryPerson();
+                                        deliveryPerson.setPin(obj.getString("Person_Password"));
+                                        deliveryPerson.setPerson_phone_number(obj.getString("Person_Phone_Number"));
+                                        deliveryPerson.setName(obj.getString("Person_Name"));
+                                        deliveryPerson.setRule(obj.getString("Account_Rule"));
+                                        deliveryPerson.setStatus(obj.getString("Account_Status"));
+                                        deliveryPerson.setDelivery_person_id(obj.getInt("Delivery_PId"));
+                                        deliveryPerson.setVendor_id(obj.getInt("vendor_id"));
+                                        deliveryPerson.setPerson_id(Integer.parseInt(obj.getString("id")));
+                                        SharedPrefManager.getInstance(UserLogin.this).addDeliveryPersonToPref(deliveryPerson);
+                                        startActivity(new Intent(UserLogin.this, DeliveryPersonHomePage.class));
+                                        UserLogin.this.finish();
+                                    }else{
+                                        Toast.makeText(UserLogin.this, "Your account is deleted by vendor", Toast.LENGTH_SHORT).show();
+                                    }
+
+
 
                                 } else if (obj.getString("Account_Rule").equals("SELLER")) {
-                                    //save selller to sharedpref manager
-                                    Vendor vendor = new Vendor();
-                                    vendor.setPin(obj.getString("Person_Password"));
-                                    vendor.setPerson_phone_number(obj.getString("Person_Phone_Number"));
-                                    vendor.setName(obj.getString("Person_Name"));
-                                    vendor.setRule(obj.getString("Account_Rule"));
-                                    vendor.setStatus(obj.getString("Account_Status"));
-                                    vendor.setPerson_id(Integer.parseInt(obj.getString("id")));
-                                    SharedPrefManager.getInstance(UserLogin.this).addSellerToPref(vendor);
-                                    addSellerInfo(vendor.getPerson_id(), vendor);
+                                    if(obj.getString("Account_Status").equals("verified")){
+                                        //save selller to sharedpref manager
+                                        Vendor vendor = new Vendor();
+                                        vendor.setPin(obj.getString("Person_Password"));
+                                        vendor.setPerson_phone_number(obj.getString("Person_Phone_Number"));
+                                        vendor.setName(obj.getString("Person_Name"));
+                                        vendor.setRule(obj.getString("Account_Rule"));
+                                        vendor.setStatus(obj.getString("Account_Status"));
+                                        vendor.setPerson_id(Integer.parseInt(obj.getString("id")));
+                                        SharedPrefManager.getInstance(UserLogin.this).addSellerToPref(vendor);
+                                        addSellerInfo(vendor.getPerson_id(), vendor);
+                                    }else{
+                                        if(obj.getString("Account_Status").equals("admin_approval")){
+                                            Toast.makeText(UserLogin.this, "Your Account is under admin approval ", Toast.LENGTH_SHORT).show();
+                                        }else{
+                                            Toast.makeText(UserLogin.this, "Your account is suspended by admin", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
 
                                 }
 
@@ -242,7 +260,7 @@ public class UserLogin extends AppCompatActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         progressDialog.dismiss();
-                        Log.i("MISTAKES",error.getMessage());
+                        Log.i("MISTAKES", error.getMessage());
                         Toast.makeText(
                                 getApplicationContext(),
                                 error.getMessage(),

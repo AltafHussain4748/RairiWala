@@ -105,7 +105,7 @@ public class CustomerOrderList extends AppCompatActivity {
                             } catch (JSONException e) {
                                 e.printStackTrace();
                                 progressBar.setVisibility(View.GONE);
-                                message.setText(e.getMessage());
+                                message.setText("No New Orders");
                                 message.setVisibility(View.VISIBLE);
                                 Toast.makeText(CustomerOrderList.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                             }

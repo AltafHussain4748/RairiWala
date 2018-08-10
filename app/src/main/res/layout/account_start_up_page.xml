@@ -4,10 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/blue"
     tools:context="com.example.altaf.rairiwala.AccountManagment.AppStartUpPage">
 
 
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="75dp"
+        android:src="@drawable/rairiwala" />
     <Button
         android:id="@+id/join_as_customer"
         android:layout_width="match_parent"
@@ -47,6 +53,6 @@
         android:text="Login"
         android:textAlignment="center"
         android:textColor="@color/red"
-        android:textSize="25dp" />
+        android:textSize="30dp" />
 
 </RelativeLayout>

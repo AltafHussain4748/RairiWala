@@ -141,7 +141,7 @@ public class SaveToken {
                             }
                             //  stopService(intent);
                         } catch (JSONException e) {
-                            Toast.makeText(context, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, "No Stock" , Toast.LENGTH_SHORT).show();
                         }
                     }
                 },

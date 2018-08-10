@@ -206,7 +206,7 @@ public class DeliveryPersonManagment extends Fragment {
                             } catch (JSONException e) {
                                 e.printStackTrace();
                                 progressBar.setVisibility(View.GONE);
-                                Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getActivity(), "No Delivery Person Added yet", Toast.LENGTH_SHORT).show();
                             }
                         }
                     },

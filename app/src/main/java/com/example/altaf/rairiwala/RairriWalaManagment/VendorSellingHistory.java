@@ -134,7 +134,7 @@ public class VendorSellingHistory extends AppCompatActivity {
                         } catch (JSONException e) {
                             e.printStackTrace();
                             progressBar.setVisibility(View.GONE);
-                            message.setText(e.getMessage());
+                            message.setText("No History Yet");
 
                             if (productList.size() > 0) {
                                 message.setVisibility(View.GONE);
