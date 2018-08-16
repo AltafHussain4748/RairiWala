@@ -110,6 +110,8 @@ public class NearestVendorsMap extends FragmentActivity implements OnMapReadyCal
                                             Toast.makeText(NearestVendorsMap.this, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
                                         }
 
+                                    }else{
+                                        Toast.makeText(NearestVendorsMap.this, "Error while getting location please try again", Toast.LENGTH_SHORT).show();
                                     }
                                 }
                             });
@@ -160,6 +162,8 @@ public class NearestVendorsMap extends FragmentActivity implements OnMapReadyCal
                                         Toast.makeText(NearestVendorsMap.this, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
                                     }
 
+                                }else{
+                                    Toast.makeText(NearestVendorsMap.this, "Error while getting location please try again", Toast.LENGTH_SHORT).show();
                                 }
                             }
                         });

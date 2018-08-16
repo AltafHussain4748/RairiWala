@@ -26,6 +26,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.example.altaf.rairiwala.CustomerManagment.NearestVendor;
 import com.example.altaf.rairiwala.Models.Vendor;
 import com.example.altaf.rairiwala.R;
 import com.example.altaf.rairiwala.Singelton.Constants;
@@ -163,6 +164,8 @@ public class AddSellerExtraInformation extends AppCompatActivity implements OnMa
                                         latitude = location.getLatitude();
                                         longitude = location.getLongitude();
 
+                                    }else{
+                                        Toast.makeText(AddSellerExtraInformation.this, "Problem while getting location", Toast.LENGTH_SHORT).show();
                                     }
                                 }
                             });
@@ -210,6 +213,8 @@ public class AddSellerExtraInformation extends AppCompatActivity implements OnMa
                                     mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userCurrentLocation, 18));
                                     latitude = location.getLatitude();
                                     longitude = location.getLongitude();
+                                }else{
+                                    Toast.makeText(AddSellerExtraInformation.this, "Problem while getting location", Toast.LENGTH_SHORT).show();
                                 }
                             }
                         });

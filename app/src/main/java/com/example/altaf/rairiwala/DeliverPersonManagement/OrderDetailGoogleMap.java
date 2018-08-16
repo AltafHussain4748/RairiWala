@@ -146,8 +146,13 @@ public class OrderDetailGoogleMap extends FragmentActivity implements OnMapReady
     @Override
     public void onLocationChanged(Location location) {
 
-        LatLng origin = new LatLng(location.getLatitude(), location.getLongitude());
-        drawRoute(origin);
+        if(location!=null)
+        {
+            LatLng origin = new LatLng(location.getLatitude(), location.getLongitude());
+            drawRoute(origin);
+        }else{
+            Toast.makeText(this, "Error While getting location", Toast.LENGTH_SHORT).show();
+        }
     }
 
 

@@ -265,6 +265,8 @@ public class PlaceOrder extends AppCompatActivity implements OnMapReadyCallback 
                                     mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in my locationy").draggable(true));
                                     mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 17));
                                     getAddress(location.getLatitude(), location.getLongitude());
+                                }else{
+                                    Toast.makeText(PlaceOrder.this, "Error while getting location please try again", Toast.LENGTH_SHORT).show();
                                 }
                             }
                         });
@@ -333,6 +335,8 @@ public class PlaceOrder extends AppCompatActivity implements OnMapReadyCallback 
                                     mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in my locationy").draggable(true));
                                     mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 17));
                                     getAddress(location.getLatitude(), location.getLongitude());
+                                }else{
+                                    Toast.makeText(PlaceOrder.this, "Error while getting location please try again .", Toast.LENGTH_SHORT).show();
                                 }
                             }
                         });

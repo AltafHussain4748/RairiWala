@@ -100,6 +100,8 @@ public class NearestVendor extends AppCompatActivity {
                                     latitude = location.getLatitude();
                                     longtude = location.getLongitude();
                                     loadVendors();
+                                } else {
+                                    Toast.makeText(NearestVendor.this, "Problem while getting location", Toast.LENGTH_SHORT).show();
                                 }
                             }
                         });
@@ -250,6 +252,8 @@ public class NearestVendor extends AppCompatActivity {
                                     latitude = location.getLatitude();
                                     longtude = location.getLongitude();
                                     loadVendors();
+                                } else {
+                                    Toast.makeText(NearestVendor.this, "Problem while getting location", Toast.LENGTH_SHORT).show();
                                 }
                             }
                         });
