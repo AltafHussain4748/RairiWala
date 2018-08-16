@@ -77,11 +77,16 @@ public class UserLogin extends AppCompatActivity {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (pin.getText().length() >= 4 && phone.getText().length() == 10) {
-                    loginUser(phone.getText().toString(), pin.getText().toString());
+                if (phone.getText().toString().length() == 10) {
+                    if (pin.getText().toString().length() >= 4) {
+                        loginUser(phone.getText().toString(), pin.getText().toString());
+                    } else {
+                        Toast.makeText(UserLogin.this, "Pin length must be greater than four", Toast.LENGTH_SHORT).show();
+                    }
                 } else {
-                    Toast.makeText(UserLogin.this, "Please fill the fields first", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(UserLogin.this, "Phone Number must be of the format 3404040444", Toast.LENGTH_SHORT).show();
                 }
+
             }
         });
 
@@ -121,11 +126,11 @@ public class UserLogin extends AppCompatActivity {
                                         } else {
                                             Toast.makeText(UserLogin.this, "Some Error", Toast.LENGTH_SHORT).show();
                                         }
-                                    }else{
+                                    } else {
                                         Toast.makeText(UserLogin.this, "Your account is either suspended by admin or you deactivated your account", Toast.LENGTH_SHORT).show();
                                     }
                                 } else if (obj.getString("Account_Rule").equals("DP")) {
-                                    if(obj.getString("Account_Status").equals("verified")){
+                                    if (obj.getString("Account_Status").equals("verified")) {
                                         DeliveryPerson deliveryPerson = new DeliveryPerson();
                                         deliveryPerson.setPin(obj.getString("Person_Password"));
                                         deliveryPerson.setPerson_phone_number(obj.getString("Person_Phone_Number"));
@@ -138,14 +143,13 @@ public class UserLogin extends AppCompatActivity {
                                         SharedPrefManager.getInstance(UserLogin.this).addDeliveryPersonToPref(deliveryPerson);
                                         startActivity(new Intent(UserLogin.this, DeliveryPersonHomePage.class));
                                         UserLogin.this.finish();
-                                    }else{
+                                    } else {
                                         Toast.makeText(UserLogin.this, "Your account is deleted by vendor", Toast.LENGTH_SHORT).show();
                                     }
 
 
-
                                 } else if (obj.getString("Account_Rule").equals("SELLER")) {
-                                    if(obj.getString("Account_Status").equals("verified")){
+                                    if (obj.getString("Account_Status").equals("verified")) {
                                         //save selller to sharedpref manager
                                         Vendor vendor = new Vendor();
                                         vendor.setPin(obj.getString("Person_Password"));
@@ -156,11 +160,11 @@ public class UserLogin extends AppCompatActivity {
                                         vendor.setPerson_id(Integer.parseInt(obj.getString("id")));
                                         SharedPrefManager.getInstance(UserLogin.this).addSellerToPref(vendor);
                                         addSellerInfo(vendor.getPerson_id(), vendor);
-                                    }else{
-                                        if(obj.getString("Account_Status").equals("admin_approval")){
+                                    } else {
+                                        if (obj.getString("Account_Status").equals("admin_approval")) {
                                             Toast.makeText(UserLogin.this, "Your Account is under admin approval ", Toast.LENGTH_SHORT).show();
-                                        }else{
-                                            Toast.makeText(UserLogin.this, "Your account is suspended by admin", Toast.LENGTH_SHORT).show();
+                                        } else {
+                                            Toast.makeText(UserLogin.this, "Your account is either suspended by admin or you deactivated your account", Toast.LENGTH_SHORT).show();
                                         }
                                     }
 

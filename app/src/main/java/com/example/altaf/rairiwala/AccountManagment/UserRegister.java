@@ -59,58 +59,64 @@ public class UserRegister extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (phone_number.getText().toString().length() == 10) {
-                    progressDialog.setMessage("Registering user...");
-                    progressDialog.setCancelable(false);
-                    progressDialog.show();
-                    //String request start
-                    StringRequest stringRequest = new StringRequest(Request.Method.POST,
-                            Constants.IS_USER_EXISTS,
-                            new Response.Listener<String>() {
-                                @Override
-                                public void onResponse(String response) {
-                                    progressDialog.dismiss();
+                    if (pin.getText().toString().length() >= 4) {
+                        if (name.getText().toString().length() >= 3) {
+                            progressDialog.setMessage("Registering user...");
+                            progressDialog.setCancelable(false);
+                            progressDialog.show();
+                            //String request start
+                            StringRequest stringRequest = new StringRequest(Request.Method.POST,
+                                    Constants.IS_USER_EXISTS,
+                                    new Response.Listener<String>() {
+                                        @Override
+                                        public void onResponse(String response) {
+                                            progressDialog.dismiss();
 
-                                    try {
-                                        JSONObject jsonObject = new JSONObject(response);
+                                            try {
+                                                JSONObject jsonObject = new JSONObject(response);
 
-                                        // Toast.makeText(AccountCustomerRegister.this, status, Toast.LENGTH_SHORT).show();
-                                        if (jsonObject.getString("message").equals("EXISTS")) {
-                                            Toast.makeText(UserRegister.this, jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
-                                        } else if (jsonObject.getString("message").equals("DONOTEXISTS")) {
-                                            PhoneAuthProvider.getInstance().verifyPhoneNumber(
-                                                    "+92" + phone_number.getText().toString(),
-                                                    120,
-                                                    java.util.concurrent.TimeUnit.SECONDS,
-                                                    UserRegister.this,
-                                                    mCallbacks);
-                                        } else {
-                                            Toast.makeText(UserRegister.this, "User Already rEGISTERED", Toast.LENGTH_SHORT).show();
+                                                // Toast.makeText(AccountCustomerRegister.this, status, Toast.LENGTH_SHORT).show();
+                                                if (jsonObject.getString("message").equals("EXISTS")) {
+                                                    Toast.makeText(UserRegister.this, jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
+                                                } else if (jsonObject.getString("message").equals("DONOTEXISTS")) {
+                                                    PhoneAuthProvider.getInstance().verifyPhoneNumber(
+                                                            "+92" + phone_number.getText().toString(),
+                                                            120,
+                                                            java.util.concurrent.TimeUnit.SECONDS,
+                                                            UserRegister.this,
+                                                            mCallbacks);
+                                                } else {
+                                                    Toast.makeText(UserRegister.this, "User Already rEGISTERED", Toast.LENGTH_SHORT).show();
+                                                }
+                                            } catch (JSONException e) {
+                                                e.printStackTrace();
+                                            }
                                         }
+                                    },
+                                    new Response.ErrorListener() {
+                                        @Override
+                                        public void onErrorResponse(VolleyError error) {
+                                            progressDialog.hide();
+                                            Toast.makeText(getApplicationContext(), "There was some error.Please try again...." + error.getMessage(), Toast.LENGTH_LONG).show();
 
-
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    }
-                                }
-                            },
-                            new Response.ErrorListener() {
+                                        }
+                                    }) {
                                 @Override
-                                public void onErrorResponse(VolleyError error) {
-                                    progressDialog.hide();
-                                    Toast.makeText(getApplicationContext(), "There was some error.Please try again....", Toast.LENGTH_LONG).show();
+                                protected Map<String, String> getParams() throws AuthFailureError {
+                                    Map<String, String> params = new HashMap<>();
+                                    params.put("phone", "+92" + phone_number.getText().toString());
 
+                                    return params;
                                 }
-                            }) {
-                        @Override
-                        protected Map<String, String> getParams() throws AuthFailureError {
-                            Map<String, String> params = new HashMap<>();
-                            params.put("phone", "+92" + phone_number.getText().toString());
-
-                            return params;
+                            };
+                            RequestHandler.getInstance(UserRegister.this).addToRequestQueue(stringRequest);
+                            //end of string request
+                        } else {
+                            Toast.makeText(UserRegister.this, "Name length must be greater than 3", Toast.LENGTH_SHORT).show();
                         }
-                    };
-                    RequestHandler.getInstance(UserRegister.this).addToRequestQueue(stringRequest);
-                    //end of string request
+                    } else {
+                        Toast.makeText(UserRegister.this, "Pin Length Must be greater than 4", Toast.LENGTH_SHORT).show();
+                    }
 
 
                 } else {

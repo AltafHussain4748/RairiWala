@@ -33,9 +33,6 @@ import org.json.JSONObject;
 import java.lang.reflect.Type;
 
 
-/**
- * Created by filipp on 5/23/2016.
- */
 public class FirebaseMessagingService extends com.google.firebase.messaging.FirebaseMessagingService {
     String message1 = "";
 

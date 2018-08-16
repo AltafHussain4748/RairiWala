@@ -59,6 +59,7 @@ public class SellerAssignDeliverPerson extends AppCompatActivity {
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayShowHomeEnabled(true);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setTitle("Assign Delivery Person");
         }
         Bundle bundle = getIntent().getExtras();
         final String jsonString = bundle.getString("order");
@@ -68,7 +69,6 @@ public class SellerAssignDeliverPerson extends AppCompatActivity {
         }.getType();
         order = gson.fromJson(jsonString, listOfproductType);
         message = findViewById(R.id.error_message);
-        getSupportActionBar().setTitle("Assign");
         recyclerView = findViewById(R.id.assign_dp);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(SellerAssignDeliverPerson.this));
@@ -128,15 +128,10 @@ public class SellerAssignDeliverPerson extends AppCompatActivity {
                 recyclerView, new ClickListener() {
             @Override
             public void onClick(View view, final int position) {
-
-            }
-
-            @Override
-            public void onLongClick(View view, int position) {
                 final DeliveryPerson deliveryPerson = deliveryPersonList.get(position);
                 final NiftyDialogBuilder dialogBuilder = NiftyDialogBuilder.getInstance(SellerAssignDeliverPerson.this);
                 dialogBuilder
-                        .withTitle("Assign Dp")                                  //.withTitle(null)  no title
+                        .withTitle("Assign Delivery Person")                                  //.withTitle(null)  no title
                         .withTitleColor("#FFFFFF")                                  //def
                         .withDividerColor("#11000000")                              //def
                         .withMessage("Do you want to assign it?")                     //.withMessage(null)  no Msg
@@ -165,9 +160,13 @@ public class SellerAssignDeliverPerson extends AppCompatActivity {
                         })
                         .show();
             }
+
+            @Override
+            public void onLongClick(View view, int position) {
+
+            }
         }));
-        //end of recycler view item click listener
-        //end of recycler view item click listener
+
     }
 
     public void loadDeliverPersons(final int vendor_id) {

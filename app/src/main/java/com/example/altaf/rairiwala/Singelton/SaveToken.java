@@ -15,11 +15,14 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.altaf.rairiwala.AccountManagment.AccountConfirmation;
+import com.example.altaf.rairiwala.AccountManagment.AppStartUpPage;
 import com.example.altaf.rairiwala.AccountManagment.UserLogin;
+import com.example.altaf.rairiwala.CustomerManagment.CustomerHomePage;
 import com.example.altaf.rairiwala.Models.Product;
 import com.example.altaf.rairiwala.Models.ProductDetails;
 import com.example.altaf.rairiwala.R;
 import com.example.altaf.rairiwala.RairriWalaManagment.SellerHomePage;
+import com.example.altaf.rairiwala.SqliteDatabase.DatabaseHandling;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -141,7 +144,7 @@ public class SaveToken {
                             }
                             //  stopService(intent);
                         } catch (JSONException e) {
-                            Toast.makeText(context, "No Stock" , Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, "No Stock", Toast.LENGTH_SHORT).show();
                         }
                     }
                 },
@@ -213,4 +216,6 @@ public class SaveToken {
         }
 
     }
+
+
 }

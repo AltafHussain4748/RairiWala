@@ -221,6 +221,7 @@ public class OrderDetail extends AppCompatActivity {
                         } catch (JSONException e) {
                             e.printStackTrace();
                             progressBar.setVisibility(View.GONE);
+                            confirm.setVisibility(View.GONE);
                             Toast.makeText(OrderDetail.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     }
@@ -229,6 +230,7 @@ public class OrderDetail extends AppCompatActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         progressBar.setVisibility(View.GONE);
+                        confirm.setVisibility(View.GONE);
                         Toast.makeText(OrderDetail.this, "Error while loading the products", Toast.LENGTH_SHORT).show();
                     }
                 }) {

@@ -19,19 +19,35 @@ import android.widget.GridView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.example.altaf.rairiwala.AccountManagment.AccountDetail;
+import com.example.altaf.rairiwala.AccountManagment.AppStartUpPage;
 import com.example.altaf.rairiwala.AccountManagment.CheckInterNet;
 import com.example.altaf.rairiwala.AccountManagment.ConnectToInternet;
 import com.example.altaf.rairiwala.AccountManagment.UserLogin;
 import com.example.altaf.rairiwala.Models.Category;
 import com.example.altaf.rairiwala.Models.Notifications;
 import com.example.altaf.rairiwala.R;
+import com.example.altaf.rairiwala.Singelton.Constants;
 import com.example.altaf.rairiwala.Singelton.NotificationFragment;
+import com.example.altaf.rairiwala.Singelton.RequestHandler;
 import com.example.altaf.rairiwala.Singelton.SharedPrefManager;
 import com.example.altaf.rairiwala.Singelton.SharedPrefManagerFirebase;
 import com.example.altaf.rairiwala.SqliteDatabase.DatabaseHandling;
+import com.gitonway.lee.niftymodaldialogeffects.lib.NiftyDialogBuilder;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import static com.gitonway.lee.niftymodaldialogeffects.lib.Effectstype.RotateBottom;
 
 public class CustomerHomePage extends AppCompatActivity {
 
@@ -51,8 +67,6 @@ public class CustomerHomePage extends AppCompatActivity {
         txtViewCount = findViewById(R.id.customer_notifictaion_count);
         // get the reference of Button
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-
-
         /*FirebaseMessaging.getInstance().subscribeToTopic("rairiwala");
         FirebaseInstanceId.getInstance().getToken();*/
         Fragment fragment = new CategoryListFragment();
@@ -133,7 +147,7 @@ public class CustomerHomePage extends AppCompatActivity {
         if (id == R.id.logout) {
             SharedPrefManager.getInstance(CustomerHomePage.this).logOut();
             startActivity(new Intent(this, UserLogin.class));
-            DatabaseHandling handling=new DatabaseHandling(this);
+            DatabaseHandling handling = new DatabaseHandling(this);
             handling.deleteAllCategories();
             finishAffinity();
             this.finish();
@@ -142,8 +156,37 @@ public class CustomerHomePage extends AppCompatActivity {
             startActivity(new Intent(CustomerHomePage.this, CustomerOrderList.class));
         } else if (id == R.id.history) {
             startActivity(new Intent(CustomerHomePage.this, CustomerBuyingHistory.class));
-        }else if (id == R.id.accountDetail) {
+        } else if (id == R.id.accountDetail) {
             startActivity(new Intent(CustomerHomePage.this, AccountDetail.class));
+        } else if (id == R.id.deActivateCustomer) {
+            final NiftyDialogBuilder dialogBuilder = NiftyDialogBuilder.getInstance(CustomerHomePage.this);
+            dialogBuilder
+                    .withTitle("DeActivate Account")                                  //.withTitle(null)  no title
+                    .withTitleColor("#FFFFFF")                                  //def
+                    .withDividerColor("#11000000")                              //def
+                    .withMessage("Do you want to DeActivate Account?")                     //.withMessage(null)  no Msg
+                    .withMessageColor("#FFFFFFFF")                              //def  | withMessageColor(int resid)
+                    .withDialogColor("#FFE74C3C")                               //def  | withDialogColor(int resid)
+                    .withIcon(getResources().getDrawable(R.drawable.delete))
+                    .withDuration(700)                                          //def
+                    .withEffect(RotateBottom)                                         //def Effectstype.Slidetop
+                    .withButton1Text("No")                                      //def gone
+                    .withButton2Text("yes")                                  //def gone
+                    .isCancelableOnTouchOutside(true)                           //def    | isCancelable(true)
+                    //.setCustomView(View or ResId,context)
+                    .setButton1Click(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            dialogBuilder.dismiss();
+                        }
+                    })
+                    .setButton2Click(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            deactivateAccount(SharedPrefManager.getInstance(CustomerHomePage.this).getPersonId(), "customer");
+                        }
+                    })
+                    .show();
         }
 
         return super.onOptionsItemSelected(item);
@@ -179,5 +222,60 @@ public class CustomerHomePage extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         SharedPrefManagerFirebase.getInstance(this).saveActivityStateCustomerHomePage(false);
+    }
+
+    public void deactivateAccount(final int id, final String type) {
+        if (type != null && id > 0) {
+            ///start string request
+            StringRequest stringRequest = new StringRequest(Request.Method.POST,
+                    Constants.DeActivateAccount,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            try {
+                                JSONObject jsonObject = new JSONObject(response);
+
+                                if (jsonObject.getBoolean("error") == false) {
+
+                                    SharedPrefManager.getInstance(CustomerHomePage.this).logOut();
+                                    DatabaseHandling handling = new DatabaseHandling(CustomerHomePage.this);
+                                    handling.deleteAllCategories();
+                                    startActivity(new Intent(CustomerHomePage.this, AppStartUpPage.class));
+                                    finishAffinity();
+                                    CustomerHomePage.this.finish();
+
+
+                                    Toast.makeText(CustomerHomePage.this, jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
+                                } else {
+                                    Toast.makeText(CustomerHomePage.this, jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
+                                }
+
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Toast.makeText(CustomerHomePage.this, "There was some error.Please try again....", Toast.LENGTH_LONG).show();
+
+                        }
+                    }) {
+                @Override
+                protected Map<String, String> getParams() throws AuthFailureError {
+                    Map<String, String> params = new HashMap<>();
+                    params.put("person_id", String.valueOf(id));
+                    params.put("type", type);
+
+
+                    return params;
+                }
+            };
+            RequestHandler.getInstance(CustomerHomePage.this).addToRequestQueue(stringRequest);
+            // end string request
+        }
+
     }
 }

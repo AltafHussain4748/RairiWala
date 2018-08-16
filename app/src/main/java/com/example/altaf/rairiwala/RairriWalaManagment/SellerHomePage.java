@@ -29,6 +29,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.altaf.rairiwala.AccountManagment.AccountDetail;
+import com.example.altaf.rairiwala.AccountManagment.AppStartUpPage;
 import com.example.altaf.rairiwala.AccountManagment.CheckInterNet;
 import com.example.altaf.rairiwala.AccountManagment.ConnectToInternet;
 import com.example.altaf.rairiwala.AccountManagment.UserLogin;
@@ -46,6 +47,7 @@ import com.example.altaf.rairiwala.Singelton.SaveToken;
 import com.example.altaf.rairiwala.Singelton.SharedPrefManager;
 import com.example.altaf.rairiwala.Singelton.SharedPrefManagerFirebase;
 import com.example.altaf.rairiwala.SqliteDatabase.DatabaseHandling;
+import com.gitonway.lee.niftymodaldialogeffects.lib.NiftyDialogBuilder;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -54,6 +56,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static com.gitonway.lee.niftymodaldialogeffects.lib.Effectstype.RotateBottom;
 
 public class SellerHomePage extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -67,7 +71,6 @@ public class SellerHomePage extends AppCompatActivity
         setContentView(R.layout.seller_home_page);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        //  getSupportActionBar().setTitle("Home");
         txtViewCount = findViewById(R.id.notificationcount);
 
         notificationsList = new ArrayList<>();
@@ -217,7 +220,7 @@ public class SellerHomePage extends AppCompatActivity
                     if (b) {
                         setShopStatus("Open", status);
                     } else {
-                        setShopStatus("Close",status);
+                        setShopStatus("Close", status);
 
                     }
                 } else {
@@ -399,6 +402,36 @@ public class SellerHomePage extends AppCompatActivity
                     intent.putExtra("role", "seller");
                     startActivity(intent);
                 }
+            } else if (id == R.id.deActivateSeller) {
+                final NiftyDialogBuilder dialogBuilder = NiftyDialogBuilder.getInstance(SellerHomePage.this);
+                dialogBuilder
+                        .withTitle("DeActivate Account")                                  //.withTitle(null)  no title
+                        .withTitleColor("#FFFFFF")                                  //def
+                        .withDividerColor("#11000000")                              //def
+                        .withMessage("Do you want to DeActivate Account?")                     //.withMessage(null)  no Msg
+                        .withMessageColor("#FFFFFFFF")                              //def  | withMessageColor(int resid)
+                        .withDialogColor("#FFE74C3C")                               //def  | withDialogColor(int resid)
+                        .withIcon(getResources().getDrawable(R.drawable.delete))
+                        .withDuration(700)                                          //def
+                        .withEffect(RotateBottom)                                         //def Effectstype.Slidetop
+                        .withButton1Text("No")                                      //def gone
+                        .withButton2Text("yes")                                  //def gone
+                        .isCancelableOnTouchOutside(true)                           //def    | isCancelable(true)
+                        //.setCustomView(View or ResId,context)
+                        .setButton1Click(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                dialogBuilder.dismiss();
+                            }
+                        })
+                        .setButton2Click(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                deactivateAccount(SharedPrefManager.getInstance(SellerHomePage.this).getPersonId(), "vendor");
+                                SellerHomePage.this.finish();
+                            }
+                        })
+                        .show();
             }
 //replace the current fragment
             if (fragment != null) {
@@ -457,5 +490,58 @@ public class SellerHomePage extends AppCompatActivity
         SharedPrefManagerFirebase.getInstance(this).saveActivityStateSellerHomePage(false);
     }
 
+    public void deactivateAccount(final int id, final String type) {
+        if (type != null && id > 0) {
+            ///start string request
+            StringRequest stringRequest = new StringRequest(Request.Method.POST,
+                    Constants.DeActivateAccount,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            try {
+                                JSONObject jsonObject = new JSONObject(response);
+
+                                if (jsonObject.getBoolean("error") == false) {
+
+                                    SharedPrefManager.getInstance(SellerHomePage.this).logOut();
+                                    DatabaseHandling handling = new DatabaseHandling(SellerHomePage.this);
+                                    handling.deleteAllCategories();
+                                    startActivity(new Intent(SellerHomePage.this, AppStartUpPage.class));
+                                    finishAffinity();
+
+
+                                    Toast.makeText(SellerHomePage.this, jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
+                                } else {
+                                    Toast.makeText(SellerHomePage.this, jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
+                                }
+
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Toast.makeText(SellerHomePage.this, "There was some error.Please try again....", Toast.LENGTH_LONG).show();
+
+                        }
+                    }) {
+                @Override
+                protected Map<String, String> getParams() throws AuthFailureError {
+                    Map<String, String> params = new HashMap<>();
+                    params.put("person_id", String.valueOf(id));
+                    params.put("type", type);
+
+
+                    return params;
+                }
+            };
+            RequestHandler.getInstance(SellerHomePage.this).addToRequestQueue(stringRequest);
+            // end string request
+        }
+
+    }
 
 }

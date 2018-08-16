@@ -39,6 +39,7 @@ public class Seller_Add_Deliver_Persons extends AppCompatActivity {
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayShowHomeEnabled(true);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setTitle("Add Delivery Person");
         }
         phone_number = findViewById(R.id.dp_sign_up_phone_number);
         btn = findViewById(R.id.dp_signup_btn);
@@ -47,52 +48,60 @@ public class Seller_Add_Deliver_Persons extends AppCompatActivity {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (phone_number.getText().toString().length() == 10 && pin.getText().length() >= 4 && name.getText().length() > 5) {
-                    Toast.makeText(Seller_Add_Deliver_Persons.this, "Registring......", Toast.LENGTH_LONG).show();
-                    //String request start
-                    StringRequest stringRequest = new StringRequest(Request.Method.POST,
-                            Constants.ADD_DELIVER_PERSON,
-                            new Response.Listener<String>() {
-                                @Override
-                                public void onResponse(String response) {
+                if (phone_number.getText().toString().length() == 10) {
+                    if (name.getText().toString().length() >= 3) {
+                        if (pin.getText().toString().length() >= 4) {
+                            Toast.makeText(Seller_Add_Deliver_Persons.this, "Registring......", Toast.LENGTH_LONG).show();
+                            //String request start
+                            StringRequest stringRequest = new StringRequest(Request.Method.POST,
+                                    Constants.ADD_DELIVER_PERSON,
+                                    new Response.Listener<String>() {
+                                        @Override
+                                        public void onResponse(String response) {
 
-                                    try {
-                                        JSONObject jsonObject = new JSONObject(response);
-                                        if (jsonObject.getBoolean("error") == false) {
-                                            Toast.makeText(Seller_Add_Deliver_Persons.this, jsonObject.getString("message") + "", Toast.LENGTH_LONG).show();
-                                        } else {
-                                            Toast.makeText(Seller_Add_Deliver_Persons.this, jsonObject.getString("message") + "", Toast.LENGTH_LONG).show();
+                                            try {
+                                                JSONObject jsonObject = new JSONObject(response);
+                                                if (jsonObject.getBoolean("error") == false) {
+                                                    Toast.makeText(Seller_Add_Deliver_Persons.this, jsonObject.getString("message") + "", Toast.LENGTH_LONG).show();
+                                                } else {
+                                                    Toast.makeText(Seller_Add_Deliver_Persons.this, jsonObject.getString("message") + "", Toast.LENGTH_LONG).show();
+
+                                                }
+
+                                            } catch (JSONException e) {
+                                                e.printStackTrace();
+                                            }
+                                        }
+                                    },
+                                    new Response.ErrorListener() {
+                                        @Override
+                                        public void onErrorResponse(VolleyError error) {
+
+                                            Toast.makeText(getApplicationContext(), "There was some error.Please try again....", Toast.LENGTH_LONG).show();
 
                                         }
-
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    }
-                                }
-                            },
-                            new Response.ErrorListener() {
+                                    }) {
                                 @Override
-                                public void onErrorResponse(VolleyError error) {
+                                protected Map<String, String> getParams() throws AuthFailureError {
+                                    Map<String, String> params = new HashMap<>();
+                                    params.put("phone", "+92" + phone_number.getText().toString());
+                                    params.put("pin", pin.getText().toString());
+                                    params.put("name", name.getText().toString());
+                                    params.put("rule", "DP");
+                                    params.put("vendor_id", String.valueOf(SharedPrefManager.getInstance(Seller_Add_Deliver_Persons.this).getSeller().getVendor_id()));
 
-                                    Toast.makeText(getApplicationContext(), "There was some error.Please try again....", Toast.LENGTH_LONG).show();
-
+                                    return params;
                                 }
-                            }) {
-                        @Override
-                        protected Map<String, String> getParams() throws AuthFailureError {
-                            Map<String, String> params = new HashMap<>();
-                            params.put("phone", "+92" + phone_number.getText().toString());
-                            params.put("pin", pin.getText().toString());
-                            params.put("name", name.getText().toString());
-                            params.put("rule", "DP");
-                            params.put("vendor_id", String.valueOf(SharedPrefManager.getInstance(Seller_Add_Deliver_Persons.this).getSeller().getVendor_id()));
+                            };
+                            RequestHandler.getInstance(Seller_Add_Deliver_Persons.this).addToRequestQueue(stringRequest);
+                            //end of string request
 
-                            return params;
+                        } else {
+                            Toast.makeText(Seller_Add_Deliver_Persons.this, "Pin length must be greater than 4 or equal to 4", Toast.LENGTH_SHORT).show();
                         }
-                    };
-                    RequestHandler.getInstance(Seller_Add_Deliver_Persons.this).addToRequestQueue(stringRequest);
-                    //end of string request
-
+                    } else {
+                        Toast.makeText(Seller_Add_Deliver_Persons.this, "Name length must be greater than 3", Toast.LENGTH_SHORT).show();
+                    }
 
                 } else {
                     Toast.makeText(Seller_Add_Deliver_Persons.this, "Invalid Phone Number", Toast.LENGTH_SHORT).show();
@@ -109,6 +118,7 @@ public class Seller_Add_Deliver_Persons extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
     @Override
     public void onBackPressed() {
         super.onBackPressed();

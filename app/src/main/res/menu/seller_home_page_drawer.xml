@@ -5,13 +5,13 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/account_details"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="Account Details" />
+            android:id="@+id/new_order"
+            android:icon="@drawable/ic_menu_share"
+            android:title="New Orders" />
         <item
-            android:id="@+id/extra_information"
-            android:icon="@drawable/add1"
-            android:title="Add Shop Location" />
+            android:id="@+id/assignedorder"
+            android:icon="@drawable/ic_menu_send"
+            android:title="Assigned Orders" />
 
         <item android:title="Stock Managment">
             <menu>
@@ -29,18 +29,7 @@
                     android:title="View Selling History" />
             </menu>
         </item>
-        <item android:title="Orders">
-            <menu>
-                <item
-                    android:id="@+id/new_order"
-                    android:icon="@drawable/ic_menu_share"
-                    android:title="New Order" />
-                <item
-                    android:id="@+id/assignedorder"
-                    android:icon="@drawable/ic_menu_send"
-                    android:title="Assigned Order" />
-            </menu>
-        </item>
+
         <item android:title="Delivery Person">
             <menu>
                 <item
@@ -55,6 +44,22 @@
                     android:id="@+id/customer_review"
                     android:icon="@drawable/rating"
                     android:title="Reviews" />
+            </menu>
+        </item>
+        <item android:title="Account Management">
+            <menu>
+                <item
+                    android:id="@+id/account_details"
+                    android:icon="@drawable/ic_menu_gallery"
+                    android:title="Account Details" />
+                <item
+                    android:id="@+id/extra_information"
+                    android:icon="@drawable/add1"
+                    android:title="Add Shop Location" />
+                <item
+                    android:id="@+id/deActivateSeller"
+                    android:icon="@drawable/delete"
+                    android:title="DeActivate Account" />
             </menu>
         </item>
     </group>

@@ -60,7 +60,7 @@ public class GetVendorAssignedOrdersFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        getActivity().setTitle("AssignedOrders");
+        getActivity().setTitle("Orders");
     }
 
     public void getOrders(final int vendor_id) {
