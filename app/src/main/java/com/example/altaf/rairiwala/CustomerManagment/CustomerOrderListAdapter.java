@@ -47,7 +47,7 @@ public class CustomerOrderListAdapter extends RecyclerView.Adapter<CustomerOrder
     @Override
     public void onBindViewHolder(CustomerOrderListAdapter.ProductViewHolder holder, final int position) {
         final Order order = orderLists.get(position);
-        holder.textViewname.setText("Name:" + order.getCustomerAddress().getName());
+        holder.textViewname.setText("Vendor Name:" + order.getCustomerAddress().getName());
         holder.textViewnumber.setText("House Name:" + order.getCustomerAddress().getHouseName());
         holder.time.setText("Order Time:" + order.getOrder_time());
         holder.order_status.setText("Status: " + order.getOrder_status());
@@ -66,7 +66,7 @@ public class CustomerOrderListAdapter extends RecyclerView.Adapter<CustomerOrder
             holder.imageView.setImageDrawable(image);
 
         } else if (order.getOrder_status().equals("NEW")) {
-            holder.order_status.setTextColor(Color.CYAN);
+            holder.order_status.setTextColor(Color.BLUE);
             Resources resources = mCtx.getResources();
             Drawable image = resources.getDrawable(R.drawable.neworder);
             holder.imageView.setImageDrawable(image);

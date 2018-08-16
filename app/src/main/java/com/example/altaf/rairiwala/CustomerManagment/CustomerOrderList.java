@@ -76,11 +76,11 @@ public class CustomerOrderList extends AppCompatActivity {
                                     JSONObject order = array.getJSONObject(i);
                                     CustomerAddress customerAddress = new CustomerAddress();
                                     Order newOrder = new Order();
-                                    customerAddress.setName(SharedPrefManager.getInstance(CustomerOrderList.this).getCustomer().getName());
                                     customerAddress.setLatiitude(order.getDouble("latitude"));
                                     customerAddress.setLongitude(order.getDouble("longitude"));
                                     customerAddress.setStreetName(order.getString("street_name"));
                                     customerAddress.setHouseName(order.getString("house_name"));
+                                    customerAddress.setName(order.getString("name"));
                                     newOrder.setCustomerAddress(customerAddress);
                                     newOrder.setVendor_id(order.getInt("vendor_id"));
                                     newOrder.setCustomer_id(order.getInt("customer_id"));
@@ -145,6 +145,7 @@ public class CustomerOrderList extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
     @Override
     public void onBackPressed() {
         super.onBackPressed();

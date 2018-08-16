@@ -21,11 +21,9 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 @RunWith(AndroidJUnit4.class)
 public class RairiwalaTesting {
 
-
-
-
     @Test
     public void changeText_newActivity() {
+        onView(withId(R.id.login)).perform(click());
        /* // Type text and then press the button.
         onView(withId(R.id.inputField)).perform(typeText("NewText"),
                 closeSoftKeyboard());
