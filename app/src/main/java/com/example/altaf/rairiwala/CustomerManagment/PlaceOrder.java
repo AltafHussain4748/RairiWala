@@ -45,6 +45,7 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -265,11 +266,17 @@ public class PlaceOrder extends AppCompatActivity implements OnMapReadyCallback 
                                     mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in my locationy").draggable(true));
                                     mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 17));
                                     getAddress(location.getLatitude(), location.getLongitude());
-                                }else{
+                                } else {
                                     Toast.makeText(PlaceOrder.this, "Error while getting location please try again", Toast.LENGTH_SHORT).show();
                                 }
                             }
-                        });
+                        }).addOnFailureListener(this, new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(PlaceOrder.this, "" + e.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+                ;
             }
         } else {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -335,14 +342,19 @@ public class PlaceOrder extends AppCompatActivity implements OnMapReadyCallback 
                                     mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in my locationy").draggable(true));
                                     mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 17));
                                     getAddress(location.getLatitude(), location.getLongitude());
-                                }else{
+                                } else {
                                     Toast.makeText(PlaceOrder.this, "Error while getting location please try again .", Toast.LENGTH_SHORT).show();
                                 }
                             }
-                        });
+                        }).addOnFailureListener(this, new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(PlaceOrder.this, "" + e.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                    }
+                });
 
         } else {
-            Toast.makeText(PlaceOrder.this, "Not granted", Toast.LENGTH_SHORT).show();
+            Toast.makeText(PlaceOrder.this, "Permission Not granted", Toast.LENGTH_SHORT).show();
         }
 
     }

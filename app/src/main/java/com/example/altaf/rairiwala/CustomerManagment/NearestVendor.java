@@ -34,6 +34,7 @@ import com.example.altaf.rairiwala.R;
 import com.example.altaf.rairiwala.Singelton.Constants;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.gson.Gson;
 
@@ -104,7 +105,12 @@ public class NearestVendor extends AppCompatActivity {
                                     Toast.makeText(NearestVendor.this, "Problem while getting location", Toast.LENGTH_SHORT).show();
                                 }
                             }
-                        });
+                        }).addOnFailureListener(this, new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(NearestVendor.this, "" + e.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         } else {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -256,10 +262,16 @@ public class NearestVendor extends AppCompatActivity {
                                     Toast.makeText(NearestVendor.this, "Problem while getting location", Toast.LENGTH_SHORT).show();
                                 }
                             }
-                        });
+                        }).addOnFailureListener(this, new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(NearestVendor.this, "" + e.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                    }
+                });
 
         } else {
-            Toast.makeText(NearestVendor.this, "Not granted", Toast.LENGTH_SHORT).show();
+            Toast.makeText(NearestVendor.this, "Permission Not granted", Toast.LENGTH_SHORT).show();
+
         }
 
     }

@@ -7,9 +7,9 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
-import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -26,7 +26,6 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.example.altaf.rairiwala.CustomerManagment.NearestVendor;
 import com.example.altaf.rairiwala.Models.Vendor;
 import com.example.altaf.rairiwala.R;
 import com.example.altaf.rairiwala.Singelton.Constants;
@@ -41,6 +40,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 
 import org.json.JSONException;
@@ -164,11 +164,17 @@ public class AddSellerExtraInformation extends AppCompatActivity implements OnMa
                                         latitude = location.getLatitude();
                                         longitude = location.getLongitude();
 
-                                    }else{
+                                    } else {
                                         Toast.makeText(AddSellerExtraInformation.this, "Problem while getting location", Toast.LENGTH_SHORT).show();
                                     }
                                 }
-                            });
+                            }).addOnFailureListener(this, new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(AddSellerExtraInformation.this, "" + e.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    ;
                 }
                 //end of lat long
                 //end of getting user current location
@@ -213,14 +219,19 @@ public class AddSellerExtraInformation extends AppCompatActivity implements OnMa
                                     mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userCurrentLocation, 18));
                                     latitude = location.getLatitude();
                                     longitude = location.getLongitude();
-                                }else{
+                                } else {
                                     Toast.makeText(AddSellerExtraInformation.this, "Problem while getting location", Toast.LENGTH_SHORT).show();
                                 }
                             }
-                        });
+                        }).addOnFailureListener(this, new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(AddSellerExtraInformation.this, "" + e.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                    }
+                });
 
         } else {
-            Toast.makeText(AddSellerExtraInformation.this, "Not granted", Toast.LENGTH_SHORT).show();
+            Toast.makeText(AddSellerExtraInformation.this, "Permisson Not granted", Toast.LENGTH_SHORT).show();
         }
 
     }
@@ -311,6 +322,7 @@ public class AddSellerExtraInformation extends AppCompatActivity implements OnMa
         }
         return super.onOptionsItemSelected(item);
     }
+
     @Override
     public void onBackPressed() {
         super.onBackPressed();
