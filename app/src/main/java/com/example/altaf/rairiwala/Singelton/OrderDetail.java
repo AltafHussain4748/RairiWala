@@ -22,6 +22,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.altaf.rairiwala.CustomerManagment.PlaceOrder;
 import com.example.altaf.rairiwala.Models.Order;
 import com.example.altaf.rairiwala.Models.Product;
 import com.example.altaf.rairiwala.Models.ProductDetails;
@@ -29,6 +30,7 @@ import com.example.altaf.rairiwala.DeliverPersonManagement.OrderDetailGoogleMap;
 import com.example.altaf.rairiwala.R;
 import com.example.altaf.rairiwala.RairriWalaManagment.SellerNewOrderList;
 import com.example.altaf.rairiwala.RairriWalaManagment.SellerOrderItemsAdapter;
+import com.gitonway.lee.niftymodaldialogeffects.lib.NiftyDialogBuilder;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -41,6 +43,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static com.gitonway.lee.niftymodaldialogeffects.lib.Effectstype.RotateBottom;
 
 public class OrderDetail extends AppCompatActivity {
 
@@ -102,22 +106,38 @@ public class OrderDetail extends AppCompatActivity {
             confirm.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    //DIALOGUE
-                    AlertDialog.Builder builder = new AlertDialog.Builder(OrderDetail.this);
-                    builder.setTitle("Confirm");  // GPS not found
-                    builder.setMessage("Want to want Order?"); // Want to enable?
-                    builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            Gson gson = new Gson();
-                            String orderItems = gson.toJson(productList);
-                            confirmOrder(order.getOrder_id(), SharedPrefManager.getInstance(OrderDetail.this).getSeller().getVendor_id(), orderItems, order.getCustomer_id());
+                    final NiftyDialogBuilder dialogBuilder = NiftyDialogBuilder.getInstance(OrderDetail.this);
+                    dialogBuilder
+                            .withTitle("Confirm Order")                                  //.withTitle(null)  no title
+                            .withTitleColor("#FFFFFF")                                  //def
+                            .withDividerColor("#11000000")                                 //def
+                            .withMessage("Do you want to confirm order?")                     //.withMessage(null)  no Msg
+                            .withMessageColor("#FFFFFFFF")                              //def  | withMessageColor(int resid)
+                            .withDialogColor("#4CAF50")                                //def  | withDialogColor(int resid)
+                            .withIcon(getResources().getDrawable(R.drawable.confirm))
+                            .withDuration(700)                                          //def
+                            .withEffect(RotateBottom)                                         //def Effectstype.Slidetop
+                            .withButton1Text("No")                                      //def gone
+                            .withButton2Text("yes")                                  //def gone
+                            .isCancelableOnTouchOutside(true)                           //def    | isCancelable(true)
+                            //.setCustomView(View or ResId,context)
+                            .setButton1Click(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    dialogBuilder.dismiss();
+                                }
+                            })
+                            .setButton2Click(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    Gson gson = new Gson();
+                                    String orderItems = gson.toJson(productList);
+                                    confirmOrder(order.getOrder_id(), SharedPrefManager.getInstance(OrderDetail.this).getSeller().getVendor_id(), orderItems, order.getCustomer_id());
 
-                        }
-                    });
-                    builder.setNegativeButton("No", null);
-                    builder.create().show();
-
-                    //   END OF DIALOGUE
+                                    dialogBuilder.dismiss();
+                                }
+                            })
+                            .show();
 
 
                 }
@@ -141,7 +161,7 @@ public class OrderDetail extends AppCompatActivity {
                             if (jsonObject.getBoolean("error") == false) {
                                 Toast.makeText(OrderDetail.this, jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
                                 startActivity(new Intent(OrderDetail.this, SellerNewOrderList.class));
-                                    OrderDetail.this.finish();
+                                OrderDetail.this.finish();
                             } else {
                                 Toast.makeText(OrderDetail.this, jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
                                 confirm.setVisibility(View.GONE);
@@ -250,6 +270,7 @@ public class OrderDetail extends AppCompatActivity {
         Volley.newRequestQueue(this).add(stringRequest);
         stringRequest.setRetryPolicy(new DefaultRetryPolicy(20 * 1000, 10, 1.0f));
     }
+
     @Override
     public void onBackPressed() {
         super.onBackPressed();

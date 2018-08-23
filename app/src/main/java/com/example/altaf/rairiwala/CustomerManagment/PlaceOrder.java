@@ -144,7 +144,7 @@ public class PlaceOrder extends AppCompatActivity implements OnMapReadyCallback 
 
                         final NiftyDialogBuilder dialogBuilder = NiftyDialogBuilder.getInstance(PlaceOrder.this);
                         dialogBuilder
-                                .withTitle("Place Order")                                  //.withTitle(null)  no title
+                                .withTitle("Send Order")                                  //.withTitle(null)  no title
                                 .withTitleColor("#FFFFFF")                                  //def
                                 .withDividerColor("#11000000")                                 //def
                                 .withMessage("Do you want to send order?")                     //.withMessage(null)  no Msg

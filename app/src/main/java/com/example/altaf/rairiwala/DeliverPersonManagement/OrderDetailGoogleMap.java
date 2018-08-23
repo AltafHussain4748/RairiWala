@@ -181,7 +181,9 @@ public class OrderDetailGoogleMap extends FragmentActivity implements OnMapReady
     @Override
     protected void onStop() {
         super.onStop();
-        googleApiClient.disconnect();
+        if(googleApiClient.isConnected()){
+            googleApiClient.disconnect();
+        }
     }
 
 
