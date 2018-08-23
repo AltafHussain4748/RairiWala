@@ -16,6 +16,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,16 +26,20 @@ import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
+import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.altaf.rairiwala.Models.CustomerAddress;
 import com.example.altaf.rairiwala.Models.Order;
 import com.example.altaf.rairiwala.Models.Product;
 import com.example.altaf.rairiwala.R;
+import com.example.altaf.rairiwala.RairriWalaManagment.SellerAssignDeliverPerson;
 import com.example.altaf.rairiwala.Singelton.Constants;
 import com.example.altaf.rairiwala.Singelton.SharedPrefManager;
+import com.gitonway.lee.niftymodaldialogeffects.lib.NiftyDialogBuilder;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -48,6 +53,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONException;
@@ -62,6 +68,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+
+import static com.gitonway.lee.niftymodaldialogeffects.lib.Effectstype.RotateBottom;
 
 public class PlaceOrder extends AppCompatActivity implements OnMapReadyCallback {
     //GoogleMap.OnMyLocationClickListener {
@@ -110,7 +118,7 @@ public class PlaceOrder extends AppCompatActivity implements OnMapReadyCallback 
                      /*   Toast.makeText(PlaceOrder.this, "" + products.size() + "\n" + street + "\n" + house_nu + "\n" +
                                 SharedPrefManager.getInstance(PlaceOrder.this).getCustomer().getCustomer_id() + "\n" + latitude + "\n" + longtude, Toast.LENGTH_SHORT).show();*/
                         Gson gson = new Gson();
-                        Order order = new Order();
+                        final Order order = new Order();
                         order.setProductArrayList(products);
                         String product = gson.toJson(products);
                         int price = 0;
@@ -133,21 +141,42 @@ public class PlaceOrder extends AppCompatActivity implements OnMapReadyCallback 
                         order.setOrder_time(dateFormat.format(date));
                         final String jsonString = gson.toJson(order);
                         //DIALOGUE
-                        AlertDialog.Builder builder = new AlertDialog.Builder(PlaceOrder.this);
-                        builder.setTitle("Place Order");  // GPS not found
-                        builder.setMessage("Want to send Order?"); // Want to enable?
-                        builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                              /*  Intent intent=new Intent(PlaceOrder.this, OrderDetail.class);
-                                intent.putExtra("order",jsonString);
-                                startActivity(intent);*/
-                                sendOrder(jsonString, products.get(0).getProductDetails().getVendor_id());
-                            }
-                        });
-                        builder.setNegativeButton("No", null);
-                        builder.create().show();
 
-                        //   END OF DIALOGUE
+                        final NiftyDialogBuilder dialogBuilder = NiftyDialogBuilder.getInstance(PlaceOrder.this);
+                        dialogBuilder
+                                .withTitle("Place Order")                                  //.withTitle(null)  no title
+                                .withTitleColor("#FFFFFF")                                  //def
+                                .withDividerColor("#11000000")                                 //def
+                                .withMessage("Do you want to send order?")                     //.withMessage(null)  no Msg
+                                .withMessageColor("#FFFFFFFF")                              //def  | withMessageColor(int resid)
+                                .withDialogColor("#4CAF50")                                //def  | withDialogColor(int resid)
+                                .withIcon(getResources().getDrawable(R.drawable.neworder))
+                                .withDuration(700)                                          //def
+                                .withEffect(RotateBottom)                                         //def Effectstype.Slidetop
+                                .withButton1Text("No")                                      //def gone
+                                .withButton2Text("yes")                                  //def gone
+                                .isCancelableOnTouchOutside(true)                           //def    | isCancelable(true)
+                                //.setCustomView(View or ResId,context)
+                                .setButton1Click(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        dialogBuilder.dismiss();
+                                    }
+                                })
+                                .setButton2Click(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        try {
+                                            JSONObject jsonObject = new JSONObject(jsonString);
+                                            sendJsonOrderRequest(jsonObject, products.get(0).getProductDetails().getVendor_id());
+
+                                        } catch (Exception e) {
+                                            Toast.makeText(PlaceOrder.this, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                        }
+                                        dialogBuilder.dismiss();
+                                    }
+                                })
+                                .show();
 
 
                         // Toast.makeText(PlaceOrder.this, "" + SharedPrefManagerFirebase.getInstance(PlaceOrder.this).getToken(), Toast.LENGTH_SHORT).show();
@@ -372,7 +401,7 @@ public class PlaceOrder extends AppCompatActivity implements OnMapReadyCallback 
 
                                 if (jsonObject.getBoolean("error") == false) {
 
-                                    Toast.makeText(PlaceOrder.this, "Order Sent", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(PlaceOrder.this, "Your order has been sent successfully", Toast.LENGTH_SHORT).show();
                                 } else {
                                     Toast.makeText(PlaceOrder.this, jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
                                 }
@@ -408,19 +437,22 @@ public class PlaceOrder extends AppCompatActivity implements OnMapReadyCallback 
     public void onMyLocationClick(@NonNull Location location) {
         Toast.makeText(this, "Current location:\n" + location, Toast.LENGTH_LONG).show();
     }*/
-    private void getAddress(double latitide, double longitude) {
+    private void getAddress(double lat, double lon) {
         Geocoder geocoder = new Geocoder(this, Locale.getDefault());
 
         try {
-            List<Address> addresses = geocoder.getFromLocation(latitude, longitude, 1);
+            List<Address> addresses = geocoder.getFromLocation(lat, lon, 1);
 
             if (addresses != null) {
                 Address returnedAddress = addresses.get(0);
-                StringBuilder strReturnedAddress = new StringBuilder();
-                for (int i = 0; i < returnedAddress.getMaxAddressLineIndex(); i++) {
-                    strReturnedAddress.append(returnedAddress.getAddressLine(i)).append("");
+                if (returnedAddress.getThoroughfare() != null && returnedAddress.getFeatureName() != null) {
+                    street_name.setText(returnedAddress.getThoroughfare());
+                } else if (returnedAddress.getFeatureName() != null && returnedAddress.getThoroughfare() == null) {
+                    street_name.setText(returnedAddress.getFeatureName());
+                } else if (returnedAddress.getFeatureName() == null && returnedAddress.getThoroughfare() != null) {
+                    street_name.setText(returnedAddress.getThoroughfare());
                 }
-                Toast.makeText(this, strReturnedAddress.toString(), Toast.LENGTH_LONG).show();
+
             } else {
                 Toast.makeText(this, "No address found", Toast.LENGTH_SHORT).show();
             }
@@ -429,5 +461,49 @@ public class PlaceOrder extends AppCompatActivity implements OnMapReadyCallback 
             e.printStackTrace();
             Toast.makeText(this, "No address found", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void sendJsonOrderRequest(JSONObject j, final int vendor_id) {
+        Toast.makeText(this, "Sending order to Vendor", Toast.LENGTH_SHORT).show();
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+
+        // Initialize a new JsonObjectRequest instance
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+                Request.Method.POST,
+                Constants.PlaceOrder,
+                j,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        // Do something with response
+                        //mTextView.setText(response.toString());
+
+                        // Process the JSON
+                        try {
+                            if (response.getBoolean("error") == false) {
+
+                                Toast.makeText(PlaceOrder.this, "Your order has been sent successfully", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(PlaceOrder.this, response.getString("message"), Toast.LENGTH_SHORT).show();
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // Do something when error occurred
+                        Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_LONG).show();
+                    }
+                }
+        );
+
+        // Add JsonObjectRequest to the RequestQueue
+
+        requestQueue.add(jsonObjectRequest);
+
     }
 }

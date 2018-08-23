@@ -98,6 +98,7 @@ public class OrderDetailGoogleMap extends FragmentActivity implements OnMapReady
         mMap.getUiSettings().setZoomControlsEnabled(true);
         mMap.getUiSettings().setMyLocationButtonEnabled(true);
         mMap.getUiSettings().setAllGesturesEnabled(true);
+        mMap.getUiSettings().setCompassEnabled(true);
 
     }
 
