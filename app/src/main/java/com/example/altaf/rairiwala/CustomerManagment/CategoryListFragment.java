@@ -63,7 +63,7 @@ public class CategoryListFragment
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int i, long id) {
-                Category category = sqliteDb.get(i);
+                Category category = category_List.get(i);
                 Intent intent = new Intent(getActivity(), NearestVendor.class);
                 intent.putExtra("CAT", category.getCategroy_name());
                 startActivity(intent);
@@ -80,6 +80,7 @@ public class CategoryListFragment
         if (sqliteDb.size() > 0) {
             CategoryListView adapter = new CategoryListView(getActivity(), (ArrayList<Category>) sqliteDb);
             androidListView.setAdapter(adapter);
+            loadCategories();
         } else {
             loadCategories();
         }
@@ -96,9 +97,9 @@ public class CategoryListFragment
 
     public void loadCategories() {
         progressDialog.setMessage("Loading Categories...");
-        if(sqliteDb.size()>0){
+        if (sqliteDb.size() > 0) {
             progressDialog.dismiss();
-        }else{
+        } else {
             progressDialog.show();
         }
 
@@ -126,6 +127,10 @@ public class CategoryListFragment
                             if (sqliteDb.size() == 0) {
                                 CategoryListView adapter = new CategoryListView(getActivity(), category_List);
                                 androidListView.setAdapter(adapter);
+                                databaseHandling.deleteAllCategories();
+                                for (Category category : category_List) {
+                                    databaseHandling.insertCategories(category);
+                                }
                             } else if (category_List.size() > sqliteDb.size()) {
                                 databaseHandling.deleteAllCategories();
                                 for (Category category : category_List) {

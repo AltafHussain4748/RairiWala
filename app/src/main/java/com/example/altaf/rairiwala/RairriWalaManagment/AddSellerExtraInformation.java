@@ -98,6 +98,8 @@ public class AddSellerExtraInformation extends AppCompatActivity implements OnMa
         mMap.getUiSettings().setZoomControlsEnabled(true);
         mMap.getUiSettings().setMyLocationButtonEnabled(true);
         mMap.getUiSettings().setAllGesturesEnabled(true);
+        mMap.getUiSettings().setCompassEnabled(true);
+        mMap.getUiSettings().setIndoorLevelPickerEnabled(true);
         mMap.setOnMarkerDragListener(new GoogleMap.OnMarkerDragListener() {
             @Override
             public void onMarkerDragStart(Marker marker) {
@@ -113,7 +115,7 @@ public class AddSellerExtraInformation extends AppCompatActivity implements OnMa
             public void onMarkerDragEnd(Marker marker) {
                 latitude = marker.getPosition().latitude;
                 longitude = marker.getPosition().longitude;
-                Toast.makeText(AddSellerExtraInformation.this, "Latitude:" + marker.getPosition().latitude + "\n" + "Longitude:" + marker.getPosition().longitude, Toast.LENGTH_SHORT).show();
+              //  Toast.makeText(AddSellerExtraInformation.this, "Latitude:" + marker.getPosition().latitude + "\n" + "Longitude:" + marker.getPosition().longitude, Toast.LENGTH_SHORT).show();
 
             }
         });

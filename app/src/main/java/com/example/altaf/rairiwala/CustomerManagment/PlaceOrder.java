@@ -211,45 +211,8 @@ public class PlaceOrder extends AppCompatActivity implements OnMapReadyCallback 
         mMap.getUiSettings().setMyLocationButtonEnabled(true);
         mMap.getUiSettings().setAllGesturesEnabled(true);
         mMap.getUiSettings().setZoomGesturesEnabled(true);
-      /*  if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 1);
-            return;
-        }*/
-        // mMap.setMyLocationEnabled(true);
-        //marker grable
-        //testing
-      /*  mMap.setOnCameraMoveStartedListener(new GoogleMap.OnCameraMoveStartedListener() {
-            @Override
-            public void onCameraMoveStarted(int i) {
-                Toast.makeText(PlaceOrder.this, "Started", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        mMap.setOnCameraIdleListener(new GoogleMap.OnCameraIdleListener() {
-            @Override
-            public void onCameraIdle() {
-                // Cleaning all the markers.
-                if (mMap != null) {
-                    mMap.clear();
-                }
-
-                Toast.makeText(PlaceOrder.this, "" + mMap.getCameraPosition().target.latitude
-                        , Toast.LENGTH_SHORT).show();
-                latitude = mMap.getCameraPosition().target.latitude;
-                longtude = mMap.getCameraPosition().target.longitude;
-                LatLng sydney = new LatLng(latitude, longtude);
-                mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in my locationy").draggable(true));
-                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 17));
-            }
-        });*/
-        //testing
+        mMap.getUiSettings().setCompassEnabled(true);
+        mMap.getUiSettings().setIndoorLevelPickerEnabled(true);
         mMap.setOnMarkerDragListener(new GoogleMap.OnMarkerDragListener() {
             @Override
             public void onMarkerDragStart(Marker marker) {
