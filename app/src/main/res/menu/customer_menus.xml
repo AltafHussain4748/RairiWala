@@ -31,9 +31,5 @@
         android:orderInCategory="100"
         android:title="@string/logout"
         app:showAsAction="never" />
-    <item
-        android:id="@+id/deActivateCustomer"
-        android:orderInCategory="100"
-        android:title="DeActivate Account"
-        app:showAsAction="never" />
+
 </menu>

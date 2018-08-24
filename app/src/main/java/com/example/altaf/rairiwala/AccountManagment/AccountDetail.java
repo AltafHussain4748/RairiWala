@@ -1,6 +1,7 @@
 package com.example.altaf.rairiwala.AccountManagment;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -18,6 +19,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.example.altaf.rairiwala.CustomerManagment.CustomerHomePage;
 import com.example.altaf.rairiwala.Models.Customer;
 import com.example.altaf.rairiwala.Models.DeliveryPerson;
 import com.example.altaf.rairiwala.Models.Vendor;
@@ -26,6 +28,8 @@ import com.example.altaf.rairiwala.Singelton.Constants;
 import com.example.altaf.rairiwala.Singelton.RequestHandler;
 import com.example.altaf.rairiwala.Singelton.SharedPrefManager;
 import com.example.altaf.rairiwala.Singelton.SharedPrefManagerFirebase;
+import com.example.altaf.rairiwala.SqliteDatabase.DatabaseHandling;
+import com.gitonway.lee.niftymodaldialogeffects.lib.NiftyDialogBuilder;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -33,8 +37,10 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.gitonway.lee.niftymodaldialogeffects.lib.Effectstype.RotateBottom;
+
 public class AccountDetail extends AppCompatActivity {
-    TextView name, pin, phoneNumber;
+    TextView name, pin, phoneNumber, accountDeactivation;
     ImageButton editPin, editName;
 
     @Override
@@ -52,6 +58,8 @@ public class AccountDetail extends AppCompatActivity {
         pin = findViewById(R.id.pinNumber);
         phoneNumber = findViewById(R.id.phoneNumber);
         editName = findViewById(R.id.editName);
+        accountDeactivation = findViewById(R.id.deActivation);
+
         editName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -157,15 +165,83 @@ public class AccountDetail extends AppCompatActivity {
                 builder.show();
             }
         });
-        Customer customer = SharedPrefManager.getInstance(this).getCustomer();
+        final Customer customer = SharedPrefManager.getInstance(this).getCustomer();
         DeliveryPerson deliveryPerson = SharedPrefManager.getInstance(this).getDeliveryPerson();
-        Vendor vendor = SharedPrefManager.getInstance(AccountDetail.this).getSeller();
+        final Vendor vendor = SharedPrefManager.getInstance(AccountDetail.this).getSeller();
+        accountDeactivation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (customer != null) {
+                    final NiftyDialogBuilder dialogBuilder = NiftyDialogBuilder.getInstance(AccountDetail.this);
+                    dialogBuilder
+                            .withTitle("DeActivate Account")                                  //.withTitle(null)  no title
+                            .withTitleColor("#FFFFFF")                                  //def
+                            .withDividerColor("#11000000")                              //def
+                            .withMessage("Do you want to DeActivate Account?")                     //.withMessage(null)  no Msg
+                            .withMessageColor("#FFFFFFFF")                              //def  | withMessageColor(int resid)
+                            .withDialogColor("#FFE74C3C")                               //def  | withDialogColor(int resid)
+                            .withIcon(getResources().getDrawable(R.drawable.delete))
+                            .withDuration(700)                                          //def
+                            .withEffect(RotateBottom)                                         //def Effectstype.Slidetop
+                            .withButton1Text("No")                                      //def gone
+                            .withButton2Text("yes")                                  //def gone
+                            .isCancelableOnTouchOutside(true)                           //def    | isCancelable(true)
+                            //.setCustomView(View or ResId,context)
+                            .setButton1Click(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    dialogBuilder.dismiss();
+                                }
+                            })
+                            .setButton2Click(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    deactivateAccount(SharedPrefManager.getInstance(AccountDetail.this).getPersonId(), "customer");
+                                }
+                            })
+                            .show();
+
+                }
+                if (vendor != null) {
+                    final NiftyDialogBuilder dialogBuilder = NiftyDialogBuilder.getInstance(AccountDetail.this);
+                    dialogBuilder
+                            .withTitle("DeActivate Account")                                  //.withTitle(null)  no title
+                            .withTitleColor("#FFFFFF")                                  //def
+                            .withDividerColor("#11000000")                              //def
+                            .withMessage("Do you want to DeActivate Account?")                     //.withMessage(null)  no Msg
+                            .withMessageColor("#FFFFFFFF")                              //def  | withMessageColor(int resid)
+                            .withDialogColor("#FFE74C3C")                               //def  | withDialogColor(int resid)
+                            .withIcon(getResources().getDrawable(R.drawable.delete))
+                            .withDuration(700)                                          //def
+                            .withEffect(RotateBottom)                                         //def Effectstype.Slidetop
+                            .withButton1Text("No")                                      //def gone
+                            .withButton2Text("yes")                                  //def gone
+                            .isCancelableOnTouchOutside(true)                           //def    | isCancelable(true)
+                            //.setCustomView(View or ResId,context)
+                            .setButton1Click(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    dialogBuilder.dismiss();
+                                }
+                            })
+                            .setButton2Click(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    deactivateAccount(SharedPrefManager.getInstance(AccountDetail.this).getPersonId(), "vendor");
+                                }
+                            })
+                            .show();
+                }
+            }
+        });
+
         if (customer != null) {
             name.setText(customer.getName());
             pin.setText(customer.getPin());
             phoneNumber.setText(customer.getPerson_phone_number());
         }
         if (deliveryPerson != null) {
+            accountDeactivation.setVisibility(View.GONE);
             name.setText(deliveryPerson.getName());
             pin.setText(deliveryPerson.getPin());
             phoneNumber.setText(deliveryPerson.getPerson_phone_number());
@@ -185,11 +261,13 @@ public class AccountDetail extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
     @Override
     public void onBackPressed() {
         super.onBackPressed();
         this.finish();
     }
+
     private void changeData(final int person_id1, final int pin1, final String name1, final String type) {
         Toast.makeText(this, "Updating", Toast.LENGTH_SHORT).show();
         StringRequest stringRequest = new StringRequest(Request.Method.POST,
@@ -267,5 +345,60 @@ public class AccountDetail extends AppCompatActivity {
             }
         };
         RequestHandler.getInstance(AccountDetail.this).addToRequestQueue(stringRequest);
+    }
+
+    public void deactivateAccount(final int id, final String type) {
+        if (type != null && id > 0) {
+            ///start string request
+            StringRequest stringRequest = new StringRequest(Request.Method.POST,
+                    Constants.DeActivateAccount,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            try {
+                                JSONObject jsonObject = new JSONObject(response);
+
+                                if (jsonObject.getBoolean("error") == false) {
+
+                                    SharedPrefManager.getInstance(AccountDetail.this).logOut();
+                                    DatabaseHandling handling = new DatabaseHandling(AccountDetail.this);
+                                    handling.deleteAllCategories();
+                                    startActivity(new Intent(AccountDetail.this, AppStartUpPage.class));
+                                    finishAffinity();
+                                    AccountDetail.this.finish();
+
+
+                                    Toast.makeText(AccountDetail.this, jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
+                                } else {
+                                    Toast.makeText(AccountDetail.this, jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
+                                }
+
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Toast.makeText(AccountDetail.this, "There was some error.Please try again....", Toast.LENGTH_LONG).show();
+
+                        }
+                    }) {
+                @Override
+                protected Map<String, String> getParams() throws AuthFailureError {
+                    Map<String, String> params = new HashMap<>();
+                    params.put("person_id", String.valueOf(id));
+                    params.put("type", type);
+
+
+                    return params;
+                }
+            };
+            RequestHandler.getInstance(this).addToRequestQueue(stringRequest);
+            // end string request
+        }
+
     }
 }

@@ -158,35 +158,6 @@ public class CustomerHomePage extends AppCompatActivity {
             startActivity(new Intent(CustomerHomePage.this, CustomerBuyingHistory.class));
         } else if (id == R.id.accountDetail) {
             startActivity(new Intent(CustomerHomePage.this, AccountDetail.class));
-        } else if (id == R.id.deActivateCustomer) {
-            final NiftyDialogBuilder dialogBuilder = NiftyDialogBuilder.getInstance(CustomerHomePage.this);
-            dialogBuilder
-                    .withTitle("DeActivate Account")                                  //.withTitle(null)  no title
-                    .withTitleColor("#FFFFFF")                                  //def
-                    .withDividerColor("#11000000")                              //def
-                    .withMessage("Do you want to DeActivate Account?")                     //.withMessage(null)  no Msg
-                    .withMessageColor("#FFFFFFFF")                              //def  | withMessageColor(int resid)
-                    .withDialogColor("#FFE74C3C")                               //def  | withDialogColor(int resid)
-                    .withIcon(getResources().getDrawable(R.drawable.delete))
-                    .withDuration(700)                                          //def
-                    .withEffect(RotateBottom)                                         //def Effectstype.Slidetop
-                    .withButton1Text("No")                                      //def gone
-                    .withButton2Text("yes")                                  //def gone
-                    .isCancelableOnTouchOutside(true)                           //def    | isCancelable(true)
-                    //.setCustomView(View or ResId,context)
-                    .setButton1Click(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            dialogBuilder.dismiss();
-                        }
-                    })
-                    .setButton2Click(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            deactivateAccount(SharedPrefManager.getInstance(CustomerHomePage.this).getPersonId(), "customer");
-                        }
-                    })
-                    .show();
         }
 
         return super.onOptionsItemSelected(item);
@@ -224,58 +195,5 @@ public class CustomerHomePage extends AppCompatActivity {
         SharedPrefManagerFirebase.getInstance(this).saveActivityStateCustomerHomePage(false);
     }
 
-    public void deactivateAccount(final int id, final String type) {
-        if (type != null && id > 0) {
-            ///start string request
-            StringRequest stringRequest = new StringRequest(Request.Method.POST,
-                    Constants.DeActivateAccount,
-                    new Response.Listener<String>() {
-                        @Override
-                        public void onResponse(String response) {
-                            try {
-                                JSONObject jsonObject = new JSONObject(response);
 
-                                if (jsonObject.getBoolean("error") == false) {
-
-                                    SharedPrefManager.getInstance(CustomerHomePage.this).logOut();
-                                    DatabaseHandling handling = new DatabaseHandling(CustomerHomePage.this);
-                                    handling.deleteAllCategories();
-                                    startActivity(new Intent(CustomerHomePage.this, AppStartUpPage.class));
-                                    finishAffinity();
-                                    CustomerHomePage.this.finish();
-
-
-                                    Toast.makeText(CustomerHomePage.this, jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
-                                } else {
-                                    Toast.makeText(CustomerHomePage.this, jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
-                                }
-
-
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    },
-                    new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            Toast.makeText(CustomerHomePage.this, "There was some error.Please try again....", Toast.LENGTH_LONG).show();
-
-                        }
-                    }) {
-                @Override
-                protected Map<String, String> getParams() throws AuthFailureError {
-                    Map<String, String> params = new HashMap<>();
-                    params.put("person_id", String.valueOf(id));
-                    params.put("type", type);
-
-
-                    return params;
-                }
-            };
-            RequestHandler.getInstance(CustomerHomePage.this).addToRequestQueue(stringRequest);
-            // end string request
-        }
-
-    }
 }

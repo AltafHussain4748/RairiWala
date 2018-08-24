@@ -81,7 +81,7 @@ public class AssignedOrderAdapter extends RecyclerView.Adapter<AssignedOrderAdap
             public void onClick(View view) {
                 final NiftyDialogBuilder dialogBuilder = NiftyDialogBuilder.getInstance(mCtx);
                 dialogBuilder
-                        .withTitle("Assign Dp")                                  //.withTitle(null)  no title
+                        .withTitle("Deliver Order?")                                  //.withTitle(null)  no title
                         .withTitleColor("#FFFFFF")                                  //def
                         .withDividerColor("#11000000")                              //def
                         .withMessage("Do you want to deliver order??")                     //.withMessage(null)  no Msg

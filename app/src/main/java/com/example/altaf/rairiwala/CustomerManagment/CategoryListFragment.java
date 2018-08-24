@@ -95,8 +95,13 @@ public class CategoryListFragment
     }
 
     public void loadCategories() {
-        progressDialog.setMessage("Loading Catgoreis...");
-        progressDialog.show();
+        progressDialog.setMessage("Loading Categories...");
+        if(sqliteDb.size()>0){
+            progressDialog.dismiss();
+        }else{
+            progressDialog.show();
+        }
+
         StringRequest stringRequest = new StringRequest(Request.Method.GET, Constants.URL_GETCATEGORIES,
                 new Response.Listener<String>() {
                     @Override
@@ -118,13 +123,17 @@ public class CategoryListFragment
                                 category_List.add(category);
                             }
                             //creating adapter object and setting it to recyclerview
-                            sqliteDb = category_List;
-                            for (Category category : category_List) {
-                                databaseHandling.insertCategories(category);
+                            if (sqliteDb.size() == 0) {
+                                CategoryListView adapter = new CategoryListView(getActivity(), category_List);
+                                androidListView.setAdapter(adapter);
+                            } else if (category_List.size() > sqliteDb.size()) {
+                                databaseHandling.deleteAllCategories();
+                                for (Category category : category_List) {
+                                    databaseHandling.insertCategories(category);
+                                }
                             }
 
-                            CategoryListView adapter = new CategoryListView(getActivity(), sqliteDb);
-                            androidListView.setAdapter(adapter);
+
                         } catch (JSONException e) {
                             e.printStackTrace();
                             message.setVisibility(View.VISIBLE);

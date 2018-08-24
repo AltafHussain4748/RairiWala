@@ -147,7 +147,7 @@ public class DeliveryPersonHomePage extends AppCompatActivity {
             return true;
         } else if (id == R.id.accountDetailsDp) {
             startActivity(new Intent(DeliveryPersonHomePage.this, AccountDetail.class));
-            this.finish();
+
         }
 
         return super.onOptionsItemSelected(item);

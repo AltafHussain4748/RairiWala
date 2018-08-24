@@ -56,10 +56,7 @@
                     android:id="@+id/extra_information"
                     android:icon="@drawable/add1"
                     android:title="Add Shop Location" />
-                <item
-                    android:id="@+id/deActivateSeller"
-                    android:icon="@drawable/delete"
-                    android:title="DeActivate Account" />
+
             </menu>
         </item>
     </group>

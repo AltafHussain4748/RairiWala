@@ -99,6 +99,7 @@ public class AccountConfirmation extends AppCompatActivity {
                         Intent intent = new Intent(AccountConfirmation.this, UserRegister.class);
                         intent.putExtra("TYPE", type);
                         startActivity(intent);
+                        finish();
                         Toast.makeText(AccountConfirmation.this, "Register again", Toast.LENGTH_SHORT).show();
                     }
                     count--;
