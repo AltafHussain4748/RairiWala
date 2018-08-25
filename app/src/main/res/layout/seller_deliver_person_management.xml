@@ -26,6 +26,7 @@
         android:src="@drawable/addproduct"
         android:layout_margin="10dp"
         app:fabSize="normal"
+        android:tint="@color/white1"
         android:id="@+id/add_delivery_person"
         app:rippleColor="@color/colorAccent" />
 </RelativeLayout>

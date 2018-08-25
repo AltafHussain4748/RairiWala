@@ -58,19 +58,7 @@ public class CategoryListFragment
         message = view.findViewById(R.id.error_message);
         androidListView = view.findViewById(R.id.grid_view_image_text);
         // androidGridView.setAdapter(adapterViewAndroid);
-        androidListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view,
-                                    int i, long id) {
-                Category category = category_List.get(i);
-                Intent intent = new Intent(getActivity(), NearestVendor.class);
-                intent.putExtra("CAT", category.getCategroy_name());
-                startActivity(intent);
-
-
-            }
-        });
         progressDialog = new ProgressDialog(getActivity());
         category_List = new ArrayList<>();
         sqliteDb = new ArrayList<>();
@@ -84,6 +72,24 @@ public class CategoryListFragment
         } else {
             loadCategories();
         }
+        androidListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int i, long id) {
+                Category category;
+                if (sqliteDb.size() > 0) {
+                    category = sqliteDb.get(i);
+                } else {
+                    category = category_List.get(i);
+                }
+                Intent intent = new Intent(getActivity(), NearestVendor.class);
+                intent.putExtra("CAT", category.getCategroy_name());
+                startActivity(intent);
+
+
+            }
+        });
         //end of sqlite databse handler
         return view;
     }
@@ -112,6 +118,7 @@ public class CategoryListFragment
 
                             //converting the string to json array object
                             JSONArray array = new JSONArray(response);
+                            category_List.clear();
                             for (int i = 0; i < array.length(); i++) {
 
                                 //getting product object from json array

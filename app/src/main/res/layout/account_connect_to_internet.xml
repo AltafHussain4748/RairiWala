@@ -11,9 +11,10 @@
         android:id="@+id/img"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerInParent="true"
-        android:layout_marginBottom="40dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="136dp"
         android:src="@drawable/sign" />
 
     <Button
@@ -22,6 +23,7 @@
         android:layout_below="@id/img"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
+        android:layout_marginTop="60dp"
         android:background="@drawable/rounded_button_widget"
         android:onClick="openConnection"
         android:text="Reconnect"

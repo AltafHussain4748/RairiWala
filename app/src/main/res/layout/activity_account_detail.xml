@@ -103,7 +103,6 @@
                 android:layout_margin="10dp"
                 android:text="Deactivate Account"
                 android:textAlignment="center"
-                android:textColor="@color/red"
                 android:textSize="20dp" />
         </RelativeLayout>
 
