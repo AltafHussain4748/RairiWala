@@ -47,9 +47,9 @@ public class CustomerOrderListAdapter extends RecyclerView.Adapter<CustomerOrder
     @Override
     public void onBindViewHolder(CustomerOrderListAdapter.ProductViewHolder holder, final int position) {
         final Order order = orderLists.get(position);
-        holder.textViewname.setText(" "+ order.getCustomerAddress().getName());
-        holder.textViewnumber.setText("House Name:" + order.getCustomerAddress().getHouseName());
-        holder.time.setText("Time "+order.getOrder_time());
+        holder.textViewname.setText(" " + order.getCustomerAddress().getName());
+        holder.textViewnumber.setText("House Name: " + order.getCustomerAddress().getHouseName());
+        holder.time.setText("Time: " + order.getOrder_time());
         holder.order_status.setText("Status: " + order.getOrder_status());
         if (order.getOrder_status().equals("Confirmed")) {
             holder.order_status.setTextColor(Color.GREEN);
