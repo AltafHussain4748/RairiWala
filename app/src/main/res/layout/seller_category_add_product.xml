@@ -2,11 +2,11 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/white1"
     android:orientation="vertical"
     android:textAlignment="center">
     <GridView
-        android:background="@color/home"
+
         android:id="@+id/grid_view_image_text"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

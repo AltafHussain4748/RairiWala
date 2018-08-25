@@ -283,10 +283,6 @@ public class PlaceOrder extends AppCompatActivity implements OnMapReadyCallback 
             builder.create().show();
             return;
         }
-
-        //end of lat long
-        //end of lat long
-
     }
 
     @Override
@@ -351,55 +347,6 @@ public class PlaceOrder extends AppCompatActivity implements OnMapReadyCallback 
 
     }
 
-    public void sendOrder(final String order, final int vendor_id) {
-        if (order != null && vendor_id != 0) {
-            Toast.makeText(this, "Sending order", Toast.LENGTH_SHORT).show();
-            StringRequest stringRequest = new StringRequest(Request.Method.POST,
-                    Constants.PlaceOrder,
-                    new Response.Listener<String>() {
-                        @Override
-                        public void onResponse(String response) {
-                            try {
-                                JSONObject jsonObject = new JSONObject(response);
-
-                                if (jsonObject.getBoolean("error") == false) {
-
-                                    Toast.makeText(PlaceOrder.this, "Your order has been sent successfully", Toast.LENGTH_SHORT).show();
-                                } else {
-                                    Toast.makeText(PlaceOrder.this, jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
-                                }
-
-
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                                Toast.makeText(PlaceOrder.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    },
-                    new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            Toast.makeText(getApplicationContext(), "There was some error.Please try again....", Toast.LENGTH_LONG).show();
-
-                        }
-                    }) {
-                @Override
-                protected Map<String, String> getParams() throws AuthFailureError {
-                    Map<String, String> params = new HashMap<>();
-                    params.put("order", order);
-                    params.put("vendor_id", String.valueOf(vendor_id));
-                    return params;
-                }
-            };
-            //adding our stringrequest to queue
-            Volley.newRequestQueue(this).add(stringRequest);
-        }
-    }
-
-    /*@Override
-    public void onMyLocationClick(@NonNull Location location) {
-        Toast.makeText(this, "Current location:\n" + location, Toast.LENGTH_LONG).show();
-    }*/
     private void getAddress(double lat, double lon) {
         Geocoder geocoder = new Geocoder(this, Locale.getDefault());
 
@@ -452,6 +399,7 @@ public class PlaceOrder extends AppCompatActivity implements OnMapReadyCallback 
 
                         } catch (JSONException e) {
                             e.printStackTrace();
+                            Toast.makeText(PlaceOrder.this, "Some error while sending order request", Toast.LENGTH_SHORT).show();
                         }
                     }
                 },

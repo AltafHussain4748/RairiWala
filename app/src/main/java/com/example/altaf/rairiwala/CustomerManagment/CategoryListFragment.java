@@ -141,18 +141,23 @@ public class CategoryListFragment
 
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            message.setVisibility(View.VISIBLE);
-                            Toast.makeText(getActivity(), "No Category", Toast.LENGTH_SHORT).show();
-                            message.setText("No Category");
+                            if (sqliteDb.size() == 0) {
+
+                                message.setVisibility(View.VISIBLE);
+                                Toast.makeText(getActivity(), "No Category", Toast.LENGTH_SHORT).show();
+                                message.setText("No Category");
+                            }
                         }
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        progressDialog.dismiss();
-                        message.setVisibility(View.VISIBLE);
-                        message.setText("Error while loading the categories");
+                        if (sqliteDb.size() <= 0) {
+                            progressDialog.dismiss();
+                            message.setVisibility(View.VISIBLE);
+                            message.setText("Error while loading the categories");
+                        }
 
                     }
                 });
