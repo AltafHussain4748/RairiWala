@@ -92,7 +92,7 @@ public class CategoryListFragment
         databaseHandling = new DatabaseHandling(getActivity());
         sqliteDb = databaseHandling.getAllCategories();
         notificationsList = new ArrayList<>();
-        vendorList=new ArrayList<>();
+        vendorList = new ArrayList<>();
         if (sqliteDb.size() > 0) {
             CategoryListView adapter = new CategoryListView(getActivity(), (ArrayList<Category>) sqliteDb);
             androidListView.setAdapter(adapter);
@@ -112,9 +112,9 @@ public class CategoryListFragment
                     category = category_List.get(i);
                 }
                 if (user.equals("getNearstVendors")) {
-                   type=category.getCategroy_name().toString();
-                   loadVendors();
-                } else if(user.equals("customerSide")) {
+                    type = category.getCategroy_name().toString();
+                    loadVendors();
+                } else if (user.equals("customerSide")) {
                     Intent intent = new Intent(getActivity(), NearestVendor.class);
                     intent.putExtra("CAT", category.getCategroy_name());
                     startActivity(intent);
@@ -146,7 +146,7 @@ public class CategoryListFragment
                                 if (location != null) {
                                     latitude = location.getLatitude();
                                     longtude = location.getLongitude();
-                                   // loadVendors();
+                                    // loadVendors();
                                 }
                             }
                         }).addOnFailureListener(getActivity(), new OnFailureListener() {
@@ -267,7 +267,7 @@ public class CategoryListFragment
                                 if (location != null) {
                                     latitude = location.getLatitude();
                                     longtude = location.getLongitude();
-                                //    loadVendors();
+                                    //    loadVendors();
                                 } else {
                                     Toast.makeText(getActivity(), "Problem while getting location", Toast.LENGTH_SHORT).show();
                                 }
@@ -284,6 +284,7 @@ public class CategoryListFragment
 
         }
     }
+
     private void loadVendors() {
         if (latitude != 0.0 && longtude != 0.0) {
             if (type != null) {
@@ -330,12 +331,17 @@ public class CategoryListFragment
                                             }
 
                                         }
+                                        if (vendorList.size() > 0) {
 
-                                        Intent intent = new Intent(getActivity(), NearestVendorsMap.class);
-                                        Gson gson = new Gson();
-                                        String vendors = gson.toJson(vendorList);
-                                        intent.putExtra("vendorList", vendors);
-                                        startActivity(intent);
+                                            Intent intent = new Intent(getActivity(), NearestVendorsMap.class);
+                                            Gson gson = new Gson();
+                                            String vendors = gson.toJson(vendorList);
+                                            intent.putExtra("vendorList", vendors);
+                                            intent.putExtra("Category", type);
+                                            startActivity(intent);
+                                        }else{
+                                            Toast.makeText(getActivity(), "No Nearst Vendor", Toast.LENGTH_SHORT).show();
+                                        }
                                     }
 
 

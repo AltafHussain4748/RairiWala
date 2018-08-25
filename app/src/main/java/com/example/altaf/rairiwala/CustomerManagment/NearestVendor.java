@@ -136,6 +136,7 @@ public class NearestVendor extends AppCompatActivity {
                     Gson gson = new Gson();
                     String vendors = gson.toJson(vendorList);
                     intent.putExtra("vendorList", vendors);
+                    intent.putExtra("Category", type);
                     startActivity(intent);
                 } else {
                     Toast.makeText(NearestVendor.this, "No Vendors", Toast.LENGTH_SHORT).show();
