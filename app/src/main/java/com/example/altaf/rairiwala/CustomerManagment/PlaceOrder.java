@@ -268,7 +268,7 @@ public class PlaceOrder extends AppCompatActivity implements OnMapReadyCallback 
                         Toast.makeText(PlaceOrder.this, "" + e.getMessage().toString(), Toast.LENGTH_SHORT).show();
                     }
                 });
-                ;
+
             }
         } else {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);

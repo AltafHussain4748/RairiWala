@@ -168,6 +168,9 @@ public class NotificationFragment extends Fragment {
 
                         startActivity(new Intent(getActivity(), CustomerOrderList.class));
                         Fragment fragment = new CategoryListFragment();
+                        Bundle bundle = new Bundle();
+                        bundle.putString("VALUE", "customerSide");
+                        fragment.setArguments(bundle);
                         FragmentManager fm = getFragmentManager();
                         // create a FragmentTransaction to begin the transaction and replace the Fragment
                         android.app.FragmentTransaction fragmentTransaction = fm.beginTransaction();
@@ -199,6 +202,9 @@ public class NotificationFragment extends Fragment {
                         startActivity(new Intent(getActivity(), CustomerBuyingHistory.class));
                         Fragment fragment = new CategoryListFragment();
                         FragmentManager fm = getFragmentManager();
+                        Bundle bundle = new Bundle();
+                        bundle.putString("VALUE", "customerSide");
+                        fragment.setArguments(bundle);
                         // create a FragmentTransaction to begin the transaction and replace the Fragment
                         android.app.FragmentTransaction fragmentTransaction = fm.beginTransaction();
                         // replace the FrameLayout with new Fragment
@@ -218,6 +224,9 @@ public class NotificationFragment extends Fragment {
                     } else if (deliveryPerson.getTag().equals(NotificationTags.ORDER_REJECTED)) {
                         startActivity(new Intent(getActivity(), CustomerOrderList.class));
                         Fragment fragment = new CategoryListFragment();
+                        Bundle bundle = new Bundle();
+                        bundle.putString("VALUE", "customerSide");
+                        fragment.setArguments(bundle);
                         FragmentManager fm = getFragmentManager();
                         // create a FragmentTransaction to begin the transaction and replace the Fragment
                         android.app.FragmentTransaction fragmentTransaction = fm.beginTransaction();
