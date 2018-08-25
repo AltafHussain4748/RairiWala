@@ -81,7 +81,7 @@ public class OrderDetail extends AppCompatActivity {
             order = gson.fromJson(jsonString, listOfproductType);
             if (order.getOrder_status().equals("Confirmed") && (rule.equals("seller"))) {
                 confirm.setVisibility(View.GONE);
-            } else if (order.getOrder_status().equals("ASSIGNED") && (rule.equals("seller") || rule.equals("dp"))) {
+            } else if ((order.getOrder_status().equals("ASSIGNED") || order.getOrder_status().equals("NEW") || order.getOrder_status().equals("Confirmed")) && (rule.equals("seller") || rule.equals("dp"))) {
 
 
                 confirm.setVisibility(View.GONE);
@@ -94,6 +94,7 @@ public class OrderDetail extends AppCompatActivity {
                         startActivity(intent);
                     }
                 });
+
 
             }
             if (rule.equals("customer_hide")) {
