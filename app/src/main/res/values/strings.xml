@@ -46,4 +46,7 @@
     <string name="forget_password">Forget Password?</string>
     <string name="title_activity_password_recovery">PasswordRecovery</string>
     <string name="title_activity_update_password">UpdatePassword</string>
+    <string name="title_activity_nearst_vendors_before_registration">
+        NearstVendorsBeforeRegistration
+    </string>
 </resources>

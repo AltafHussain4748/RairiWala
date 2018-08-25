@@ -151,6 +151,10 @@
         <activity
             android:name=".AccountManagment.UpdatePassword"
             android:label="@string/title_activity_update_password"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".AccountManagment.NearstVendorsBeforeRegistration"
+            android:label="@string/title_activity_nearst_vendors_before_registration"
             android:theme="@style/AppTheme"></activity>
     </application>
 

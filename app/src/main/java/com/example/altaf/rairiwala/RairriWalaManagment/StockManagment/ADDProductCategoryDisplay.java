@@ -57,7 +57,12 @@ public class ADDProductCategoryDisplay extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int i, long id) {
-                Category category = sqliteDb.get(i);
+                Category category;
+                if (sqliteDb.size() > 0) {
+                    category = sqliteDb.get(i);
+                } else {
+                    category = category_List.get(i);
+                }
                 Intent intent = new Intent(getActivity(), SellerAddProduct.class);
                 intent.putExtra("CategoryId", category.getCategroy_id());
                 intent.putExtra("CATNAME", category.getCategroy_name());
@@ -71,9 +76,9 @@ public class ADDProductCategoryDisplay extends Fragment {
         databaseHandling = new DatabaseHandling(getActivity());
         sqliteDb = databaseHandling.getAllCategories();
         if (sqliteDb.size() > 0) {
-            Category category = sqliteDb.get(0);
             CategoryListView adapter = new CategoryListView(getActivity(), (ArrayList<Category>) sqliteDb);
             androidListView.setAdapter(adapter);
+            loadCategories();
         } else {
             loadCategories();
         }
@@ -99,6 +104,7 @@ public class ADDProductCategoryDisplay extends Fragment {
                             progressDialog.dismiss();
                             //converting the string to json array object
                             JSONArray array = new JSONArray(response);
+                            category_List.clear();
                             for (int i = 0; i < array.length(); i++) {
 
                                 //getting product object from json array
@@ -112,13 +118,19 @@ public class ADDProductCategoryDisplay extends Fragment {
                             }
 
                             //creating adapter object and setting it to recyclerview
-                            //creating adapter object and setting it to recyclerview
-                            sqliteDb = category_List;
-                            for (Category category : category_List) {
-                                databaseHandling.insertCategories(category);
+                            if (sqliteDb.size() == 0) {
+                                CategoryListView adapter = new CategoryListView(getActivity(), category_List);
+                                androidListView.setAdapter(adapter);
+                                databaseHandling.deleteAllCategories();
+                                for (Category category : category_List) {
+                                    databaseHandling.insertCategories(category);
+                                }
+                            } else if (category_List.size() != sqliteDb.size()) {
+                                databaseHandling.deleteAllCategories();
+                                for (Category category : category_List) {
+                                    databaseHandling.insertCategories(category);
+                                }
                             }
-                            CategoryListView adapter = new CategoryListView(getActivity(), (ArrayList<Category>) category_List);
-                            androidListView.setAdapter(adapter);
                         } catch (JSONException e) {
                             e.printStackTrace();
                             Toast.makeText(getActivity(), "No Product", Toast.LENGTH_SHORT).show();
@@ -129,7 +141,12 @@ public class ADDProductCategoryDisplay extends Fragment {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         progressDialog.dismiss();
-                        Toast.makeText(getActivity(), "Error while loading the products", Toast.LENGTH_SHORT).show();
+                        if (sqliteDb.size() == 0) {
+
+
+                            Toast.makeText(getActivity(), "No Category", Toast.LENGTH_SHORT).show();
+
+                        }
                     }
                 });
 

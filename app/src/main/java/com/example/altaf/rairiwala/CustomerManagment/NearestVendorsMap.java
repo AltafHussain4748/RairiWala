@@ -106,7 +106,7 @@ public class NearestVendorsMap extends FragmentActivity implements OnMapReadyCal
                                                 mMap.addMarker(new MarkerOptions().position(new LatLng(vendor.getLatitude(), vendor.getLongitude())).title(vendor.getName()));
                                             }
 
-                                            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 13));
+                                            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
                                         } catch (Exception e) {
                                             Toast.makeText(NearestVendorsMap.this, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
                                         }
@@ -158,7 +158,7 @@ public class NearestVendorsMap extends FragmentActivity implements OnMapReadyCal
                                             mMap.addMarker(new MarkerOptions().position(new LatLng(vendor.getLatitude(), vendor.getLongitude())).title(vendor.getName()));
                                         }
 
-                                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 13));
+                                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
                                     } catch (Exception e) {
                                         Toast.makeText(NearestVendorsMap.this, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
                                     }

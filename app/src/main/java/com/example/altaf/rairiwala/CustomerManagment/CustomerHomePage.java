@@ -74,6 +74,9 @@ public class CustomerHomePage extends AppCompatActivity {
         // create a FragmentTransaction to begin the transaction and replace the Fragment
         android.app.FragmentTransaction fragmentTransaction = fm.beginTransaction();
         // replace the FrameLayout with new Fragment
+        Bundle bundle = new Bundle();
+        bundle.putString("VALUE", "customerSide");
+        fragment.setArguments(bundle);
         fragmentTransaction.replace(R.id.frameLayout, fragment);
         fragmentTransaction.commit();
         LocalBroadcastManager.getInstance(this).registerReceiver(

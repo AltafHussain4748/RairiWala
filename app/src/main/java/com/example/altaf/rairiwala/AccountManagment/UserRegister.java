@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -42,6 +43,7 @@ public class UserRegister extends AppCompatActivity {
     Button btn;
     boolean isVerified = false;
     ProgressDialog progressDialog;
+    TextView nearstVendors;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +52,16 @@ public class UserRegister extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
         final String type = bundle.getString("TYPE");
         progressDialog = new ProgressDialog(UserRegister.this);
-
+        nearstVendors = findViewById(R.id.nearestVendorsBeforeRegistration);
+        if (type.equals("SELLER")) {
+            nearstVendors.setVisibility(View.VISIBLE);
+        }
+        nearstVendors.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(UserRegister.this, NearstVendorsBeforeRegistration.class));
+            }
+        });
         phone_number = findViewById(R.id.sign_up_phone_number);
         btn = findViewById(R.id.signup_btn);
         pin = findViewById(R.id.sign_up_pin);
