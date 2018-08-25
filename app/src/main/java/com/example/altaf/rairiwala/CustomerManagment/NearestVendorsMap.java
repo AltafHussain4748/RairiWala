@@ -236,7 +236,7 @@ public class NearestVendorsMap extends FragmentActivity implements OnMapReadyCal
                             @Override
                             public void onResponse(String response) {
                                 try {
-                                    List<Vendor> vendorList1=new ArrayList<>();
+                                    List<Vendor> vendorList1 = new ArrayList<>();
                                     progressDialog.dismiss();
                                     JSONArray array = new JSONArray(response);
 
@@ -263,7 +263,7 @@ public class NearestVendorsMap extends FragmentActivity implements OnMapReadyCal
 
                                         }
                                         try {
-                                            Toast.makeText(NearestVendorsMap.this, "Nears Vendors are "+vendorList1.size(), Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(NearestVendorsMap.this, "Nears Vendors are " + vendorList1.size(), Toast.LENGTH_SHORT).show();
 
                                             mMap.clear();
 

@@ -347,8 +347,7 @@ public class CategoryListFragment
 
                                 } catch (JSONException e) {
                                     e.printStackTrace();
-                                    message.setVisibility(View.VISIBLE);
-                                    message.setText("No Sellers Selling this product");
+                                    Toast.makeText(getActivity(), "No Sellers selling this product", Toast.LENGTH_SHORT).show();
                                 }
                             }
                         },
@@ -356,8 +355,6 @@ public class CategoryListFragment
                             @Override
                             public void onErrorResponse(VolleyError error) {
                                 progressDialog.dismiss();
-                                message.setVisibility(View.VISIBLE);
-                                message.setText(error.getMessage());
                                 Toast.makeText(getActivity(), error.getMessage(), Toast.LENGTH_SHORT).show();
                             }
                         })
