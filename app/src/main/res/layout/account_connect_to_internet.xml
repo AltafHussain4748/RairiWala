@@ -7,15 +7,25 @@
     android:background="@color/white"
     tools:context="com.example.altaf.rairiwala.AccountManagment.ConnectToInternet">
 
-    <Button
+    <ImageView
+        android:id="@+id/img"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="40dp"
+        android:src="@drawable/sign" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/img"
+        android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:text="Reconnect"
         android:background="@drawable/rounded_button_widget"
-        android:textSize="25dp"
+        android:onClick="openConnection"
+        android:text="Reconnect"
         android:textAlignment="center"
         android:textColor="@color/red"
-        android:onClick="openConnection"/>
+        android:textSize="25dp" />
 </RelativeLayout>

@@ -131,7 +131,7 @@ public class CategoryListFragment
                                 for (Category category : category_List) {
                                     databaseHandling.insertCategories(category);
                                 }
-                            } else if (category_List.size() > sqliteDb.size()) {
+                            } else if (category_List.size() != sqliteDb.size()) {
                                 databaseHandling.deleteAllCategories();
                                 for (Category category : category_List) {
                                     databaseHandling.insertCategories(category);
