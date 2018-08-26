@@ -414,14 +414,14 @@ public class PlaceOrder extends AppCompatActivity implements OnMapReadyCallback 
         );
 
         // Add JsonObjectRequest to the RequestQueue
-
-        requestQueue.add(jsonObjectRequest);
         jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
-                        120000,
+                        60000,
                         DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                         DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
                 )
         );
+        requestQueue.add(jsonObjectRequest);
+
 
     }
 }
