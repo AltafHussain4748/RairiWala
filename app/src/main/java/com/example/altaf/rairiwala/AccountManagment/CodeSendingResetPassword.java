@@ -62,7 +62,7 @@ public class CodeSendingResetPassword extends Fragment {
               phoneNumber = "+92" + verifyNumber.getText().toString();
                 //start of phone number verification
                 if (phoneNumber.length() == 13) {
-                    progressDialog.setMessage("Sending verification code...");
+                    progressDialog.setMessage("Please wait...");
                     progressDialog.setCancelable(false);
                     progressDialog.show();
                     //String request start
@@ -84,6 +84,9 @@ public class CodeSendingResetPassword extends Fragment {
                                                     java.util.concurrent.TimeUnit.SECONDS,
                                                     getActivity(),
                                                     mCallbacks);
+                                            progressDialog.setMessage("Sending verification code...");
+                    progressDialog.setCancelable(false);
+                    progressDialog.show();
 
                                         } else if (jsonObject.getString("message").equals("DONOTEXISTS")) {
                                             Toast.makeText(getActivity(), "User Not Registered", Toast.LENGTH_SHORT).show();
@@ -128,8 +131,8 @@ public class CodeSendingResetPassword extends Fragment {
         mCallbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
             @Override
             public void onVerificationCompleted(PhoneAuthCredential phoneAuthCredential) {
-              /*  progressDialog.dismiss();
-                Toast.makeText(UserRegister.this, "VerificationComplete" + "\n" + phone_number.getText() + name.getText() + pin.getText(), Toast.LENGTH_SHORT).show();
+                progressDialog.dismiss();
+              /*  Toast.makeText(UserRegister.this, "VerificationComplete" + "\n" + phone_number.getText() + name.getText() + pin.getText(), Toast.LENGTH_SHORT).show();
                 // Log.d(TAG, "onVerificationCompleted:" + credential);
                 mVerificationInProgress = false;*/
                 isVerified = true;
@@ -171,6 +174,7 @@ public class CodeSendingResetPassword extends Fragment {
                     args.putString("PHONE", phoneNumber);
                     fragment.setArguments(args);
                     fragmentTransaction.commit(); // save the changes
+                    isVerified=false;
                 }
 
 

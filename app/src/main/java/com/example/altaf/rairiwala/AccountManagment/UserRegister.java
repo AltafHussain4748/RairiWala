@@ -96,6 +96,9 @@ public class UserRegister extends AppCompatActivity {
                                                             java.util.concurrent.TimeUnit.SECONDS,
                                                             UserRegister.this,
                                                             mCallbacks);
+                                                    progressDialog.setMessage("Sending Verification code...");
+                            progressDialog.setCancelable(false);
+                            progressDialog.show();
                                                 } else {
                                                     Toast.makeText(UserRegister.this, "User Already rEGISTERED", Toast.LENGTH_SHORT).show();
                                                 }
@@ -149,10 +152,12 @@ public class UserRegister extends AppCompatActivity {
         mCallbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
             @Override
             public void onVerificationCompleted(PhoneAuthCredential phoneAuthCredential) {
-              /*  progressDialog.dismiss();
-                Toast.makeText(UserRegister.this, "VerificationComplete" + "\n" + phone_number.getText() + name.getText() + pin.getText(), Toast.LENGTH_SHORT).show();
+
+              progressDialog.dismiss();
+              /*    Toast.makeText(UserRegister.this, "VerificationComplete" + "\n" + phone_number.getText() + name.getText() + pin.getText(), Toast.LENGTH_SHORT).show();
                 // Log.d(TAG, "onVerificationCompleted:" + credential);
                 mVerificationInProgress = false;*/
+
                 isVerified = true;
 
             }

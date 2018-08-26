@@ -97,7 +97,7 @@ public class OrderDetail extends AppCompatActivity {
 
 
             }
-            if (order.getOrder_status().equals("NEW") && rule.equals("seller")) {
+            if(order.getOrder_status().equals("NEW")&&rule.equals("seller")){
                 confirm.setVisibility(View.VISIBLE);
             }
             if (rule.equals("customer_hide")) {
@@ -195,12 +195,6 @@ public class OrderDetail extends AppCompatActivity {
                 return params;
             }
         };
-        stringRequest.setRetryPolicy(new DefaultRetryPolicy(
-                        60000,
-                        DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                        DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
-                )
-        );
         RequestHandler.getInstance(OrderDetail.this).addToRequestQueue(stringRequest);
     }
 
