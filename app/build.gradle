@@ -51,6 +51,7 @@ dependencies {
     implementation 'com.github.clans:fab:1.6.4'
     implementation 'com.github.sd6352051:NiftyDialogEffects:v1.0.3'
     implementation 'com.akexorcist:googledirectionlibrary:1.1.1'
+    implementation 'com.squareup.picasso:picasso:2.71828'
 
 }
 apply plugin: 'com.google.gms.google-services'

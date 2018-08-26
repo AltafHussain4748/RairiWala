@@ -56,7 +56,7 @@ public class CategoryListView extends BaseAdapter {
             gridViewAndroid = new View(mContext);
             gridViewAndroid = inflater.inflate(R.layout.category_list_view, null);
             TextView textViewAndroid = (TextView) gridViewAndroid.findViewById(R.id.android_gridview_text);
-            ImageView imageViewAndroid =  gridViewAndroid.findViewById(R.id.category_image);
+            ImageView imageViewAndroid = gridViewAndroid.findViewById(R.id.category_image);
             textViewAndroid.setText(category.getCategroy_name());
             //  imageViewAndroid.setImageResource(gridViewImageId[i]);
             //Lloading image

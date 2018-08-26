@@ -97,6 +97,9 @@ public class OrderDetail extends AppCompatActivity {
 
 
             }
+            if(order.getOrder_status().equals("NEW")&&rule.equals("seller")){
+                confirm.setVisibility(View.VISIBLE);
+            }
             if (rule.equals("customer_hide")) {
                 confirm.setVisibility(View.GONE);
                 fab.setVisibility(View.GONE);
