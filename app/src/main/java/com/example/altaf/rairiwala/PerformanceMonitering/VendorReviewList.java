@@ -296,7 +296,7 @@ public class VendorReviewList extends AppCompatActivity {
     @Override
     protected void onRestart() {
         super.onRestart();
-        feedBackList.clear();
+       // feedBackList.clear();
         loadReviews(vendor_id);
         adapter.notifyDataSetChanged();
     }

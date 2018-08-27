@@ -5,6 +5,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.provider.Settings;
 import android.support.v4.app.NotificationCompat;
 import android.widget.Toast;
 
@@ -125,21 +126,22 @@ public class SaveToken {
                                 }
                             }
                             if (isShort) {
-                                Intent i = new Intent(context, SellerHomePage.class);
-                                //   i.putExtra("order", orderString);
+                                Intent i = new Intent(context, AppStartUpPage.class);
+                                i.putExtra("order", "hi");
                                 i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, i, PendingIntent.FLAG_UPDATE_CURRENT);
                                 NotificationCompat.Builder builder = new NotificationCompat.Builder(context)
+                                        .setSmallIcon(R.drawable.delete)
+                                        .setSound(Settings.System.DEFAULT_RINGTONE_URI)
+                                        .setContentTitle("Reminder Notification")
                                         .setAutoCancel(true)
-                                        .setContentTitle("Lack of stock")
-                                        .setContentText("Some products have lack of stock")
-                                        .setSmallIcon(R.drawable.cartt)
                                         .setContentIntent(pendingIntent)
-                                        .setDefaults(Notification.DEFAULT_VIBRATE);
+                                        .setContentText("Time is Up, Click to Trake Youre Bus");
 
-                                NotificationManager manager = (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
+                                NotificationManager mNotificationManager = (NotificationManager)
+                                        context.getSystemService(Context.NOTIFICATION_SERVICE);
+                                mNotificationManager.notify(1, builder.build());
 
-                                manager.notify(0, builder.build());
                                 Toast.makeText(context, "Notification", Toast.LENGTH_SHORT).show();
                             }
                             //  stopService(intent);

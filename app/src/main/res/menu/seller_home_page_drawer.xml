@@ -35,7 +35,7 @@
                 <item
                     android:id="@+id/add_delivery_person"
                     android:icon="@drawable/addproduct"
-                    android:title="Deliver Persons" />
+                    android:title="Delivery Persons" />
             </menu>
         </item>
         <item android:title="Reviews">

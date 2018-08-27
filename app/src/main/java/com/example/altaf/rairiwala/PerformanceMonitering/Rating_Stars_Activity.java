@@ -83,10 +83,7 @@ public class Rating_Stars_Activity extends AppCompatActivity {
         int d = item.getItemId();
         if (d == android.R.id.home) {
             this.finish();
-            Intent intent = new Intent(this, VendorReviewList.class);
-            intent.putExtra("vendor_id",vendor_id);
-            intent.putExtra("role", "customer");
-            this.startActivity(intent);
+
         }
         return super.onOptionsItemSelected(item);
     }

@@ -68,7 +68,7 @@ public class StarRatingFragment extends Fragment {
         } else if (type.equals("QUANTITY")) {
             typeOfReview.setText("Always Deliverd Ordered quantity?");
         } else if (type.equals("PRICE")) {
-            typeOfReview.setText("Are this vendor prices are lower than others?");
+            typeOfReview.setText("Is this vendor prices are lower than others?");
         }
         Button mSendFeedback = (Button) view.findViewById(R.id.btnSubmit);
         mRatingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
