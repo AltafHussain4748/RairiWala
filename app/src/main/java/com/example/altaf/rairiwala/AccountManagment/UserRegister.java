@@ -97,8 +97,8 @@ public class UserRegister extends AppCompatActivity {
                                                             UserRegister.this,
                                                             mCallbacks);
                                                     progressDialog.setMessage("Sending Verification code...");
-                            progressDialog.setCancelable(false);
-                            progressDialog.show();
+                                                    progressDialog.setCancelable(false);
+                                                    progressDialog.show();
                                                 } else {
                                                     Toast.makeText(UserRegister.this, "User Already rEGISTERED", Toast.LENGTH_SHORT).show();
                                                 }
@@ -153,7 +153,7 @@ public class UserRegister extends AppCompatActivity {
             @Override
             public void onVerificationCompleted(PhoneAuthCredential phoneAuthCredential) {
 
-              progressDialog.dismiss();
+                progressDialog.dismiss();
               /*    Toast.makeText(UserRegister.this, "VerificationComplete" + "\n" + phone_number.getText() + name.getText() + pin.getText(), Toast.LENGTH_SHORT).show();
                 // Log.d(TAG, "onVerificationCompleted:" + credential);
                 mVerificationInProgress = false;*/
