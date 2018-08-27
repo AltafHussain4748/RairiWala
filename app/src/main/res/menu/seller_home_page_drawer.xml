@@ -56,6 +56,10 @@
                     android:id="@+id/extra_information"
                     android:icon="@drawable/add1"
                     android:title="Add Shop Location" />
+                <item
+                    android:id="@+id/logout"
+                    android:icon="@drawable/ic_menu_send"
+                    android:title="Logout" />
 
             </menu>
         </item>

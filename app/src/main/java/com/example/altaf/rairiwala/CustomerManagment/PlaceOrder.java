@@ -33,6 +33,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.altaf.rairiwala.AccountManagment.AppStartUpPage;
 import com.example.altaf.rairiwala.Models.CustomerAddress;
 import com.example.altaf.rairiwala.Models.Order;
 import com.example.altaf.rairiwala.Models.Product;
@@ -393,6 +394,8 @@ public class PlaceOrder extends AppCompatActivity implements OnMapReadyCallback 
                         try {
                             if (response.getBoolean("error") == false) {
 
+                                startActivity(new Intent(PlaceOrder.this, AppStartUpPage.class));
+                                finish();
                                 Toast.makeText(PlaceOrder.this, "Your order has been sent successfully", Toast.LENGTH_SHORT).show();
                             } else {
                                 Toast.makeText(PlaceOrder.this, response.getString("message"), Toast.LENGTH_SHORT).show();

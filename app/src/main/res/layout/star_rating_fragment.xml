@@ -5,6 +5,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <TextView
+        android:id="@+id/typeOfReview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="TYPE"
+        android:layout_above="@id/tvRatingScale"
+        android:textAlignment="center"
+        android:layout_marginBottom="20dp"
+        android:textSize="20dp"/>
 
     <RatingBar
         android:id="@+id/ratingBar"

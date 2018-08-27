@@ -305,15 +305,7 @@ public class SellerHomePage extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.logout) {
-            SharedPrefManager.getInstance(SellerHomePage.this).logOut();
-            startActivity(new Intent(this, UserLogin.class));
-            DatabaseHandling handling = new DatabaseHandling(this);
-            handling.deleteAllCategories();
-            finishAffinity();
-            this.finish();
-            return true;
-        } else if (id == R.id.show_status) {
+        if (id == R.id.show_status) {
             Switch status = findViewById(R.id.shop_status);
             Toast.makeText(SellerHomePage.this, "   Changed", Toast.LENGTH_SHORT).show();
             status.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -402,6 +394,14 @@ public class SellerHomePage extends AppCompatActivity
                     intent.putExtra("role", "seller");
                     startActivity(intent);
                 }
+            } else if (id == R.id.logout) {
+                SharedPrefManager.getInstance(SellerHomePage.this).logOut();
+                startActivity(new Intent(this, UserLogin.class));
+                DatabaseHandling handling = new DatabaseHandling(this);
+                handling.deleteAllCategories();
+                finishAffinity();
+                this.finish();
+                return true;
             }
 //replace the current fragment
             if (fragment != null) {

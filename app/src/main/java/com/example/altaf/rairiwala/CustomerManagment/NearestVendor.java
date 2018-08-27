@@ -24,6 +24,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -213,8 +214,8 @@ public class NearestVendor extends AppCompatActivity {
                             public void onErrorResponse(VolleyError error) {
                                 progressDialog.dismiss();
                                 message.setVisibility(View.VISIBLE);
-                                message.setText(error.getMessage());
-                                Toast.makeText(NearestVendor.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+                                message.setText(error.getMessage()+"Error Please try again");
+                                Toast.makeText(NearestVendor.this, error.getMessage()+"Error Please try again", Toast.LENGTH_SHORT).show();
                             }
                         })
 
@@ -231,6 +232,13 @@ public class NearestVendor extends AppCompatActivity {
                 };
 
                 //adding our stringrequest to queue
+                // Add JsonObjectRequest to the RequestQueue
+                stringRequest.setRetryPolicy(new DefaultRetryPolicy(
+                                10*000,
+                                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+                        )
+                );
                 Volley.newRequestQueue(this).add(stringRequest);
             } else {
                 Toast.makeText(this, "Some Error", Toast.LENGTH_SHORT).show();
@@ -282,6 +290,7 @@ public class NearestVendor extends AppCompatActivity {
         int d = item.getItemId();
         if (d == android.R.id.home) {
             this.finish();
+
         }
         return super.onOptionsItemSelected(item);
     }

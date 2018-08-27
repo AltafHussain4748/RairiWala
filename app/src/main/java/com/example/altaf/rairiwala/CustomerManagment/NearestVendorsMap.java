@@ -18,6 +18,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -275,7 +276,7 @@ public class NearestVendorsMap extends FragmentActivity implements OnMapReadyCal
                                             LatLng latLng1 = new LatLng(latitude, longtude);
                                             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng1, 15));
                                         } catch (Exception e) {
-                                            Toast.makeText(NearestVendorsMap.this, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(NearestVendorsMap.this, "" + e.getMessage()+"Error please try...", Toast.LENGTH_SHORT).show();
                                         }
 
                                     }
@@ -307,7 +308,12 @@ public class NearestVendorsMap extends FragmentActivity implements OnMapReadyCal
                         return params;
                     }
                 };
-
+                stringRequest.setRetryPolicy(new DefaultRetryPolicy(
+                                10*000,
+                                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+                        )
+                );
                 //adding our stringrequest to queue
                 Volley.newRequestQueue(NearestVendorsMap.this).add(stringRequest);
             } else {

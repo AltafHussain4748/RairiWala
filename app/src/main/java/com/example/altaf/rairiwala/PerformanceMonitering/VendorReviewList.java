@@ -47,7 +47,7 @@ public class VendorReviewList extends AppCompatActivity {
     String roleTytpe;
     TextView responseTime, price_reviewcount, quantity_reviewcount, quality_reviewcount;
     RatingBar price, quality, quantity;
-
+    ReviewListAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,11 +76,9 @@ public class VendorReviewList extends AppCompatActivity {
         price_reviewcount = findViewById(R.id.priceRating);
         quantity_reviewcount = findViewById(R.id.quantityRating);
         quality_reviewcount = findViewById(R.id.qualityRating);
-        if (SharedPrefManager.getInstance(this).getAverageTime() == 0 || SharedPrefManager.getInstance(this).getAverageTime() < 0) {
+
             getResponseTime(vendor_id);
-        } else {
-            responseTime.setText(SharedPrefManager.getInstance(this).getAverageTime() + " Minutes");
-        }
+
         loadReviews(vendor_id);
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -143,7 +141,7 @@ public class VendorReviewList extends AppCompatActivity {
 
                             }
 
-                            ReviewListAdapter adapter = new ReviewListAdapter(VendorReviewList.this, feedBackList);
+                             adapter = new ReviewListAdapter(VendorReviewList.this, feedBackList);
                             recyclerView.setAdapter(adapter);
                             recyclerView.scrollToPosition(count);
                             adapter.notifyDataSetChanged();
@@ -255,7 +253,7 @@ public class VendorReviewList extends AppCompatActivity {
                             JSONObject jsonObject = new JSONObject(response);
                             if (jsonObject.getBoolean("error") == false) {
                                 responseTime.setText(jsonObject.getString("message") + " Minutes");
-                                SharedPrefManager.getInstance(VendorReviewList.this).saveAverageTime(Integer.parseInt(jsonObject.getString("message")));
+                            //    SharedPrefManager.getInstance(VendorReviewList.this).saveAverageTime(Integer.parseInt(jsonObject.getString("message")));
                             } else {
                                 responseTime.setText(jsonObject.getString("message"));
                             }
@@ -293,5 +291,13 @@ public class VendorReviewList extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
         this.finish();
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        feedBackList.clear();
+        loadReviews(vendor_id);
+        adapter.notifyDataSetChanged();
     }
 }

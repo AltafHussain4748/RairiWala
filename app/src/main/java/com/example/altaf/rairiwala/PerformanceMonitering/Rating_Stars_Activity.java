@@ -1,5 +1,6 @@
 package com.example.altaf.rairiwala.PerformanceMonitering;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -82,6 +83,10 @@ public class Rating_Stars_Activity extends AppCompatActivity {
         int d = item.getItemId();
         if (d == android.R.id.home) {
             this.finish();
+            Intent intent = new Intent(this, VendorReviewList.class);
+            intent.putExtra("vendor_id",vendor_id);
+            intent.putExtra("role", "customer");
+            this.startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
     }
@@ -90,5 +95,6 @@ public class Rating_Stars_Activity extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
         this.finish();
+
     }
 }

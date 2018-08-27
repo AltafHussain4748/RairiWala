@@ -53,20 +53,24 @@ public class CustomerOrderListAdapter extends RecyclerView.Adapter<CustomerOrder
         holder.order_status.setText("Status: " + order.getOrder_status());
         if (order.getOrder_status().equals("Confirmed")) {
             holder.order_status.setTextColor(Color.GREEN);
+            holder.order_status.setText("Your order is confirmed");
         } else if (order.getOrder_status().equals("Rejected")) {
             holder.order_status.setTextColor(Color.RED);
             Resources resources = mCtx.getResources();
             Drawable image = resources.getDrawable(R.drawable.delete);
             holder.imageView.setImageDrawable(image);
+            holder.order_status.setText("Your order is rejected");
             //
         } else if (order.getOrder_status().equals("ASSIGNED")) {
             holder.order_status.setTextColor(Color.BLUE);
+            holder.order_status.setText("Your order is on the way");
             Resources resources = mCtx.getResources();
             Drawable image = resources.getDrawable(R.drawable.dp);
             holder.imageView.setImageDrawable(image);
 
         } else if (order.getOrder_status().equals("NEW")) {
             holder.order_status.setTextColor(Color.BLUE);
+            holder.order_status.setText("Your order is not confirmed yet");
             Resources resources = mCtx.getResources();
             Drawable image = resources.getDrawable(R.drawable.neworder);
             holder.imageView.setImageDrawable(image);

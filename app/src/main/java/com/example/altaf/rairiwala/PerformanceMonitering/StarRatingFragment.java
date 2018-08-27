@@ -5,7 +5,9 @@ package com.example.altaf.rairiwala.PerformanceMonitering;
  */
 
 import android.os.Bundle;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,6 +40,8 @@ public class StarRatingFragment extends Fragment {
     View view;
     String type;
     int vendor_id = 0;
+    TextView typeOfReview;
+    BottomNavigationView bottomNavigationView;
 
 
     @Override
@@ -56,6 +60,16 @@ public class StarRatingFragment extends Fragment {
         final RatingBar mRatingBar = (RatingBar) view.findViewById(R.id.ratingBar);
         final TextView mRatingScale = (TextView) view.findViewById(R.id.tvRatingScale);
         final EditText mFeedback = (EditText) view.findViewById(R.id.etFeedback);
+        bottomNavigationView = (BottomNavigationView)
+                getActivity().findViewById(R.id.navigation);
+        typeOfReview = view.findViewById(R.id.typeOfReview);
+        if (type.equals("QUALITY")) {
+            typeOfReview.setText("Does vendor sell quality products?");
+        } else if (type.equals("QUANTITY")) {
+            typeOfReview.setText("Always Deliverd Ordered quantity?");
+        } else if (type.equals("PRICE")) {
+            typeOfReview.setText("Are this vendor prices are lower than others?");
+        }
         Button mSendFeedback = (Button) view.findViewById(R.id.btnSubmit);
         mRatingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
@@ -105,6 +119,32 @@ public class StarRatingFragment extends Fragment {
                             JSONObject jsonObject = new JSONObject(response);
                             if (jsonObject.getBoolean("error") == false) {
                                 Toast.makeText(getActivity(), "" + jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
+                                Fragment selectedFragment = null;
+                                Bundle bundle = new Bundle();
+                                if (type.equals("QUALITY")) {
+
+                                    selectedFragment = new StarRatingFragment();
+                                    bundle.putString("rule", "QUANTITY");
+                                    bundle.putInt("vendor_id", vendor_id);
+                                    selectedFragment.setArguments(bundle);
+
+                                    View view1 = bottomNavigationView.findViewById(R.id.action_item2);
+                                    view1.performClick();
+                                } else if (type.equals("QUANTITY")) {
+                                    selectedFragment = new StarRatingFragment();
+                                    bundle.putString("rule", "PRICE");
+                                    bundle.putInt("vendor_id", vendor_id);
+                                    selectedFragment.setArguments(bundle);
+
+                                    View view1 = bottomNavigationView.findViewById(R.id.action_item3);
+                                    view1.performClick();
+                                }
+                                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                                if(selectedFragment!=null){
+                                    transaction.replace(R.id.frame_layout, selectedFragment);
+                                    transaction.commit();
+                                }
+
                             } else {
                                 Toast.makeText(getActivity(), "" + jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
                             }
