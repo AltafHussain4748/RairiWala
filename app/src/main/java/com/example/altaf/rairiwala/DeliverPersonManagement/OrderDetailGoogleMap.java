@@ -208,7 +208,7 @@ public class OrderDetailGoogleMap extends FragmentActivity implements OnMapReady
                             mMap.addMarker(new MarkerOptions().position(destination));
 
                             ArrayList<LatLng> directionPositionList = route.getLegList().get(0).getDirectionPoint();
-                            mMap.addPolyline(DirectionConverter.createPolyline(OrderDetailGoogleMap.this, directionPositionList, 5, Color.GREEN));
+                            mMap.addPolyline(DirectionConverter.createPolyline(OrderDetailGoogleMap.this, directionPositionList, 8, Color.BLUE));
                             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(origin, 14));
                         } else {
 
