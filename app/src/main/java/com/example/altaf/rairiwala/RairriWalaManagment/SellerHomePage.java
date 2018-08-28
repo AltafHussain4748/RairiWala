@@ -460,5 +460,9 @@ public class SellerHomePage extends AppCompatActivity
         SharedPrefManagerFirebase.getInstance(this).saveActivityStateSellerHomePage(false);
     }
 
-
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        vendor_id = SharedPrefManager.getInstance(this).getSeller().getVendor_id();
+    }
 }

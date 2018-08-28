@@ -77,7 +77,7 @@ public class VendorReviewList extends AppCompatActivity {
         quantity_reviewcount = findViewById(R.id.quantityRating);
         quality_reviewcount = findViewById(R.id.qualityRating);
 
-            getResponseTime(vendor_id);
+        getResponseTime(vendor_id);
 
         loadReviews(vendor_id);
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -141,7 +141,7 @@ public class VendorReviewList extends AppCompatActivity {
 
                             }
 
-                             adapter = new ReviewListAdapter(VendorReviewList.this, feedBackList);
+                            adapter = new ReviewListAdapter(VendorReviewList.this, feedBackList);
                             recyclerView.setAdapter(adapter);
                             recyclerView.scrollToPosition(count);
                             adapter.notifyDataSetChanged();
@@ -253,7 +253,7 @@ public class VendorReviewList extends AppCompatActivity {
                             JSONObject jsonObject = new JSONObject(response);
                             if (jsonObject.getBoolean("error") == false) {
                                 responseTime.setText(jsonObject.getString("message") + " Minutes");
-                            //    SharedPrefManager.getInstance(VendorReviewList.this).saveAverageTime(Integer.parseInt(jsonObject.getString("message")));
+                                //    SharedPrefManager.getInstance(VendorReviewList.this).saveAverageTime(Integer.parseInt(jsonObject.getString("message")));
                             } else {
                                 responseTime.setText(jsonObject.getString("message"));
                             }
@@ -296,8 +296,13 @@ public class VendorReviewList extends AppCompatActivity {
     @Override
     protected void onRestart() {
         super.onRestart();
-       // feedBackList.clear();
-        loadReviews(vendor_id);
-        adapter.notifyDataSetChanged();
+        // feedBackList.clear();
+        message.setVisibility(View.GONE);
+        if (feedBackList.size() == 0) {
+            loadReviews(vendor_id);
+        } else {
+            loadReviews(vendor_id);
+            adapter.notifyDataSetChanged();
+        }
     }
 }
