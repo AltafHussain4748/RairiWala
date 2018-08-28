@@ -340,9 +340,11 @@ public class CategoryListFragment
                                             intent.putExtra("vendorList", vendors);
                                             intent.putExtra("Category", type);
                                             startActivity(intent);
-                                        }else{
-                                            Toast.makeText(getActivity(), "No Nearst Vendor", Toast.LENGTH_SHORT).show();
+                                        } else {
+                                            message.setVisibility(View.VISIBLE);
+                                            message.setText("No Sellers Nearby sellers");
                                         }
+
                                     }
 
 
@@ -356,7 +358,7 @@ public class CategoryListFragment
                             @Override
                             public void onErrorResponse(VolleyError error) {
                                 progressDialog.dismiss();
-                                Toast.makeText(getActivity(), error.getMessage()+"Error please try again", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getActivity(), error.getMessage() + "Error please try again", Toast.LENGTH_SHORT).show();
                             }
                         })
 
@@ -372,7 +374,7 @@ public class CategoryListFragment
                     }
                 };
                 stringRequest.setRetryPolicy(new DefaultRetryPolicy(
-                                10*000,
+                                10 * 000,
                                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
                         )

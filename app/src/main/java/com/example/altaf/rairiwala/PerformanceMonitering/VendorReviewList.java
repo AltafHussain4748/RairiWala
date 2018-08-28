@@ -183,7 +183,7 @@ public class VendorReviewList extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        message.setText("Error while loading the products");
+                        message.setText("Error while loading the reviews");
                         progressBar.setVisibility(View.GONE);
                         if (feedBackList.size() > 0) {
                             message.setVisibility(View.GONE);

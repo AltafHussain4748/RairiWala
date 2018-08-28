@@ -270,8 +270,12 @@ public class NearestVendorsMap extends FragmentActivity implements OnMapReadyCal
 
                                             LatLng latLng = new LatLng(latitude, longtude);
                                             mMap.addMarker(new MarkerOptions().position(latLng).title("MyLocation").title("My Location").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)).rotation((float) 90.0).draggable(true));
-                                            for (Vendor vendor : vendorList1) {
-                                                mMap.addMarker(new MarkerOptions().position(new LatLng(vendor.getLatitude(), vendor.getLongitude())).title(vendor.getName()));
+                                            if(vendorList1.size()>0){
+                                                for (Vendor vendor : vendorList1) {
+                                                    mMap.addMarker(new MarkerOptions().position(new LatLng(vendor.getLatitude(), vendor.getLongitude())).title(vendor.getName()));
+                                                }
+                                            }else{
+                                                Toast.makeText(NearestVendorsMap.this, "No nearby sellers", Toast.LENGTH_SHORT).show();
                                             }
                                             LatLng latLng1 = new LatLng(latitude, longtude);
                                             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng1, 15));

@@ -133,7 +133,7 @@ public class ADDProductCategoryDisplay extends Fragment {
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            Toast.makeText(getActivity(), "No Product", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(), "No Category", Toast.LENGTH_SHORT).show();
                         }
                     }
                 },

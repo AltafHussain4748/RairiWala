@@ -115,7 +115,7 @@ public class CustomerOrderList extends AppCompatActivity {
                         @Override
                         public void onErrorResponse(VolleyError error) {
                             progressBar.setVisibility(View.GONE);
-                            message.setText("Error while loading the products");
+                            message.setText("Error while loading the Order list");
                             message.setVisibility(View.VISIBLE);
                             Toast.makeText(CustomerOrderList.this, "Error while loading the products", Toast.LENGTH_SHORT).show();
                         }

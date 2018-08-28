@@ -6,11 +6,11 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/new_order"
-            android:icon="@drawable/ic_menu_share"
+            android:icon="@drawable/send"
             android:title="New Orders" />
         <item
             android:id="@+id/assignedorder"
-            android:icon="@drawable/ic_menu_send"
+            android:icon="@drawable/ic_menu_share"
             android:title="Assigned Orders" />
 
         <item android:title="Stock Managment">
@@ -34,7 +34,7 @@
             <menu>
                 <item
                     android:id="@+id/add_delivery_person"
-                    android:icon="@drawable/addproduct"
+                    android:icon="@drawable/name"
                     android:title="Delivery Persons" />
             </menu>
         </item>
@@ -58,7 +58,7 @@
                     android:title="Add Shop Location" />
                 <item
                     android:id="@+id/logout"
-                    android:icon="@drawable/ic_menu_send"
+                    android:icon="@drawable/logout"
                     android:title="Logout" />
 
             </menu>

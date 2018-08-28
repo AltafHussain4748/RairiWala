@@ -120,7 +120,7 @@ public class SellerNewOrderList extends AppCompatActivity {
                         public void onErrorResponse(VolleyError error) {
                             progressBar.setVisibility(View.GONE);
                             message.setVisibility(View.VISIBLE);
-                            message.setText("Error");
+                            message.setText("There was some internet error please try again..");
                         }
                     }) {
                 @Override

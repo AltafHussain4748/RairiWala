@@ -197,8 +197,13 @@ public class NearestVendor extends AppCompatActivity {
                                         }
 
                                         //creating adapter object and setting it to recyclerview
-                                        NearestVendorAdapter adapter = new NearestVendorAdapter(NearestVendor.this, vendorList, type);
-                                        recyclerView.setAdapter(adapter);
+                                       if(vendorList.size()!=0){
+                                           NearestVendorAdapter adapter = new NearestVendorAdapter(NearestVendor.this, vendorList, type);
+                                           recyclerView.setAdapter(adapter);
+                                       }else{
+                                           message.setVisibility(View.VISIBLE);
+                                           message.setText("No Sellers Nearby sellers");
+                                       }
                                     }
 
 
