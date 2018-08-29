@@ -411,7 +411,7 @@ public class PlaceOrder extends AppCompatActivity implements OnMapReadyCallback 
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         // Do something when error occurred
-                        Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(),  "Some error while sending order request", Toast.LENGTH_LONG).show();
                     }
                 }
         );
